@@ -516,6 +516,53 @@
   color: var(--gs-muted);
 }
 
+.gs-interactable-actors-relationships {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gs-space-2);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gs-interactable-actors-relationship-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: var(--gs-space-2);
+}
+
+.gs-interactable-actors-relationship-label {
+  font-family: var(--gs-font-title-family);
+  font-weight: var(--gs-font-title-weight);
+}
+
+.gs-interactable-actors-relationship-value {
+  color: var(--gs-muted);
+  font-size: var(--gs-text-sm);
+}
+
+.gs-interactable-actors-meter {
+  height: var(--gs-space-2);
+  margin-top: var(--gs-space-1);
+  overflow: hidden;
+  border: 1px solid var(--gs-line);
+  border-radius: var(--gs-radius);
+  background: var(--gs-panel-raised);
+}
+
+.gs-interactable-actors-meter-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: var(--gs-accent);
+}
+
+.gs-interactable-actors-relationship-note {
+  margin: var(--gs-space-1) 0 0;
+  color: var(--gs-muted);
+  font-size: var(--gs-text-sm);
+}
+
 .gs-interactable-actors-bypass {
   margin: var(--gs-space-2) 0 0;
   color: var(--gs-muted);

@@ -6,6 +6,7 @@ import { getFoldLabel } from './itemRows.js';
 import { getBiographies, getLore, getPersonal } from './personal.js';
 import { bindPlate } from './portraitPlate.js';
 import { getProficiencyGroups } from './proficiencies.js';
+import { getFriendlyRelationships } from './relationships.js';
 import { canCurate, getKnownName, getRevealed, getRevealStore, getToggleLabel, isRevealed, NAME_KEY, setRevealed } from './reveal.js';
 import { getScoreTiles } from './scores.js';
 import { getSpellGroups } from './spells.js';
@@ -86,6 +87,7 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         const proficiencies = getProficiencyGroups(this.actor, revealed, isCurator);
         const abilityGroups = await getAbilityGroups(this.actor, revealed, isCurator, this.expanded);
         const spellGroups = await getSpellGroups(this.actor, revealed, isCurator, this.expanded);
+        const relationships = getFriendlyRelationships(this.actor, this.tokenDoc);
         const sections = [defences, biographies, statistics, scores, proficiencies, abilityGroups, spellGroups];
         return {
             ...context,
@@ -103,7 +105,8 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
             proficiencies,
             abilityGroups,
             spellGroups,
-            isEmpty: !isCurator && !lore && !personal && sections.every((section) => !section.length),
+            relationships,
+            isEmpty: !isCurator && !lore && !personal && !relationships && sections.every((section) => !section.length),
             ...Grimmtale.footerContext(MODULE_ID)
         };
     }

@@ -242,6 +242,27 @@
           {{/each}}
         </fieldset>
       {{/if}}
+      {{#if relationships}}
+        <fieldset class="gs-interactable-actors-section">
+          <legend>{{localize 'GS-Interactable-Actors.inspect.relationship'}}</legend>
+          <ul class="gs-interactable-actors-relationships">
+            {{#each relationships}}
+              <li>
+                <div class="gs-interactable-actors-relationship-head">
+                  <span class="gs-interactable-actors-relationship-label">{{label}}</span>
+                  {{#if max}}<span class="gs-figure gs-interactable-actors-relationship-value">{{value}} / {{max}}</span>{{/if}}
+                </div>
+                {{#if max}}
+                  <div class="gs-interactable-actors-meter">
+                    <div class="gs-interactable-actors-meter-fill" style="width: {{percent}}%"></div>
+                  </div>
+                {{/if}}
+                {{#if description}}<p class="gs-interactable-actors-relationship-note">{{description}}</p>{{/if}}
+              </li>
+            {{/each}}
+          </ul>
+        </fieldset>
+      {{/if}}
       {{#if isEmpty}}
         <div class="gs-empty">
           <i class="fa-solid fa-circle-question" inert></i>

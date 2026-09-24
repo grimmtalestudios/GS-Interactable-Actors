@@ -54,6 +54,7 @@ interface User {
     id: string;
     isGM: boolean;
     name: string;
+    character?: Actor | null;
 }
 
 interface DamageMarks {
@@ -79,6 +80,7 @@ interface Actor {
     isToken: boolean;
     isOwner: boolean;
     token: TokenDocument | null;
+    prototypeToken?: { disposition?: number };
     items: {
         filter(test: (item: Item) => boolean): Item[]
     };
@@ -134,6 +136,7 @@ interface TokenDocument {
     name: string;
     actor: Actor | null;
     baseActor: Actor | null;
+    disposition?: number;
     _onRelatedUpdate(update: object, options: object): void;
 }
 
@@ -220,6 +223,12 @@ declare const dnd5e: {
 
 declare const libWrapper: {
     register(packageId: string, target: string, fn: (...args: any[]) => unknown, type: string): void
+};
+
+declare const CONST: {
+    TOKEN_DISPOSITIONS: {
+        FRIENDLY: number
+    }
 };
 
 declare const ChatMessage: {

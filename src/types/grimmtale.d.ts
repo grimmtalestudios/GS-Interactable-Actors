@@ -12,6 +12,7 @@ interface GrimmtaleTheme {
 declare const Grimmtale: {
     createLogger(moduleId: string): GrimmtaleLogger;
     createTheme(moduleId: string): GrimmtaleTheme;
+    callPeer(moduleId: string, names: string | string[], args?: unknown[], fallback?: unknown): unknown;
     footerContext(moduleId: string): {
         footer: string;
         website: string

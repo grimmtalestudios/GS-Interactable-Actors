@@ -9,6 +9,11 @@ export function registerSettings(onInspectChange) {
             type: Boolean,
             default: true
         },
+        showRelationships: {
+            type: Boolean,
+            default: true,
+            onChange: onInspectChange
+        },
         chatDescriptions: {
             type: Boolean,
             default: false,
@@ -21,6 +26,9 @@ export function isRevealOnDamageEnabled() {
 }
 export function isAnnouncingReveals() {
     return game.settings.get(MODULE_ID, 'announceReveals') === true;
+}
+export function isShowingRelationships() {
+    return game.settings.get(MODULE_ID, 'showRelationships') === true;
 }
 export function isUsingChatDescriptions() {
     return game.settings.get(MODULE_ID, 'chatDescriptions') === true;
