@@ -3,6 +3,10 @@
   min-height: 480px;
 }
 
+.gs-interactable-actors-art-config {
+  min-width: 400px;
+}
+
 .gs-shared-base.gs-interactable-actors-app .gs-shell {
   padding: 0;
 }
