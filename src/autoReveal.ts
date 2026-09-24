@@ -2,6 +2,7 @@ import { MODULE_ID } from './constants.js';
 import { getRevealed, getRevealStore, writeRevealed } from './reveal.js';
 import { isAnnouncingReveals, isRevealOnDamageEnabled } from './settings.js';
 import { getDamageTypeLabel } from './systemLabels.js';
+import { whisperToGM } from './whisper.js';
 
 type ProvenCategory = 'dr' | 'di' | 'dv';
 
@@ -34,22 +35,10 @@ function toProofs({ type, active }: DamageDescription): Proof[] {
 }
 
 async function whisperReveals(actor: Actor, added: Proof[]): Promise<void> {
-    const gmIds = game.users.filter((user) => user.isGM).map((user) => user.id);
-    const lines = added.map(([category, key]) => game.i18n.format(`${MODULE_ID}.reveal.${category}`, {
+    await whisperToGM(added.map(([category, key]) => game.i18n.format(`${MODULE_ID}.reveal.${category}`, {
         name: actor.name,
         type: getDamageTypeLabel(key)
-    }));
-
-    // If the whisper list is empty, everyone sees the message
-    if (!gmIds.length) {
-        return;
-    }
-
-    await ChatMessage.implementation.create({
-        content: `<p class="gs-interactable-actors-reveal-note">${lines.join('<br>')}</p>`,
-        whisper: gmIds,
-        speaker: { alias: game.i18n.localize(`${MODULE_ID}.title`) }
-    });
+    })));
 }
 
 async function revealProofs(actor: Actor, proofs: Proof[]): Promise<void> {

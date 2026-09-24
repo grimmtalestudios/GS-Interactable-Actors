@@ -41,6 +41,30 @@
           <div class="gs-interactable-actors-prose">{{{lore.html}}}</div>
         </fieldset>
       {{/if}}
+      {{#if vitals}}
+        <fieldset class="gs-interactable-actors-section">
+          <legend>{{localize 'GS-Interactable-Actors.inspect.vitals'}}</legend>
+          <dl class="gs-interactable-actors-stats is-vitals">
+            {{#each vitals.rows}}
+              <div class="gs-interactable-actors-stat gs-interactable-actors-vital{{#unless isKnown}} is-unknown{{/unless}}"
+                   data-tooltip="{{truth}}">
+                <dt>{{label}}</dt>
+                <dd class="gs-figure">{{value}}</dd>
+                <span class="gs-interactable-actors-vital-note">{{note}}</span>
+                {{#if ../isCurator}}
+                  {{#if isKnown}}
+                    <button type="button" class="gs-icon-btn dense gs-interactable-actors-forget" data-action="forgetObserved"
+                            data-stat="{{stat}}" data-tooltip="{{../vitals.forgetLabel}}"
+                            aria-label="{{../vitals.forgetLabel}}">
+                      <i class="fa-solid fa-fw fa-rotate-left" inert></i>
+                    </button>
+                  {{/if}}
+                {{/if}}
+              </div>
+            {{/each}}
+          </dl>
+        </fieldset>
+      {{/if}}
       {{#each defences}}
         <fieldset class="gs-interactable-actors-section">
           <legend>{{label}}</legend>

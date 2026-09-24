@@ -6,6 +6,11 @@ export function registerSettings(onInspectChange: () => void): void {
             type: Boolean,
             default: true
         },
+        observeCombat: {
+            type: Boolean,
+            default: true,
+            onChange: onInspectChange
+        },
         announceReveals: {
             type: Boolean,
             default: true
@@ -25,6 +30,10 @@ export function registerSettings(onInspectChange: () => void): void {
 
 export function isRevealOnDamageEnabled(): boolean {
     return game.settings.get(MODULE_ID, 'revealOnDamage') === true;
+}
+
+export function isObservingCombat(): boolean {
+    return game.settings.get(MODULE_ID, 'observeCombat') === true;
 }
 
 export function isAnnouncingReveals(): boolean {

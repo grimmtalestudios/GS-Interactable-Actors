@@ -38,6 +38,20 @@
         "passive": "Passives"
       },
       "lore": "Lore",
+      "vitals": "Armour and health",
+      "armourClass": "Armour Class",
+      "hitPoints": "Hit Points",
+      "acRange": "{min}–{max}",
+      "acAtLeast": "{min} or more",
+      "acAtMost": "{max} or less",
+      "acNote": "Worked out from {n} attack(s).",
+      "acHowTo": "Narrows with every attack that lands or misses.",
+      "hpAbout": "~{value}",
+      "hpNote": "Averaged from {n} fought, {felled} felled.",
+      "hpHowTo": "Estimated once one has been bloodied or felled.",
+      "unknownValue": "?",
+      "actually": "Actual value: {value}",
+      "forgetObserved": "Forget what the players have worked out",
       "personal": "Personal",
       "relationship": "Relationship",
       "spells": "Spells",
@@ -71,12 +85,17 @@
     "reveal": {
       "dr": "{name}'s resistance to {type} has revealed itself.",
       "di": "{name}'s immunity to {type} has revealed itself.",
-      "dv": "{name}'s vulnerability to {type} has revealed itself."
+      "dv": "{name}'s vulnerability to {type} has revealed itself.",
+      "acPinned": "The players have pinned {name}'s armour class at {ac}."
     },
     "settings": {
       "revealOnDamage": {
         "name": "Defences reveal themselves",
         "hint": "When applied damage is changed by a creature's resistance, immunity or vulnerability, that defence appears on its Inspect sheet automatically."
+      },
+      "observeCombat": {
+        "name": "Armour and health are learned in combat",
+        "hint": "Every attack that hits or misses a creature narrows its armour class on Inspect, and every creature bloodied or felled bounds its hit points. Off, Inspect shows neither line."
       },
       "announceReveals": {
         "name": "Whisper reveals to the GM",

@@ -2,6 +2,8 @@ import { FLAGS, MODULE_ID } from './constants.js';
 
 type Rebuild = (update?: ActorUpdate, options?: object) => void;
 
+const KNOWLEDGE_FLAGS = [FLAGS.revealed, FLAGS.observed];
+
 const TARGET = 'foundry.documents.TokenDocument.prototype._onUpdateBaseActor';
 
 function isOnly(keys: string[], key: string): boolean {
@@ -14,7 +16,8 @@ function isRevealOnly(update: ActorUpdate): boolean {
     const keys = Object.keys(update).filter((key) => key !== '_id' && key !== '_stats');
     const ours = Object.keys(update.flags?.[MODULE_ID] ?? {}).map((key) => key.replace(/^-=/, ''));
 
-    return isOnly(keys, 'flags') && isOnly(Object.keys(update.flags ?? {}), MODULE_ID) && isOnly(ours, FLAGS.revealed);
+    return isOnly(keys, 'flags') && isOnly(Object.keys(update.flags ?? {}), MODULE_ID)
+        && ours.length === 1 && KNOWLEDGE_FLAGS.includes(ours[0]);
 }
 
 // Derived data doesn't depend on the knowledge flags

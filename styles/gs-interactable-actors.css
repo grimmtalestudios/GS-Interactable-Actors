@@ -40,7 +40,7 @@
   border-radius: 50%;
 }
 
-.gs-interactable-actors-inspect .gs-interactable-actors-fold {
+.gs-interactable-actors-inspect :is(.gs-interactable-actors-fold, .gs-interactable-actors-forget) {
   border-radius: 50%;
 }
 
@@ -602,14 +602,34 @@
   opacity: 0.45;
 }
 
-.gs-interactable-actors-inspect .gs-interactable-actors-stat .gs-interactable-actors-eye {
+.gs-interactable-actors-inspect .gs-interactable-actors-stat :is(.gs-interactable-actors-eye, .gs-interactable-actors-forget) {
   grid-row: 1;
   grid-column: 2;
   margin: calc(-1 * var(--gs-space-1));
 }
 
-.gs-interactable-actors-stat .gs-interactable-actors-eye > i {
+.gs-interactable-actors-stat :is(.gs-interactable-actors-eye, .gs-interactable-actors-forget) > i {
   font-size: var(--gs-text-xs);
+}
+
+.gs-interactable-actors-stats.is-vitals {
+  grid-template-columns: repeat(2, 1fr);
+}
+
+.gs-interactable-actors-vital dd {
+  font-size: var(--gs-text-lg);
+  line-height: 1.2;
+}
+
+.gs-interactable-actors-vital.is-unknown dd {
+  color: var(--gs-muted);
+}
+
+.gs-interactable-actors-vital-note {
+  grid-column: 1 / -1;
+  color: var(--gs-muted);
+  font-size: var(--gs-text-xs);
+  line-height: 1.45;
 }
 
 .gs-interactable-actors-scores {

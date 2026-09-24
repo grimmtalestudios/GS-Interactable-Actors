@@ -2,6 +2,7 @@ import { MODULE_ID } from './constants.js';
 import { getRevealed, getRevealStore, writeRevealed } from './reveal.js';
 import { isAnnouncingReveals, isRevealOnDamageEnabled } from './settings.js';
 import { getDamageTypeLabel } from './systemLabels.js';
+import { whisperToGM } from './whisper.js';
 const CAUSES = [['resistance', 'dr'], ['immunity', 'di'], ['vulnerability', 'dv']];
 // dnd5e also calculates damage for a card's previews
 const calculated = new Map();
@@ -22,20 +23,10 @@ function toProofs({ type, active }) {
     ];
 }
 async function whisperReveals(actor, added) {
-    const gmIds = game.users.filter((user) => user.isGM).map((user) => user.id);
-    const lines = added.map(([category, key]) => game.i18n.format(`${MODULE_ID}.reveal.${category}`, {
+    await whisperToGM(added.map(([category, key]) => game.i18n.format(`${MODULE_ID}.reveal.${category}`, {
         name: actor.name,
         type: getDamageTypeLabel(key)
-    }));
-    // If the whisper list is empty, everyone sees the message
-    if (!gmIds.length) {
-        return;
-    }
-    await ChatMessage.implementation.create({
-        content: `<p class="gs-interactable-actors-reveal-note">${lines.join('<br>')}</p>`,
-        whisper: gmIds,
-        speaker: { alias: game.i18n.localize(`${MODULE_ID}.title`) }
-    });
+    })));
 }
 async function revealProofs(actor, proofs) {
     const store = getRevealStore(actor);

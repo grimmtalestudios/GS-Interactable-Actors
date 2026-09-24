@@ -3,6 +3,7 @@ import { FLAGS, INSPECT_ICON, MODULE_ID } from './constants.js';
 import { getDefenceSections } from './defences.js';
 import { trackInputMode } from './inputMode.js';
 import { getFoldLabel } from './itemRows.js';
+import { forgetObserved } from './observe.js';
 import { getBiographies, getLore, getPersonal } from './personal.js';
 import { bindPlate } from './portraitPlate.js';
 import { getProficiencyGroups } from './proficiencies.js';
@@ -11,9 +12,13 @@ import { canCurate, getKnownName, getRevealed, getRevealStore, getToggleLabel, i
 import { getScoreTiles } from './scores.js';
 import { getSpellGroups } from './spells.js';
 import { getStatRows } from './statistics.js';
+import { getVitals } from './vitals.js';
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 const theme = Grimmtale.createTheme(MODULE_ID);
 const windows = new Map();
+function toPendingKey({ dataset }) {
+    return dataset.stat ? `observed:${dataset.stat}` : `${dataset.category}:${dataset.key}`;
+}
 // Disable while saving so a second click doesn't undo the first
 function markPending(button) {
     button.setAttribute('aria-busy', 'true');
@@ -43,7 +48,8 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         },
         actions: {
             toggleReveal: InspectWindow.onToggleReveal,
-            toggleDescription: InspectWindow.onToggleDescription
+            toggleDescription: InspectWindow.onToggleDescription,
+            forgetObserved: InspectWindow.onForgetObserved
         }
     };
     static PARTS = {
@@ -79,6 +85,7 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         const revealed = getRevealed(this.actor);
         const isNameShown = revealed.personal.includes(NAME_KEY);
         const lore = await getLore(this.actor, revealed, isCurator);
+        const vitals = getVitals(this.actor, isCurator);
         const defences = getDefenceSections(this.actor, revealed, isCurator);
         const personal = await getPersonal(this.actor, revealed, isCurator);
         const biographies = await getBiographies(this.actor, revealed, isCurator);
@@ -97,6 +104,7 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
             nameToggleLabel: getToggleLabel(isNameShown),
             portrait: this.actor.img,
             lore,
+            vitals,
             defences,
             personal,
             biographies,
@@ -106,7 +114,8 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
             abilityGroups,
             spellGroups,
             relationships,
-            isEmpty: !isCurator && !lore && !personal && !relationships && sections.every((section) => !section.length),
+            isEmpty: !isCurator && !lore && !vitals?.isAnyKnown && !personal && !relationships
+                && sections.every((section) => !section.length),
             ...Grimmtale.footerContext(MODULE_ID)
         };
     }
@@ -124,15 +133,15 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
             removeIfBroken(image);
         }
         bindPlate(this.element);
-        for (const eye of this.element.querySelectorAll('[data-action="toggleReveal"]')) {
-            if (this.pendingKeys.has(`${eye.dataset.category}:${eye.dataset.key}`)) {
-                markPending(eye);
+        for (const control of this.element.querySelectorAll('[data-action="toggleReveal"], [data-stat]')) {
+            if (this.pendingKeys.has(toPendingKey(control))) {
+                markPending(control);
             }
         }
     }
     static async onToggleReveal(_event, target) {
         const { category = '', key = '' } = target.dataset;
-        const pendingKey = `${category}:${key}`;
+        const pendingKey = toPendingKey(target);
         // Ownership can change after the render
         if (!canCurate(this.actor) || this.pendingKeys.has(pendingKey)) {
             return;
@@ -141,6 +150,21 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         markPending(target);
         try {
             await setRevealed(this.actor, category, key, !isRevealed(this.actor, category, key));
+        }
+        finally {
+            this.pendingKeys.delete(pendingKey);
+            void this.render();
+        }
+    }
+    static async onForgetObserved(_event, target) {
+        const pendingKey = toPendingKey(target);
+        if (!canCurate(this.actor) || this.pendingKeys.has(pendingKey)) {
+            return;
+        }
+        this.pendingKeys.add(pendingKey);
+        markPending(target);
+        try {
+            await forgetObserved(this.actor, target.dataset.stat ?? '');
         }
         finally {
             this.pendingKeys.delete(pendingKey);
@@ -195,7 +219,8 @@ function onUpdateActor(actor, changes) {
     if ('system' in changes) {
         renderWindowOn(actor);
     }
-    if (!(FLAGS.revealed in flags) && !(`-=${FLAGS.revealed}` in flags)) {
+    const isKnowledgeMoved = [FLAGS.revealed, FLAGS.observed].some((flag) => flag in flags || `-=${flag}` in flags);
+    if (!isKnowledgeMoved) {
         return;
     }
     for (const inspect of windows.values()) {

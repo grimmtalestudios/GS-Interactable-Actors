@@ -1,7 +1,9 @@
 export const MODULE_ID = 'GS-Interactable-Actors';
 
 export const FLAGS = {
-    revealed: 'revealed'
+    revealed: 'revealed',
+    observed: 'observed',
+    tally: 'tally'
 };
 
 export const INSPECT_ICON = 'fa-solid fa-magnifying-glass';

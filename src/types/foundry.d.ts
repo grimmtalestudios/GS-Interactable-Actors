@@ -71,6 +71,37 @@ interface DamageDescription {
     };
 }
 
+interface HitPoints {
+    value?: number;
+    max?: number | null;
+    effectiveMax?: number;
+}
+
+interface D20Roll {
+    total: number;
+    isCritical: boolean;
+    isFumble: boolean;
+    d20?: {
+        results: {
+            result: number;
+            active?: boolean
+        }[]
+    };
+}
+
+interface ChatMessage {
+    rolls: unknown[];
+    flags: {
+        dnd5e?: {
+            roll?: { type?: string };
+            targets?: {
+                uuid?: string;
+                ac?: number | null
+            }[]
+        }
+    };
+}
+
 interface Actor {
     id: string;
     uuid: string;
@@ -120,6 +151,8 @@ interface Actor {
         } | undefined>;
         tools?: Record<string, { value?: number } | undefined>;
         attributes?: {
+            hp?: HitPoints;
+            ac?: { value?: number };
             movement?: Record<string, number | string | boolean | undefined> & {
                 units?: string;
                 hover?: boolean
@@ -129,6 +162,8 @@ interface Actor {
     getFlag(scope: string, key: string): unknown;
     update(data: object, options?: object): Promise<unknown>;
     canUserModify(user: User, action: string): boolean;
+    setFlag(scope: string, key: string, value: unknown): Promise<unknown>;
+    getActiveTokens(linked: true, document: true): TokenDocument[];
 }
 
 interface TokenDocument {
@@ -137,6 +172,8 @@ interface TokenDocument {
     actor: Actor | null;
     baseActor: Actor | null;
     disposition?: number;
+    getFlag(scope: string, key: string): unknown;
+    setFlag(scope: string, key: string, value: unknown): Promise<unknown>;
     _onRelatedUpdate(update: object, options: object): void;
 }
 
@@ -168,7 +205,12 @@ interface TokenHud {
     object: Token;
 }
 
+declare function fromUuidSync(uuid: string): Actor | null;
+
 declare const CONFIG: {
+    Dice: {
+        D20Roll: new (...args: any[]) => D20Roll
+    };
     DND5E: {
         damageTypes: Record<string, SystemConfigEntry | undefined>;
         healingTypes: Record<string, SystemConfigEntry | undefined>;
@@ -181,6 +223,7 @@ declare const CONFIG: {
         }>;
         skills: Record<string, { label?: string } | undefined>;
         spellLevels: Record<number, string | undefined>;
+        bloodied?: { threshold?: number };
         actorSizes: Record<string, SystemConfigEntry | undefined>;
         movementTypes: Record<string, {
             label?: string;
@@ -201,7 +244,8 @@ declare const game: {
         get(id: string): Actor | undefined
     };
     users: {
-        filter(test: (user: User) => boolean): User[]
+        filter(test: (user: User) => boolean): User[];
+        activeGM?: User & { isSelf: boolean }
     };
     settings: {
         get(namespace: string, key: string): unknown
