@@ -12,13 +12,13 @@ export function getFoldLabel(isCollapsed: boolean): string {
 }
 
 // dnd5e swaps its item card into a tooltip holding this
-function toCardTooltip({ uuid }: Item): string {
+function getCardTooltip({ uuid }: Item): string {
     const spinner = '<i class="fa-solid fa-spinner fa-spin-pulse" inert></i>';
 
     return `<section class="loading" data-uuid="${uuid}">${spinner}</section>`;
 }
 
-export async function toItemRow(item: Item, isShown: boolean, expanded: Set<string>) {
+export async function getItemRow(item: Item, isShown: boolean, expanded: Set<string>) {
 
     // If hidden, show the name but not the description
     const description = isShown ? getDescription(item) : '';
@@ -35,7 +35,7 @@ export async function toItemRow(item: Item, isShown: boolean, expanded: Set<stri
         isFoldable,
         isCollapsed,
         foldLabel: getFoldLabel(isCollapsed),
-        cardTooltip: toCardTooltip(item),
+        cardTooltip: getCardTooltip(item),
         toggleLabel: getToggleLabel(isShown)
     };
 }

@@ -117,7 +117,7 @@
   transform-origin: center;
 }
 
-.gs-interactable-actors-veil {
+.gs-interactable-actors-backdrop {
   position: absolute;
   inset: 0;
   display: block;

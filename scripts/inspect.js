@@ -16,7 +16,7 @@ import { getVitals } from './vitals.js';
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 const theme = Grimmtale.createTheme(MODULE_ID);
 const windows = new Map();
-function toPendingKey({ dataset }) {
+function getPendingKey({ dataset }) {
     return dataset.stat ? `observed:${dataset.stat}` : `${dataset.category}:${dataset.key}`;
 }
 // Disable while saving so a second click doesn't undo the first
@@ -129,19 +129,19 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
     _onRender(context, options) {
         super._onRender(context, options);
         // The backdrop and class icon are decoration
-        for (const image of this.element.querySelectorAll('.gs-interactable-actors-veil, .gs-interactable-actors-class-icon')) {
+        for (const image of this.element.querySelectorAll('.gs-interactable-actors-backdrop, .gs-interactable-actors-class-icon')) {
             removeIfBroken(image);
         }
         bindPlate(this.element);
         for (const control of this.element.querySelectorAll('[data-action="toggleReveal"], [data-stat]')) {
-            if (this.pendingKeys.has(toPendingKey(control))) {
+            if (this.pendingKeys.has(getPendingKey(control))) {
                 markPending(control);
             }
         }
     }
     static async onToggleReveal(_event, target) {
         const { category = '', key = '' } = target.dataset;
-        const pendingKey = toPendingKey(target);
+        const pendingKey = getPendingKey(target);
         // Ownership can change after the render
         if (!canCurate(this.actor) || this.pendingKeys.has(pendingKey)) {
             return;
@@ -157,7 +157,7 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         }
     }
     static async onForgetObserved(_event, target) {
-        const pendingKey = toPendingKey(target);
+        const pendingKey = getPendingKey(target);
         if (!canCurate(this.actor) || this.pendingKeys.has(pendingKey)) {
             return;
         }

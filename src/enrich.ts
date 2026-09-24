@@ -25,18 +25,18 @@ function flattenRolls(root: DocumentFragment): void {
 // Keeps a full stop from wrapping alone after an enricher
 function tuckPunctuation(root: DocumentFragment): void {
     const walker = root.ownerDocument.createTreeWalker(root, NodeFilter.SHOW_TEXT);
-    const stranded: [Node, Element, string][] = [];
+    const orphans: [Node, Element, string][] = [];
 
     for (let node = walker.nextNode(); node; node = walker.nextNode()) {
         const [punctuation] = ORPHAN_PUNCTUATION.exec(node.textContent ?? '') ?? [];
         const before = node.previousSibling;
 
         if (punctuation && before instanceof Element) {
-            stranded.push([node, before, punctuation]);
+            orphans.push([node, before, punctuation]);
         }
     }
 
-    for (const [node, before, punctuation] of stranded) {
+    for (const [node, before, punctuation] of orphans) {
         node.textContent = (node.textContent ?? '').slice(punctuation.length);
         before.append(punctuation);
     }

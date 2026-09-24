@@ -1,5 +1,5 @@
 import { MODULE_ID } from './constants.js';
-import { byShownThenName, toItemRow } from './itemRows.js';
+import { byShownThenName, getItemRow } from './itemRows.js';
 function getLevel(item) {
     return Number(item.system.level) || 0;
 }
@@ -12,7 +12,7 @@ export async function getSpellGroups(actor, revealed, isCurator, expanded) {
         return item.type === 'spell' && (isCurator || revealed.items.includes(item.id));
     });
     const rows = await Promise.all(spells.map(async (item) => ({
-        ...await toItemRow(item, revealed.items.includes(item.id), expanded),
+        ...await getItemRow(item, revealed.items.includes(item.id), expanded),
         level: getLevel(item)
     })));
     const levels = [...new Set(rows.map((row) => row.level))].sort((a, b) => a - b);

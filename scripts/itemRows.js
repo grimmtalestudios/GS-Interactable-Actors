@@ -5,11 +5,11 @@ export function getFoldLabel(isCollapsed) {
     return game.i18n.localize(`${MODULE_ID}.inspect.${isCollapsed ? 'expandEntry' : 'collapseEntry'}`);
 }
 // dnd5e swaps its item card into a tooltip holding this
-function toCardTooltip({ uuid }) {
+function getCardTooltip({ uuid }) {
     const spinner = '<i class="fa-solid fa-spinner fa-spin-pulse" inert></i>';
     return `<section class="loading" data-uuid="${uuid}">${spinner}</section>`;
 }
-export async function toItemRow(item, isShown, expanded) {
+export async function getItemRow(item, isShown, expanded) {
     // If hidden, show the name but not the description
     const description = isShown ? getDescription(item) : '';
     const descriptionHTML = description ? await enrich(description, item) : '';
@@ -24,7 +24,7 @@ export async function toItemRow(item, isShown, expanded) {
         isFoldable,
         isCollapsed,
         foldLabel: getFoldLabel(isCollapsed),
-        cardTooltip: toCardTooltip(item),
+        cardTooltip: getCardTooltip(item),
         toggleLabel: getToggleLabel(isShown)
     };
 }

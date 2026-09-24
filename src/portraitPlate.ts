@@ -57,13 +57,13 @@ class PortraitPlate {
     }
 
     // will-change holds a compositor layer while it's set
-    markWorking(): void {
+    markInteracting(): void {
         this.plate.classList.add('is-interacting');
         window.clearTimeout(this.idle);
         this.idle = window.setTimeout(() => this.plate.classList.remove('is-interacting'), IDLE_MS);
     }
 
-    goHome(): void {
+    resetView(): void {
         this.scale = ZOOM_MIN;
         this.x = 0;
         this.y = 0;
@@ -81,7 +81,7 @@ class PortraitPlate {
         this.x = scale === ZOOM_MIN ? 0 : originX - (originX - this.x) / this.scale * scale;
         this.y = scale === ZOOM_MIN ? 0 : originY - (originY - this.y) / this.scale * scale;
         this.scale = scale;
-        this.markWorking();
+        this.markInteracting();
         this.draw();
     }
 
@@ -121,7 +121,7 @@ class PortraitPlate {
 
         this.x = this.grab.viewX + event.clientX - this.grab.x;
         this.y = this.grab.viewY + event.clientY - this.grab.y;
-        this.markWorking();
+        this.markInteracting();
         this.draw();
     };
 
@@ -140,12 +140,12 @@ class PortraitPlate {
 
     onDoubleClick = (event: MouseEvent): void => {
         event.preventDefault();
-        this.goHome();
+        this.resetView();
     };
 
     onResetClick = (event: MouseEvent): void => {
         event.preventDefault();
-        this.goHome();
+        this.resetView();
 
         // Hiding the reset button drops its focus
         this.plate.focus();
@@ -159,7 +159,7 @@ class PortraitPlate {
 
         event.preventDefault();
         event.stopPropagation();
-        this.markWorking();
+        this.markInteracting();
         this.draw();
     };
 

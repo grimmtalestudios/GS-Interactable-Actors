@@ -1,5 +1,5 @@
 import { MODULE_ID } from './constants.js';
-import { byShownThenName, toItemRow } from './itemRows.js';
+import { byShownThenName, getItemRow } from './itemRows.js';
 const ABILITY_TYPES = ['feat', 'weapon'];
 // Stat block order
 const ACTIVATION_ORDER = ['action', 'bonus', 'reaction', 'legendary', 'lair', 'special', 'passive'];
@@ -16,7 +16,7 @@ export async function getAbilityGroups(actor, revealed, isCurator, expanded) {
         return ABILITY_TYPES.includes(item.type) && (isCurator || revealed.items.includes(item.id));
     });
     const rows = await Promise.all(items.map(async (item) => ({
-        ...await toItemRow(item, revealed.items.includes(item.id), expanded),
+        ...await getItemRow(item, revealed.items.includes(item.id), expanded),
         activation: getActivation(item)
     })));
     rows.sort(byShownThenName);

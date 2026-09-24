@@ -4,16 +4,16 @@ const TARGET = 'foundry.documents.TokenDocument.prototype._onUpdateBaseActor';
 function isOnly(keys, key) {
     return keys.length === 1 && keys[0] === key;
 }
-function isRevealOnly(update) {
+function isKnowledgeOnly(update) {
     // Every update has _id and _stats
     const keys = Object.keys(update).filter((key) => key !== '_id' && key !== '_stats');
     const ours = Object.keys(update.flags?.[MODULE_ID] ?? {}).map((key) => key.replace(/^-=/, ''));
     return isOnly(keys, 'flags') && isOnly(Object.keys(update.flags ?? {}), MODULE_ID)
         && ours.length === 1 && KNOWLEDGE_FLAGS.includes(ours[0]);
 }
-// Derived data doesn't depend on the knowledge flags
 function onUpdateBaseActor(token, rebuild, update = {}, options = {}) {
-    if (isRevealOnly(update)) {
+    // Derived data doesn't depend on the knowledge flags
+    if (isKnowledgeOnly(update)) {
         token._onRelatedUpdate(update, options);
     }
     else {

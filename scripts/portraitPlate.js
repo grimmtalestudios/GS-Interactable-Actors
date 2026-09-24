@@ -47,12 +47,12 @@ class PortraitPlate {
         }
     }
     // will-change holds a compositor layer while it's set
-    markWorking() {
+    markInteracting() {
         this.plate.classList.add('is-interacting');
         window.clearTimeout(this.idle);
         this.idle = window.setTimeout(() => this.plate.classList.remove('is-interacting'), IDLE_MS);
     }
-    goHome() {
+    resetView() {
         this.scale = ZOOM_MIN;
         this.x = 0;
         this.y = 0;
@@ -67,7 +67,7 @@ class PortraitPlate {
         this.x = scale === ZOOM_MIN ? 0 : originX - (originX - this.x) / this.scale * scale;
         this.y = scale === ZOOM_MIN ? 0 : originY - (originY - this.y) / this.scale * scale;
         this.scale = scale;
-        this.markWorking();
+        this.markInteracting();
         this.draw();
     }
     onWheel = (event) => {
@@ -96,7 +96,7 @@ class PortraitPlate {
         }
         this.x = this.grab.viewX + event.clientX - this.grab.x;
         this.y = this.grab.viewY + event.clientY - this.grab.y;
-        this.markWorking();
+        this.markInteracting();
         this.draw();
     };
     onPointerUp = (event) => {
@@ -111,11 +111,11 @@ class PortraitPlate {
     };
     onDoubleClick = (event) => {
         event.preventDefault();
-        this.goHome();
+        this.resetView();
     };
     onResetClick = (event) => {
         event.preventDefault();
-        this.goHome();
+        this.resetView();
         // Hiding the reset button drops its focus
         this.plate.focus();
     };
@@ -126,7 +126,7 @@ class PortraitPlate {
         }
         event.preventDefault();
         event.stopPropagation();
-        this.markWorking();
+        this.markInteracting();
         this.draw();
     };
     stepByKey(key) {

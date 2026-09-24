@@ -1,5 +1,5 @@
 import { MODULE_ID } from './constants.js';
-import { byShownThenName, toItemRow } from './itemRows.js';
+import { byShownThenName, getItemRow } from './itemRows.js';
 import type { Revealed } from './reveal.js';
 
 const ABILITY_TYPES = ['feat', 'weapon'];
@@ -23,7 +23,7 @@ export async function getAbilityGroups(actor: Actor, revealed: Revealed, isCurat
         return ABILITY_TYPES.includes(item.type) && (isCurator || revealed.items.includes(item.id));
     });
     const rows = await Promise.all(items.map(async (item) => ({
-        ...await toItemRow(item, revealed.items.includes(item.id), expanded),
+        ...await getItemRow(item, revealed.items.includes(item.id), expanded),
         activation: getActivation(item)
     })));
 

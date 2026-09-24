@@ -28,7 +28,7 @@ const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 const theme = Grimmtale.createTheme(MODULE_ID);
 const windows = new Map<string, InspectWindow>();
 
-function toPendingKey({ dataset }: HTMLElement): string {
+function getPendingKey({ dataset }: HTMLElement): string {
     return dataset.stat ? `observed:${dataset.stat}` : `${dataset.category}:${dataset.key}`;
 }
 
@@ -158,7 +158,7 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
 
         // The backdrop and class icon are decoration
         for (const image of this.element.querySelectorAll<HTMLImageElement>(
-            '.gs-interactable-actors-veil, .gs-interactable-actors-class-icon'
+            '.gs-interactable-actors-backdrop, .gs-interactable-actors-class-icon'
         )) {
             removeIfBroken(image);
         }
@@ -166,7 +166,7 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         bindPlate(this.element);
 
         for (const control of this.element.querySelectorAll<HTMLElement>('[data-action="toggleReveal"], [data-stat]')) {
-            if (this.pendingKeys.has(toPendingKey(control))) {
+            if (this.pendingKeys.has(getPendingKey(control))) {
                 markPending(control);
             }
         }
@@ -174,7 +174,7 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
 
     static async onToggleReveal(this: InspectWindow, _event: Event, target: HTMLElement): Promise<void> {
         const { category = '', key = '' } = target.dataset;
-        const pendingKey = toPendingKey(target);
+        const pendingKey = getPendingKey(target);
 
         // Ownership can change after the render
         if (!canCurate(this.actor) || this.pendingKeys.has(pendingKey)) {
@@ -193,7 +193,7 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
     }
 
     static async onForgetObserved(this: InspectWindow, _event: Event, target: HTMLElement): Promise<void> {
-        const pendingKey = toPendingKey(target);
+        const pendingKey = getPendingKey(target);
 
         if (!canCurate(this.actor) || this.pendingKeys.has(pendingKey)) {
             return;

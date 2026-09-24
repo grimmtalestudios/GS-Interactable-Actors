@@ -10,7 +10,7 @@ function isOnly(keys: string[], key: string): boolean {
     return keys.length === 1 && keys[0] === key;
 }
 
-function isRevealOnly(update: ActorUpdate): boolean {
+function isKnowledgeOnly(update: ActorUpdate): boolean {
 
     // Every update has _id and _stats
     const keys = Object.keys(update).filter((key) => key !== '_id' && key !== '_stats');
@@ -20,14 +20,15 @@ function isRevealOnly(update: ActorUpdate): boolean {
         && ours.length === 1 && KNOWLEDGE_FLAGS.includes(ours[0]);
 }
 
-// Derived data doesn't depend on the knowledge flags
 function onUpdateBaseActor(
     token: TokenDocument,
     rebuild: Rebuild,
     update: ActorUpdate = {},
     options: object = {}
 ): void {
-    if (isRevealOnly(update)) {
+
+    // Derived data doesn't depend on the knowledge flags
+    if (isKnowledgeOnly(update)) {
         token._onRelatedUpdate(update, options);
     } else {
         rebuild(update, options);
