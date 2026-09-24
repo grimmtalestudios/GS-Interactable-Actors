@@ -145,6 +145,81 @@
   padding: var(--gs-space-1) var(--gs-space-3) var(--gs-space-3);
 }
 
+.gs-interactable-actors-inspect .gs-interactable-actors-section {
+  min-width: 0;
+  margin: var(--gs-space-2) 0 0;
+  padding: var(--gs-space-2) var(--gs-space-3);
+  border: 1px solid var(--gs-line);
+  border-radius: var(--gs-radius);
+  background: var(--gs-panel);
+}
+
+.gs-interactable-actors-inspect .gs-interactable-actors-section > legend {
+  max-width: 100%;
+  margin-inline-start: var(--gs-space-1);
+  padding: 0 var(--gs-space-1);
+  overflow: hidden;
+  color: var(--gs-accent-strong);
+  font-family: var(--gs-font-title-family);
+  font-weight: var(--gs-font-title-weight);
+  font-size: var(--gs-text-xs);
+  line-height: 0.8;
+  letter-spacing: 0.16em;
+  text-overflow: ellipsis;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.gs-interactable-actors-inspect .gs-interactable-actors-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gs-space-2);
+  width: auto;
+  height: auto;
+  min-height: 28px;
+  margin: 0;
+  padding: var(--gs-space-1) var(--gs-space-2);
+  border: 1px solid var(--gs-line-strong);
+  border-radius: var(--gs-radius);
+  background: var(--gs-panel-raised);
+  color: var(--gs-ink);
+  font: inherit;
+  font-size: var(--gs-text-sm);
+  line-height: 1.2;
+  text-align: start;
+}
+
+.gs-interactable-actors-inspect button.gs-interactable-actors-chip {
+  cursor: pointer;
+  transition:
+    background-color var(--gs-hover-ease),
+    border-color var(--gs-hover-ease),
+    color var(--gs-hover-ease) !important;
+}
+
+.gs-interactable-actors-inspect button.gs-interactable-actors-chip:hover {
+  border-color: var(--gs-accent);
+  background: var(--gs-panel-hover);
+  box-shadow: none;
+}
+
+.gs-interactable-actors-chip > i {
+  font-size: var(--gs-text-xs);
+  opacity: 0.59;
+}
+
+.gs-interactable-actors-inspect .gs-interactable-actors-chip.is-hidden {
+  border-style: dashed;
+  opacity: 0.45;
+}
+
+.gs-interactable-actors-bypass {
+  margin: var(--gs-space-2) 0 0;
+  color: var(--gs-muted);
+  font-size: var(--gs-text-sm);
+  font-style: italic;
+}
+
 .gs-shared-base.gs-interactable-actors-inspect .gs-footer {
   margin-top: 0;
   padding: var(--gs-space-1) var(--gs-space-3);

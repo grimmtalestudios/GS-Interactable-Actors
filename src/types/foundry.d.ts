@@ -18,6 +18,17 @@ interface FoundryModule {
     api?: unknown;
 }
 
+type SystemConfigEntry = string | {
+    label?: string;
+    name?: string
+};
+
+interface ActorTrait {
+    value?: Iterable<string>;
+    custom?: string;
+    bypasses?: Iterable<string>;
+}
+
 interface Actor {
     id: string;
     uuid: string;
@@ -27,6 +38,9 @@ interface Actor {
     isToken: boolean;
     isOwner: boolean;
     token: TokenDocument | null;
+    system: {
+        traits?: Partial<Record<string, ActorTrait>>
+    };
     getFlag(scope: string, key: string): unknown;
     update(data: object, options?: object): Promise<unknown>;
 }
@@ -46,6 +60,15 @@ interface Token {
 interface TokenHud {
     object: Token;
 }
+
+declare const CONFIG: {
+    DND5E: {
+        damageTypes: Record<string, SystemConfigEntry | undefined>;
+        healingTypes: Record<string, SystemConfigEntry | undefined>;
+        conditionTypes: Record<string, SystemConfigEntry | undefined>;
+        itemProperties: Record<string, SystemConfigEntry | undefined>
+    }
+};
 
 declare const game: {
     modules: {

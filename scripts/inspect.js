@@ -1,7 +1,8 @@
 import { INSPECT_ICON, MODULE_ID } from './constants.js';
+import { getDefenceSections } from './defences.js';
 import { trackInputMode } from './inputMode.js';
 import { bindPlate } from './portraitPlate.js';
-import { canCurate, getKnownName, isRevealed, NAME_KEY, setRevealed } from './reveal.js';
+import { canCurate, getKnownName, getRevealed, isRevealed, NAME_KEY, setRevealed } from './reveal.js';
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 const theme = Grimmtale.createTheme(MODULE_ID);
 const windows = new Map();
@@ -67,7 +68,9 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
     async _prepareContext(options) {
         const context = await super._prepareContext(options);
         const isCurator = canCurate(this.actor);
-        const isNameShown = isRevealed(this.actor, 'personal', NAME_KEY);
+        const revealed = getRevealed(this.actor);
+        const isNameShown = revealed.personal.includes(NAME_KEY);
+        const defences = getDefenceSections(this.actor, revealed, isCurator);
         return {
             ...context,
             isCurator,
@@ -75,7 +78,8 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
             isNameShown,
             nameToggleLabel: getToggleLabel(isNameShown),
             portrait: this.actor.img,
-            isEmpty: !isCurator,
+            defences,
+            isEmpty: !isCurator && !defences.length,
             ...Grimmtale.footerContext(MODULE_ID)
         };
     }

@@ -7,7 +7,13 @@
       "nothingKnown": "Nothing is known about this creature yet.",
       "revealEntry": "Reveal to players",
       "hideEntry": "Hide from players",
-      "resetView": "Reset the view"
+      "resetView": "Reset the view",
+      "dr": "Damage Resistances",
+      "di": "Damage Immunities",
+      "dv": "Damage Vulnerabilities",
+      "ci": "Condition Immunities",
+      "allDamage": "All damage",
+      "bypassNote": "Except from {properties} attacks."
     },
     "menu": {
       "inspect": "Inspect"
