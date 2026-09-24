@@ -172,6 +172,9 @@ interface TokenDocument {
     actor: Actor | null;
     baseActor: Actor | null;
     disposition?: number;
+    sort: number;
+    elevation: number;
+    isOwner: boolean;
     getFlag(scope: string, key: string): unknown;
     setFlag(scope: string, key: string, value: unknown): Promise<unknown>;
     _onRelatedUpdate(update: object, options: object): void;
@@ -196,9 +199,18 @@ interface Item {
     };
 }
 
+interface Point {
+    x: number;
+    y: number;
+}
+
 interface Token {
     actor: Actor | null;
     document: TokenDocument;
+    visible: boolean;
+    isTargeted: boolean;
+    bounds: { contains(x: number, y: number): boolean };
+    setTarget(isTargeted: boolean, options: { releaseOthers: boolean }): void;
 }
 
 interface TokenHud {
@@ -206,6 +218,11 @@ interface TokenHud {
 }
 
 declare function fromUuidSync(uuid: string): Actor | null;
+
+declare const canvas: {
+    tokens: { placeables: Token[] };
+    canvasCoordinatesFromClient(point: Point): Point;
+};
 
 declare const CONFIG: {
     Dice: {

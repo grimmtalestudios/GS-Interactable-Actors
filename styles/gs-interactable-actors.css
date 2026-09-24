@@ -698,6 +698,85 @@
   background: var(--gs-surface, var(--gs-bg));
 }
 
+.gs-interactable-actors-menu {
+  position: fixed;
+  z-index: calc(var(--z-index-tooltip, 9999) - 1);
+  min-width: 150px;
+  overflow: hidden;
+  border: 1px solid var(--gs-line-strong);
+  border-radius: var(--gs-radius);
+  background: var(--gs-surface, var(--gs-bg));
+  box-shadow: var(--gs-elev-2);
+  color: var(--gs-ink);
+  font-family: var(--gs-font-body-family);
+  font-weight: var(--gs-font-body-weight);
+  font-size: var(--gs-text);
+}
+
+.gs-interactable-actors-menu-name {
+  --gs-ink: #ece4d0;
+  --gs-line: rgba(236, 228, 208, 0.12);
+  max-width: 240px;
+  overflow: hidden;
+  padding: var(--gs-space-2) var(--gs-space-3);
+  border-bottom: 1px solid var(--gs-line);
+  background: var(--gs-header-surface, var(--gs-header));
+  color: var(--gs-ink);
+  font-family: var(--gs-font-title-family);
+  font-weight: var(--gs-font-title-weight);
+  font-size: var(--gs-text-sm);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.gs-interactable-actors-menu ol {
+  margin: 0;
+  padding: var(--gs-space-1);
+  list-style: none;
+}
+
+.gs-interactable-actors-menu li {
+  display: flex;
+  margin: 0;
+}
+
+.gs-interactable-actors-menu .gs-interactable-actors-menu-item {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--gs-space-2);
+  width: 100%;
+  height: auto;
+  min-height: 0;
+  margin: 0;
+  padding: var(--gs-space-2);
+  border: none;
+  border-radius: var(--gs-radius);
+  background: transparent;
+  box-shadow: none;
+  color: inherit;
+  font: inherit;
+  line-height: 1.2;
+  text-align: start;
+  cursor: pointer;
+  transition:
+    background-color var(--gs-hover-ease),
+    color var(--gs-hover-ease) !important;
+}
+
+.gs-interactable-actors-menu .gs-interactable-actors-menu-item:hover,
+.gs-interactable-actors-menu[data-input="keyboard"] .gs-interactable-actors-menu-item:focus-visible {
+  background: var(--gs-panel-hover);
+  box-shadow: none;
+  color: var(--gs-ink);
+}
+
+.gs-interactable-actors-menu-item > i {
+  width: 14px;
+  color: var(--gs-accent);
+  text-align: center;
+}
+
 @container (max-width: 799px) {
   .gs-interactable-actors-stats,
   .gs-interactable-actors-facts {

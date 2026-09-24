@@ -60,7 +60,9 @@
       "collapseEntry": "Fold this description away"
     },
     "menu": {
-      "inspect": "Inspect"
+      "inspect": "Inspect",
+      "target": "Target",
+      "untarget": "Release target"
     },
     "personal": {
       "class": "Class",
@@ -89,6 +91,10 @@
       "acPinned": "The players have pinned {name}'s armour class at {ac}."
     },
     "settings": {
+      "contextMenu": {
+        "name": "Right-click menu for players",
+        "hint": "Players right-click any token they can see but do not own to Inspect or Target it; owners keep the token HUD, which gains an Inspect button of its own."
+      },
       "revealOnDamage": {
         "name": "Defences reveal themselves",
         "hint": "When applied damage is changed by a creature's resistance, immunity or vulnerability, that defence appears on its Inspect sheet automatically."

@@ -2,6 +2,10 @@ import { MODULE_ID } from './constants.js';
 
 export function registerSettings(onInspectChange: () => void): void {
     Grimmtale.registerSettings(MODULE_ID, `${MODULE_ID}.settings`, {
+        contextMenu: {
+            type: Boolean,
+            default: true
+        },
         revealOnDamage: {
             type: Boolean,
             default: true
@@ -26,6 +30,10 @@ export function registerSettings(onInspectChange: () => void): void {
             onChange: onInspectChange
         }
     });
+}
+
+export function isContextMenuEnabled(): boolean {
+    return game.settings.get(MODULE_ID, 'contextMenu') === true;
 }
 
 export function isRevealOnDamageEnabled(): boolean {

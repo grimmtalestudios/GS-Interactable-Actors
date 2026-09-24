@@ -1,5 +1,6 @@
 import { registerAutoReveal } from './autoReveal.js';
 import { MODULE_ID } from './constants.js';
+import { registerContextMenu } from './contextMenu.js';
 import { addHudButton } from './hudButton.js';
 import { registerInspectRefresh, renderOpenInspects } from './inspect.js';
 import { registerObservation } from './observe.js';
@@ -15,6 +16,7 @@ Hooks.once('init', () => {
     registerObservation();
     registerTokenRebuildSkip();
     registerInspectRefresh();
+    registerContextMenu();
 });
 
 Hooks.once('ready', () => {
