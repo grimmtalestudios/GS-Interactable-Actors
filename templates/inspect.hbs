@@ -3,7 +3,7 @@
     <h1 class="gs-interactable-actors-name{{#if isCurator}}{{#unless isNameShown}} is-hidden{{/unless}}{{/if}}">
       <span>{{name}}</span>
       {{#if isCurator}}
-        <button type="button" class="gs-icon-btn gs-interactable-actors-eye" data-action="toggleReveal"
+        <button type="button" class="gs-icon-btn dense gs-interactable-actors-eye" data-action="toggleReveal"
                 data-category="personal" data-key="name" data-tooltip="{{nameToggleLabel}}"
                 aria-label="{{nameToggleLabel}}" aria-pressed="{{isNameShown}}">
           <i class="fa-solid fa-fw {{#if isNameShown}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>

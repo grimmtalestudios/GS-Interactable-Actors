@@ -36,6 +36,10 @@
   opacity: 0.45;
 }
 
+.gs-interactable-actors-inspect .gs-interactable-actors-eye {
+  border-radius: 50%;
+}
+
 .gs-interactable-actors-inspect .gs-interactable-actors-eye[aria-pressed="true"] {
   border-color: transparent;
   background: transparent;
