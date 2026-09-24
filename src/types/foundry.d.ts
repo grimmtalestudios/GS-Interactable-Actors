@@ -1,4 +1,12 @@
 declare namespace foundry {
+    namespace documents {
+        const TokenDocument: {
+            prototype: TokenDocument & {
+                _onUpdateBaseActor(this: TokenDocument, update?: ActorUpdate, options?: object): void
+            }
+        };
+    }
+
     namespace applications {
         namespace api {
             const ApplicationV2: any;
@@ -27,6 +35,11 @@ interface ActorTrait {
     value?: Iterable<string>;
     custom?: string;
     bypasses?: Iterable<string>;
+}
+
+interface ActorUpdate {
+    flags?: Record<string, Record<string, unknown> | undefined>;
+    [key: string]: unknown;
 }
 
 interface User {
@@ -71,6 +84,7 @@ interface TokenDocument {
     name: string;
     actor: Actor | null;
     baseActor: Actor | null;
+    _onRelatedUpdate(update: object, options: object): void;
 }
 
 interface Token {
@@ -109,6 +123,10 @@ declare const game: {
         format(key: string, data?: Record<string, unknown>): string
     };
     user: User;
+};
+
+declare const libWrapper: {
+    register(packageId: string, target: string, fn: (...args: any[]) => unknown, type: string): void
 };
 
 declare const ChatMessage: {
