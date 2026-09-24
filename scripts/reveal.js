@@ -1,8 +1,8 @@
 import { FLAGS, MODULE_ID } from './constants.js';
-const CATEGORIES = ['dr', 'di', 'dv', 'ci', 'items', 'personal'];
+export const REVEAL_CATEGORIES = ['dr', 'di', 'dv', 'ci', 'items', 'personal'];
 export const NAME_KEY = 'name';
 function isCategory(category) {
-    return CATEGORIES.includes(category);
+    return REVEAL_CATEGORIES.includes(category);
 }
 // We store reveals on the world actor, not the token
 export function getRevealStore(actor) {
@@ -13,7 +13,7 @@ export function getRevealStore(actor) {
 }
 export function getRevealed(actor) {
     const stored = (getRevealStore(actor)?.getFlag(MODULE_ID, FLAGS.revealed) ?? {});
-    const entries = CATEGORIES.map((category) => {
+    const entries = REVEAL_CATEGORIES.map((category) => {
         const list = stored[category];
         return [category, Array.isArray(list) ? [...list] : []];
     });

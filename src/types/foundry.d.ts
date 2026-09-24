@@ -68,7 +68,8 @@ type TokenUpdate = Record<string, unknown> & { _id: string };
 
 interface Scene {
     tokens: {
-        filter(test: (tokenDoc: TokenDocument) => boolean): TokenDocument[]
+        filter(test: (tokenDoc: TokenDocument) => boolean): TokenDocument[];
+        map<T>(transform: (tokenDoc: TokenDocument) => T): T[]
     };
     updateEmbeddedDocuments(type: string, updates: object[], options?: object): Promise<unknown>;
 }
@@ -193,6 +194,7 @@ interface Actor {
     getFlag(scope: string, key: string): unknown;
     update(data: object, options?: object): Promise<unknown>;
     canUserModify(user: User, action: string): boolean;
+    flags: Record<string, Record<string, unknown> | undefined>;
     setFlag(scope: string, key: string, value: unknown): Promise<unknown>;
     unsetFlag(scope: string, key: string): Promise<unknown>;
     getActiveTokens(linked: true, document: true): TokenDocument[];
@@ -215,6 +217,8 @@ interface TokenDocument {
         enabled: boolean;
         subject: { texture: string | null }
     };
+    flags: Record<string, Record<string, unknown> | undefined>;
+    delta: { toObject(): { flags?: object } } | null;
     update(data: object, options?: object): Promise<unknown>;
     getFlag(scope: string, key: string): unknown;
     setFlag(scope: string, key: string, value: unknown): Promise<unknown>;
@@ -305,7 +309,7 @@ declare const game: {
     modules: {
         get(id: string): FoundryModule | undefined
     };
-    actors: {
+    actors: Iterable<Actor> & {
         get(id: string): Actor | undefined
     };
     scenes: Iterable<Scene>;
@@ -314,13 +318,30 @@ declare const game: {
         activeGM?: User & { isSelf: boolean }
     };
     settings: {
-        get(namespace: string, key: string): unknown
+        get(namespace: string, key: string): unknown;
+        set(namespace: string, key: string, value: unknown): Promise<unknown>;
+        settings: Map<string, {
+            namespace: string;
+            key: string
+        }>;
+        storage: Map<string, {
+            find(test: (setting: {
+                key: string;
+                value: unknown
+            }) => boolean): { value: unknown } | undefined
+        }>
     };
     i18n: {
         localize(key: string): string;
         format(key: string, data?: Record<string, unknown>): string
     };
     user: User;
+};
+
+declare const Actor: {
+    implementation: {
+        updateDocuments(updates: object[]): Promise<unknown>
+    }
 };
 
 declare const dnd5e: {

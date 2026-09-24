@@ -28,6 +28,11 @@ export function registerSettings(onInspectChange: () => void): void {
             type: Boolean,
             default: false,
             onChange: onInspectChange
+        },
+        renameMigrated: {
+            type: Boolean,
+            default: false,
+            config: false
         }
     });
 }
@@ -54,4 +59,8 @@ export function isShowingRelationships(): boolean {
 
 export function isUsingChatDescriptions(): boolean {
     return game.settings.get(MODULE_ID, 'chatDescriptions') === true;
+}
+
+export function isRenameMigrated(): boolean {
+    return game.settings.get(MODULE_ID, 'renameMigrated') === true;
 }

@@ -95,6 +95,9 @@
       "expandEntry": "Read this description",
       "collapseEntry": "Fold this description away"
     },
+    "migration": {
+      "carried": "Interactable Actors carried {actors} creature(s) and {tokens} token(s) across the module's rename."
+    },
     "menu": {
       "inspect": "Inspect",
       "target": "Target",

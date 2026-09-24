@@ -9,12 +9,12 @@ export interface Revealed {
     personal: string[];
 }
 
-const CATEGORIES: (keyof Revealed)[] = ['dr', 'di', 'dv', 'ci', 'items', 'personal'];
+export const REVEAL_CATEGORIES: (keyof Revealed)[] = ['dr', 'di', 'dv', 'ci', 'items', 'personal'];
 
 export const NAME_KEY = 'name';
 
 function isCategory(category: string): category is keyof Revealed {
-    return (CATEGORIES as string[]).includes(category);
+    return (REVEAL_CATEGORIES as string[]).includes(category);
 }
 
 // We store reveals on the world actor, not the token
@@ -28,7 +28,7 @@ export function getRevealStore(actor: Actor | null): Actor | null {
 
 export function getRevealed(actor: Actor | null): Revealed {
     const stored = (getRevealStore(actor)?.getFlag(MODULE_ID, FLAGS.revealed) ?? {}) as Partial<Revealed>;
-    const entries = CATEGORIES.map((category) => {
+    const entries = REVEAL_CATEGORIES.map((category) => {
         const list = stored[category];
 
         return [category, Array.isArray(list) ? [...list] : []];

@@ -7,6 +7,7 @@ import { registerContextMenu } from './contextMenu.js';
 import { addHudButton } from './hudButton.js';
 import { registerInspectRefresh, renderOpenInspects } from './inspect.js';
 import { registerObservation } from './observe.js';
+import { migrateRename } from './renameMigration.js';
 import { registerSettings } from './settings.js';
 import { registerTokenArt } from './tokenArt.js';
 import { registerTokenRebuildSkip } from './tokenRebuild.js';
@@ -24,6 +25,7 @@ Hooks.once('init', () => {
     registerArtSummary();
 });
 Hooks.once('ready', () => {
+    void migrateRename();
     Grimmtale.publishApi(MODULE_ID, api, { gameAlias: 'interactableActors' });
     log.info('Ready');
 });
