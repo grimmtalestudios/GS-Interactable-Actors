@@ -1,0 +1,25 @@
+{
+  "editor.insertSpaces": true,
+  "editor.tabSize": 4,
+  "editor.detectIndentation": false,
+  "editor.rulers": [120],
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "files.trimFinalNewlines": true,
+  "files.eol": "\n",
+  "eslint.useFlatConfig": true,
+  "eslint.validate": ["javascript", "typescript", "handlebars"],
+  "emmet.includeLanguages": { "handlebars": "html" },
+  "editor.codeActionsOnSave": {
+    "source.fixAll.eslint": "explicit"
+  },
+  "[json]": {
+    "editor.detectIndentation": true
+  },
+  "[jsonc]": {
+    "editor.detectIndentation": true
+  },
+  "[markdown]": {
+    "files.trimTrailingWhitespace": false
+  }
+}

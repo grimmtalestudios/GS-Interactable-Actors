@@ -1,0 +1,32 @@
+{
+  "name": "gs-interactable-actors",
+  "version": "0.1.0",
+  "description": "",
+  "private": true,
+  "type": "module",
+  "license": "SEE LICENSE IN LICENSE",
+  "author": "Grimmtale Studios LLC",
+  "homepage": "https://grimmtalestudios.com",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/grimmtalestudios/GS-Interactable-Actors.git"
+  },
+  "engines": {
+    "node": ">=20.19"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc --watch --preserveWatchOutput",
+    "check": "tsc --noEmit",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix"
+  },
+  "devDependencies": {
+    "@html-eslint/eslint-plugin": "^0.66.1",
+    "@html-eslint/parser": "^0.66.1",
+    "@stylistic/eslint-plugin": "^5.10.0",
+    "eslint": "^10.11.0",
+    "typescript": "^5.7.0",
+    "typescript-eslint": "^8.70.0"
+  }
+}

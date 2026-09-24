@@ -1,0 +1,292 @@
+GRIMMTALE STUDIOS PROPRIETARY LICENCE
+
+Version 1.2. Effective 18 September 2026.
+
+Copyright (c) 2026 Grimmtale Studios LLC, a limited liability company
+organised under the laws of the State of Arizona, United States of America.
+All rights reserved.
+
+This Licence is a legal agreement between Grimmtale Studios LLC (the
+"Licensor") and the person or entity exercising any right under it (the
+"Licensee"). It governs every module published by the Licensor, whether
+offered free of charge or by way of subscription. The Software is proprietary.
+Its source code is published for inspection, but the Software is not open
+source software, and no right is granted in respect of it save as expressly
+set out in this Licence. By installing, running, copying, modifying, building
+or contributing to the Software, the Licensee accepts this Licence.
+
+1. DEFINITIONS AND INTERPRETATION
+
+1.1 In this Licence the following expressions have the following meanings:
+
+    "Contribution" means any material, including source code, object code,
+    text, artwork, translations, documentation or data, that the Licensee
+    submits to the Licensor for inclusion in the Software;
+
+    "Entitlement" means a current paid membership of a tier that includes the
+    relevant Software, or a content key or purchase covering the relevant
+    Software, in each case obtained through a channel operated or authorised
+    by the Licensor, including the Foundry Virtual Tabletop protected content
+    system. A membership is current while the payments due for it have been
+    made. A content key or purchase is current until revoked under clause 8;
+
+    "Foundry Virtual Tabletop" means the virtual tabletop software of that
+    name published by Foundry Gaming, LLC;
+
+    "Free Module" means any Software that the Licensor publishes as free of
+    charge at grimmtalestudios.com;
+
+    "Official Repository" means a source code repository for the Software
+    published by the Licensor on a hosting platform of the Licensor's
+    choosing;
+
+    "Software" means any module published by the Licensor, including its
+    source code, compiled output, templates, stylesheets, localisation files,
+    assets and documentation, and any part of it;
+
+    "Subscriber Module" means any Software that is not a Free Module; and
+
+    "Table" means a single Foundry Virtual Tabletop world or campaign that the
+    Licensee owns, hosts or runs as gamemaster.
+
+1.2 Clause headings are for convenience only and do not affect the
+    interpretation of this Licence. A reference to a clause is a reference to
+    a clause of this Licence. The words "include" and "including" are to be
+    construed without limitation.
+
+2. LICENCE OF THE FREE MODULES
+
+2.1 The Licensor grants to the Licensee a personal, non-exclusive,
+    non-transferable, royalty-free licence to:
+
+    (a) install and run the Free Modules on Foundry Virtual Tabletop servers
+        that the Licensee owns or controls;
+
+    (b) use the Free Modules at the Licensee's own Tables, including Tables at
+        which players hold no licence from the Licensor; and
+
+    (c) modify the Free Modules for the Licensee's own private use at those
+        Tables.
+
+2.2 The licence granted by clause 2.1 continues for so long as the Licensee
+    complies with this Licence.
+
+3. LICENCE OF THE SUBSCRIBER MODULES
+
+3.1 For so long as an Entitlement is current, the Licensee may download each
+    release of the Subscriber Modules that the Entitlement covers, as
+    described at the point at which the Entitlement was obtained.
+
+3.2 In respect of each version of a Subscriber Module downloaded under an
+    Entitlement, the Licensor grants to the Licensee a personal,
+    non-exclusive, non-transferable licence to:
+
+    (a) install and run that version on Foundry Virtual Tabletop servers that
+        the Licensee owns or controls;
+
+    (b) use that version at the Licensee's own Tables, including Tables at
+        which players hold no Entitlement, provided that those players receive
+        no copy of the Software and no independent access to it; and
+
+    (c) modify that version for the Licensee's own private use at those
+        Tables.
+
+3.3 The licence granted by clause 3.2 is not limited in time and continues
+    whether or not the Entitlement remains current, subject to termination
+    under clause 8. Releases published after an Entitlement ceases to be
+    current require a current Entitlement.
+
+3.4 No right or licence is granted by implication, estoppel or otherwise save
+    as expressly set out in this Licence.
+
+4. SOURCE CODE
+
+4.1 The Licensor publishes the source code of the Software in Official
+    Repositories. Nothing in this clause 4 grants any right to install or run
+    the Software at a Table. Such rights arise only under clauses 2 and 3.
+
+4.2 The Licensee may:
+
+    (a) view, study and audit the source code;
+
+    (b) fork an Official Repository on the hosting platform on which it is
+        published, and maintain that fork publicly on that platform, for the
+        purpose of reading the source code or proposing changes to the
+        Licensor;
+
+    (c) build the Software from source, and run the resulting build solely for
+        the purpose of developing or testing a change that the Licensee
+        intends to propose to the Licensor, or otherwise as clauses 2 and 3
+        permit; and
+
+    (d) reproduce reasonable excerpts of the source code for the purpose of
+        reporting a defect, seeking assistance or commenting on the Software.
+
+4.3 The Licensee shall not use the published source code, or anything built
+    from it, to install or run a Subscriber Module without an Entitlement, to
+    distribute the Software otherwise than as clause 4.2(b) permits, or to
+    make any competing or derivative module available to any third party.
+
+5. CONTRIBUTIONS
+
+5.1 By submitting a Contribution the Licensee:
+
+    (a) grants to the Licensor a perpetual, irrevocable, worldwide,
+        royalty-free, sublicensable licence to use, reproduce, modify, adapt,
+        publish, distribute and commercially exploit the Contribution, whether
+        as part of the Software or otherwise and under this Licence or any
+        other terms, and undertakes to execute any confirmatory assignment or
+        other document that the Licensor may reasonably request;
+
+    (b) warrants that the Contribution is the Licensee's original work, that
+        the Licensee has the right to grant the licence in clause 5.1(a), and
+        that to the Licensee's knowledge the Contribution does not infringe
+        the rights of any third party;
+
+    (c) warrants that the Contribution was created in accordance with the
+        statement on the use of artificial intelligence in the README of the
+        relevant Software and that, where that Software is designated Zero
+        AI, no generative artificial intelligence tool was used at any stage
+        of its creation; and
+
+    (d) acknowledges that the Licensor has sole discretion as to whether, and
+        in what form, the Contribution is included in the Software.
+
+5.2 The Licensee retains copyright in the Contribution. Nothing in this clause
+    5 grants the Licensee any right in the Software beyond those set out in
+    clauses 2 to 4.
+
+6. RESTRICTIONS
+
+6.1 Except as expressly permitted by clauses 2 to 5, the Licensee shall not,
+    and shall not permit any third party to:
+
+    (a) copy, publish, upload, mirror, host, share, lend, sell, rent,
+        sublicense or otherwise distribute the Software, in original or
+        modified form, whether or not for consideration;
+
+    (b) make the Software available through any package repository, module
+        listing, file hosting service, torrent, archive, chat attachment or
+        version control host, whether public or private, save for a fork
+        permitted by clause 4.2(b);
+
+    (c) incorporate the Software into any other product, module, package or
+        work that is distributed to any third party;
+
+    (d) remove, obscure or alter any copyright notice, licence notice,
+        attribution or in-application branding, including the Grimmtale
+        Studios footer displayed in the windows of the Software;
+
+    (e) circumvent, disable or assist any person to circumvent any
+        subscription check, licence key, content key, access control or
+        distribution gate;
+
+    (f) share any licence key, content key or install link, or use any such
+        key or link issued to another person; or
+
+    (g) use the name Grimmtale Studios, the prefix "GS:" or the GS mark on
+        anything the Licensee distributes, or in any manner that suggests that
+        the Licensor created, endorsed or supports it.
+
+7. OWNERSHIP AND TRADE MARKS
+
+7.1 The Software is licensed, not sold. The Licensor retains all right, title
+    and interest in and to the Software, including all intellectual property
+    rights. Any modification made by the Licensee under clause 2, 3 or 4
+    remains subject to this Licence and confers on the Licensee no ownership
+    of the Software.
+
+7.2 Grimmtale Studios, the prefix "GS:" and the GS mark are trade marks of the
+    Licensor. No right to use them is granted by this Licence.
+
+8. TERMINATION
+
+8.1 This Licence terminates automatically and without notice upon any breach
+    of clause 6 by the Licensee. Upon termination the Licensee shall cease all
+    use of the Software and destroy every copy in the Licensee's possession
+    or control, and the Licensor may revoke any licence key, content key or
+    install link issued to the Licensee.
+
+8.2 The expiry or cancellation of an Entitlement is not a termination of this
+    Licence. Clause 3 governs what the Licensee retains.
+
+8.3 Termination does not of itself entitle the Licensee to any refund, save as
+    required by law or as provided in the Licensor's Terms published at
+    https://grimmtalestudios.com/terms, and is without prejudice to any other
+    right or remedy of the Licensor.
+
+9. THIRD-PARTY SOFTWARE AND CONTENT
+
+9.1 Foundry Virtual Tabletop is required in order to use the Software and is
+    licensed to the Licensee separately by Foundry Gaming, LLC. Foundry
+    Virtual Tabletop may be obtained, and any content key for the Software
+    activated, at https://foundryvtt.com. Foundry Virtual Tabletop and Foundry
+    VTT are trade marks of Foundry Gaming, LLC. The Licensor is not affiliated
+    with or endorsed by Foundry Gaming, LLC.
+
+9.2 The Software may reference, summarise or interoperate with game systems,
+    rules or content owned by third parties. Such material remains the
+    property of its owners and is not licensed under this Licence. The
+    Software is not affiliated with, endorsed by or sponsored by any such
+    owner unless expressly stated.
+
+9.3 Any third-party library distributed with the Software is licensed under
+    its own terms, which are identified in the Official Repository and are
+    unaffected by this Licence.
+
+10. DISCLAIMER OF WARRANTY
+
+10.1 THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS
+     OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+     MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NON-INFRINGEMENT.
+
+10.2 Where the Licensee is a consumer, nothing in this Licence affects the
+     Licensee's statutory rights, including rights under the Consumer Rights
+     Act 2015 in the United Kingdom. Clauses 10 and 11 apply only to the
+     extent permitted by law.
+
+11. LIMITATION OF LIABILITY
+
+11.1 TO THE MAXIMUM EXTENT PERMITTED BY LAW, IN NO EVENT SHALL THE LICENSOR BE
+     LIABLE FOR ANY CLAIM, DAMAGES, LOSS OF DATA OR OTHER LIABILITY, WHETHER
+     IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
+     CONNECTION WITH THE SOFTWARE OR ITS USE.
+
+11.2 Nothing in this Licence excludes or limits any liability that cannot
+     lawfully be excluded or limited.
+
+12. GOVERNING LAW AND DISPUTES
+
+12.1 This Licence is governed by the law of the State of Arizona, United
+     States of America.
+
+12.2 Any dispute arising out of or in connection with this Licence shall be
+     resolved by binding arbitration under the rules of the American
+     Arbitration Association.
+
+12.3 Where the Licensee is a consumer in the United Kingdom or the European
+     Union, nothing in this clause 12 deprives the Licensee of any statutory
+     right that cannot be excluded by agreement.
+
+13. GENERAL
+
+13.1 The Licensor may vary the terms applying to future versions of the
+     Software. Use of a version released after such a variation constitutes
+     acceptance of the terms with which that version is supplied. Versions
+     already held by the Licensee remain subject to the terms with which they
+     were supplied.
+
+13.2 The current version of this Licence is published at
+     https://grimmtalestudios.com/licence. The copy included in each release
+     records the version of this Licence that applies to that release.
+
+13.3 If any provision of this Licence is held to be invalid or unenforceable,
+     the remainder of this Licence continues in full force and effect.
+
+13.4 No failure or delay by the Licensor in exercising any right under this
+     Licence operates as a waiver of that right.
+
+13.5 The Licensee may not assign or transfer this Licence or any right under
+     it.
+
+13.6 Licensing enquiries may be addressed to tech@grimmtalestudios.com.

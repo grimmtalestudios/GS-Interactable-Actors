@@ -1,0 +1,61 @@
+{
+  "id": "GS-Interactable-Actors",
+  "title": "GS: Interactable Actors",
+  "description": "Players interact with any token they can see: right-click to inspect a portrait and public lore or to target without hotkeys, while resistances, immunities and vulnerabilities reveal themselves as damage proves them. Threshold-based token art swaps a creature's image as its resources fall.",
+  "version": "0.1.0",
+  "compatibility": {
+    "minimum": "13",
+    "verified": "14"
+  },
+  "authors": [
+    {
+      "name": "Grimmtale Studios",
+      "url": "https://grimmtalestudios.com",
+      "email": "tech@grimmtalestudios.com"
+    }
+  ],
+  "url": "https://grimmtalestudios.com",
+  "manifest": "https://raw.githubusercontent.com/grimmtalestudios/GS-Interactable-Actors/release/module.json",
+  "download": "https://github.com/grimmtalestudios/GS-Interactable-Actors/archive/refs/tags/v0.1.0.zip",
+  "bugs": "https://github.com/grimmtalestudios/GS-Interactable-Actors/issues",
+  "license": "https://github.com/grimmtalestudios/GS-Interactable-Actors/blob/release/LICENSE",
+  "esmodules": [
+    "scripts/main.js"
+  ],
+  "styles": [
+    "styles/shared.css",
+    "styles/gs-interactable-actors.css"
+  ],
+  "languages": [
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "relationships": {
+    "systems": [
+      {
+        "id": "dnd5e",
+        "type": "system",
+        "compatibility": {
+          "minimum": "4.0.0",
+          "verified": "5.3.3"
+        }
+      }
+    ],
+    "requires": [
+      {
+        "id": "GS-Library",
+        "type": "module",
+        "reason": "Shared Grimmtale Studios library: the logger, localiser and window helpers every studio module uses.",
+        "manifest": "https://raw.githubusercontent.com/grimmtalestudios/GS-Library/release/module.json",
+        "compatibility": {
+          "minimum": "0.1.0"
+        }
+      }
+    ],
+    "recommends": []
+  },
+  "socket": false
+}
