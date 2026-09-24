@@ -29,6 +29,14 @@
         "scenes": "{count} scenes"
       }
     },
+    "artSummary": {
+      "hint": "Swap this creature's token art as a watched resource falls - bloodied at half, broken at a quarter, and so on.",
+      "off": "Not configured",
+      "on": "Active - {count} band(s)",
+      "watching": "Watching {resource} - currently {now}",
+      "unreadable": "unreadable",
+      "edit": "Configure threshold art"
+    },
     "inspect": {
       "title": "Inspect",
       "windowTitle": "Inspect: {name}",

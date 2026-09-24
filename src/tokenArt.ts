@@ -52,7 +52,7 @@ export function getArtConfig(actor: Actor | null): ArtConfig {
     };
 }
 
-export function getResource(actor: Actor | null, path: string): Resource | null {
+function getResource(actor: Actor | null, path: string): Resource | null {
     const found = foundry.utils.getProperty(actor?.system ?? {}, path);
 
     // Bare numbers have no max
@@ -70,6 +70,16 @@ export function getResource(actor: Actor | null, path: string): Resource | null 
         value,
         max: Number.isFinite(max) && max > 0 ? max : null
     };
+}
+
+export function getReading(actor: Actor, path: string): string | null {
+    const resource = getResource(actor, path);
+
+    if (!resource) {
+        return null;
+    }
+
+    return resource.max === null ? `${resource.value}` : `${resource.value} / ${resource.max}`;
 }
 
 function resolveArt(actor: Actor | null): string | null {

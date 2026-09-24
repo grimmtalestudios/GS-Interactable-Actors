@@ -20,7 +20,7 @@ export function getArtConfig(actor) {
             .filter((band) => Number.isFinite(band.threshold) && band.img)
     };
 }
-export function getResource(actor, path) {
+function getResource(actor, path) {
     const found = foundry.utils.getProperty(actor?.system ?? {}, path);
     // Bare numbers have no max
     const pool = (typeof found === 'object' ? found : { value: found });
@@ -34,6 +34,13 @@ export function getResource(actor, path) {
         value,
         max: Number.isFinite(max) && max > 0 ? max : null
     };
+}
+export function getReading(actor, path) {
+    const resource = getResource(actor, path);
+    if (!resource) {
+        return null;
+    }
+    return resource.max === null ? `${resource.value}` : `${resource.value} / ${resource.max}`;
 }
 function resolveArt(actor) {
     const config = getArtConfig(actor);

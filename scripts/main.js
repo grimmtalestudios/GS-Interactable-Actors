@@ -1,4 +1,5 @@
 import { registerArtConfig } from './artConfig.js';
+import { registerArtSummary } from './artSummary.js';
 import { registerAutoReveal } from './autoReveal.js';
 import { MODULE_ID } from './constants.js';
 import { registerContextMenu } from './contextMenu.js';
@@ -19,6 +20,7 @@ Hooks.once('init', () => {
     registerContextMenu();
     registerTokenArt();
     registerArtConfig();
+    registerArtSummary();
 });
 Hooks.once('ready', () => {
     log.info('Ready');

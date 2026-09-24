@@ -4,7 +4,7 @@ import {
     type ArtConfig,
     DEFAULT_RESOURCE,
     getArtConfig,
-    getResource,
+    getReading,
     getTokenCounts,
     setArtConfig
 } from './tokenArt.js';
@@ -56,17 +56,6 @@ function getResourcePaths(actor: Actor): string[] {
     }
 
     return [...paths];
-}
-
-// Lets the GM check the path without opening the sheet
-function getReading(actor: Actor, path: string): string | null {
-    const resource = getResource(actor, path);
-
-    if (!resource) {
-        return null;
-    }
-
-    return resource.max === null ? `${resource.value}` : `${resource.value} / ${resource.max}`;
 }
 
 function getSavedMessage(actor: Actor, isEnabled: boolean): string {

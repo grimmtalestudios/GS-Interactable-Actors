@@ -2,6 +2,7 @@ declare namespace foundry {
     namespace utils {
         function getProperty(object: object, key: string): unknown;
         function expandObject(object: object): Record<string, unknown>;
+        function parseHTML(html: string): HTMLElement;
     }
 
     namespace documents {
@@ -13,6 +14,11 @@ declare namespace foundry {
     }
 
     namespace applications {
+        const instances: Map<string, {
+            element?: HTMLElement;
+            actor?: Actor | null
+        }>;
+
         namespace api {
             const ApplicationV2: any;
             function HandlebarsApplicationMixin(base: any): any;
@@ -34,6 +40,7 @@ declare namespace foundry {
 
         namespace handlebars {
             function loadTemplates(paths: string[]): Promise<unknown>;
+            function renderTemplate(path: string, data: object): Promise<string>;
         }
     }
 }

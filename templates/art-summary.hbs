@@ -1,0 +1,23 @@
+<fieldset class="gs-shared-base gs-interactable-actors-art-summary">
+  <legend><i class="{{icon}}" inert></i> {{localize 'GS-Interactable-Actors.artConfig.title'}}</legend>
+  <p class="hint">{{localize 'GS-Interactable-Actors.artSummary.hint'}}</p>
+  <div class="gs-interactable-actors-art-state">
+    <span class="gs-interactable-actors-art-pill{{#if isOn}} is-on{{/if}}">{{state}}</span>
+    {{#if isOn}}
+      <span class="gs-interactable-actors-art-watching">{{watching}}</span>
+    {{/if}}
+  </div>
+  {{#if bands.length}}
+    <div class="gs-interactable-actors-art-strip">
+      {{#each bands}}
+        <figure class="gs-interactable-actors-art-chip">
+          <img src="{{img}}" alt="" />
+          <figcaption class="gs-figure">&le;{{threshold}}</figcaption>
+        </figure>
+      {{/each}}
+    </div>
+  {{/if}}
+  <button type="button" class="gs-interactable-actors-art-edit">
+    <i class="fa-solid fa-sliders" inert></i> {{localize 'GS-Interactable-Actors.artSummary.edit'}}
+  </button>
+</fieldset>

@@ -1,6 +1,6 @@
 import { ART_ICON, MODULE_ID } from './constants.js';
 import { trackInputMode } from './inputMode.js';
-import { DEFAULT_RESOURCE, getArtConfig, getResource, getTokenCounts, setArtConfig } from './tokenArt.js';
+import { DEFAULT_RESOURCE, getArtConfig, getReading, getTokenCounts, setArtConfig } from './tokenArt.js';
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 const MODES = {
     percent: `${MODULE_ID}.artConfig.percent`,
@@ -29,14 +29,6 @@ function getResourcePaths(actor) {
         }
     }
     return [...paths];
-}
-// Lets the GM check the path without opening the sheet
-function getReading(actor, path) {
-    const resource = getResource(actor, path);
-    if (!resource) {
-        return null;
-    }
-    return resource.max === null ? `${resource.value}` : `${resource.value} / ${resource.max}`;
 }
 function getSavedMessage(actor, isEnabled) {
     const { tokens, scenes } = getTokenCounts(actor);
