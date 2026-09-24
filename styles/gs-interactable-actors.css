@@ -225,6 +225,126 @@
   opacity: 0.45;
 }
 
+.gs-interactable-actors-inspect .gs-interactable-actors-section.has-eye > legend {
+  display: flex;
+  align-items: center;
+  gap: var(--gs-space-1);
+}
+
+.gs-interactable-actors-inspect .gs-interactable-actors-section.is-hidden {
+  border-style: dashed;
+}
+
+.gs-interactable-actors-section.is-hidden > .gs-interactable-actors-prose {
+  opacity: 0.45;
+}
+
+.gs-interactable-actors-class-rows {
+  display: grid;
+  gap: var(--gs-space-2);
+  margin: 0 0 var(--gs-space-3);
+}
+
+.gs-interactable-actors-classes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gs-space-1) var(--gs-space-3);
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.gs-interactable-actors-class {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gs-space-2);
+  min-width: 0;
+}
+
+.gs-interactable-actors-inspect .gs-interactable-actors-class-icon {
+  flex: 0 0 auto;
+  width: 22px;
+  height: 22px;
+  border: 1px solid var(--gs-line);
+  border-radius: var(--gs-radius);
+  background: var(--gs-panel);
+  object-fit: cover;
+}
+
+.gs-interactable-actors-class-name {
+  font-size: var(--gs-text);
+  overflow-wrap: anywhere;
+}
+
+.gs-interactable-actors-class.is-hidden > :is(.gs-interactable-actors-class-icon, .gs-interactable-actors-class-name) {
+  opacity: 0.45;
+}
+
+.gs-interactable-actors-facts {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: var(--gs-space-2) var(--gs-space-3);
+  margin: 0 0 var(--gs-space-1);
+}
+
+.gs-interactable-actors-fact dt {
+  display: flex;
+  align-items: center;
+  gap: var(--gs-space-1);
+  color: var(--gs-muted);
+  font-size: var(--gs-text-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.gs-interactable-actors-fact dd {
+  margin: 0;
+  color: var(--gs-ink);
+  font-size: var(--gs-text);
+  overflow-wrap: anywhere;
+}
+
+.gs-interactable-actors-fact.is-hidden {
+  opacity: 0.45;
+}
+
+.gs-interactable-actors-inspect :is(.gs-interactable-actors-fact dt, .gs-interactable-actors-passage h3) .gs-interactable-actors-eye {
+  margin: calc(-1 * var(--gs-space-1));
+}
+
+:is(.gs-interactable-actors-fact dt, .gs-interactable-actors-passage h3) .gs-interactable-actors-eye > i {
+  font-size: var(--gs-text-xs);
+}
+
+.gs-interactable-actors-passage {
+  margin-top: var(--gs-space-3);
+}
+
+.gs-interactable-actors-section > legend + .gs-interactable-actors-passage {
+  margin-top: 0;
+}
+
+.gs-interactable-actors-inspect .gs-interactable-actors-passage h3 {
+  display: flex;
+  align-items: center;
+  gap: var(--gs-space-1);
+  margin: 0 0 var(--gs-space-1);
+  border: none;
+  color: var(--gs-muted);
+  font-size: var(--gs-text-xs);
+  font-weight: inherit;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.gs-interactable-actors-passage > .gs-interactable-actors-prose {
+  font-size: var(--gs-text);
+}
+
+.gs-interactable-actors-passage.is-hidden > :is(h3, .gs-interactable-actors-prose) {
+  opacity: 0.45;
+}
+
 .gs-interactable-actors-chip-detail {
   color: var(--gs-muted);
   font-size: var(--gs-text-xs);
@@ -512,7 +632,8 @@
 }
 
 @container (max-width: 799px) {
-  .gs-interactable-actors-stats {
+  .gs-interactable-actors-stats,
+  .gs-interactable-actors-facts {
     grid-template-columns: repeat(2, 1fr);
   }
 

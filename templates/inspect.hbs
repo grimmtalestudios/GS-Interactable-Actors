@@ -26,6 +26,21 @@
       </div>
     </div>
     <div class="gs-scroll gs-interactable-actors-known">
+      {{#if lore}}
+        <fieldset class="gs-interactable-actors-section has-eye{{#unless lore.isShown}} is-hidden{{/unless}}">
+          <legend>
+            {{localize 'GS-Interactable-Actors.inspect.lore'}}
+            {{#if isCurator}}
+                <button type="button" class="gs-icon-btn dense gs-interactable-actors-eye" data-action="toggleReveal"
+                        data-category="personal" data-key="biographyPublic"
+                        aria-label="{{lore.toggleLabel}}" aria-pressed="{{lore.isShown}}">
+                  <i class="fa-solid fa-fw {{#if lore.isShown}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>
+                </button>
+              {{/if}}
+          </legend>
+          <div class="gs-interactable-actors-prose">{{{lore.html}}}</div>
+        </fieldset>
+      {{/if}}
       {{#each defences}}
         <fieldset class="gs-interactable-actors-section">
           <legend>{{label}}</legend>
@@ -48,6 +63,86 @@
           {{#if bypassNote}}
             <p class="gs-interactable-actors-bypass">{{bypassNote}}</p>
           {{/if}}
+        </fieldset>
+      {{/each}}
+      {{#if personal}}
+        <fieldset class="gs-interactable-actors-section">
+          <legend>{{localize 'GS-Interactable-Actors.inspect.personal'}}</legend>
+          {{#if personal.classes.length}}
+            <dl class="gs-interactable-actors-class-rows">
+              {{#each personal.classes}}
+                <div class="gs-interactable-actors-fact">
+                  <dt>{{label}}</dt>
+                  <dd>
+                    <ul class="gs-interactable-actors-classes">
+                      {{#each entries}}
+                        <li class="gs-interactable-actors-class{{#unless isShown}} is-hidden{{/unless}}">
+                          {{#if img}}<img class="gs-interactable-actors-class-icon" src="{{img}}" alt="" loading="lazy" />{{/if}}
+                          <span class="gs-interactable-actors-class-name">{{name}}</span>
+                          {{#if ../../isCurator}}
+                <button type="button" class="gs-icon-btn dense gs-interactable-actors-eye" data-action="toggleReveal"
+                        data-category="personal" data-key="{{key}}"
+                        aria-label="{{toggleLabel}}" aria-pressed="{{isShown}}">
+                  <i class="fa-solid fa-fw {{#if isShown}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>
+                </button>
+              {{/if}}
+                        </li>
+                      {{/each}}
+                    </ul>
+                  </dd>
+                </div>
+              {{/each}}
+            </dl>
+          {{/if}}
+          {{#if personal.facts.length}}
+            <dl class="gs-interactable-actors-facts">
+              {{#each personal.facts}}
+                <div class="gs-interactable-actors-fact{{#unless isShown}} is-hidden{{/unless}}">
+                  <dt>
+                    {{label}}
+                    {{#if ../isCurator}}
+                <button type="button" class="gs-icon-btn dense gs-interactable-actors-eye" data-action="toggleReveal"
+                        data-category="personal" data-key="{{key}}"
+                        aria-label="{{toggleLabel}}" aria-pressed="{{isShown}}">
+                  <i class="fa-solid fa-fw {{#if isShown}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>
+                </button>
+              {{/if}}
+                  </dt>
+                  <dd>{{value}}</dd>
+                </div>
+              {{/each}}
+            </dl>
+          {{/if}}
+          {{#each personal.passages}}
+            <div class="gs-interactable-actors-passage{{#unless isShown}} is-hidden{{/unless}}">
+              <h3>
+                {{label}}
+                {{#if ../isCurator}}
+                <button type="button" class="gs-icon-btn dense gs-interactable-actors-eye" data-action="toggleReveal"
+                        data-category="personal" data-key="{{key}}"
+                        aria-label="{{toggleLabel}}" aria-pressed="{{isShown}}">
+                  <i class="fa-solid fa-fw {{#if isShown}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>
+                </button>
+              {{/if}}
+              </h3>
+              <div class="gs-interactable-actors-prose">{{{html}}}</div>
+            </div>
+          {{/each}}
+        </fieldset>
+      {{/if}}
+      {{#each biographies}}
+        <fieldset class="gs-interactable-actors-section has-eye{{#unless isShown}} is-hidden{{/unless}}">
+          <legend>
+            {{label}}
+            {{#if ../isCurator}}
+                <button type="button" class="gs-icon-btn dense gs-interactable-actors-eye" data-action="toggleReveal"
+                        data-category="personal" data-key="{{key}}"
+                        aria-label="{{toggleLabel}}" aria-pressed="{{isShown}}">
+                  <i class="fa-solid fa-fw {{#if isShown}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>
+                </button>
+              {{/if}}
+          </legend>
+          <div class="gs-interactable-actors-prose">{{{html}}}</div>
         </fieldset>
       {{/each}}
       {{#if statistics.length}}

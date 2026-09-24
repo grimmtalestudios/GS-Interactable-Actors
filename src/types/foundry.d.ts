@@ -82,6 +82,7 @@ interface Actor {
     items: {
         filter(test: (item: Item) => boolean): Item[]
     };
+    itemTypes: Record<string, Item[] | undefined>;
     system: {
         traits?: {
             size?: string;
@@ -98,7 +99,12 @@ interface Actor {
                 value?: string;
                 subtype?: string;
                 custom?: string
-            }
+            };
+            biography?: {
+                value?: string;
+                public?: string
+            };
+            [field: string]: unknown
         };
         abilities?: Record<string, {
             value?: number;

@@ -3,6 +3,7 @@ import { FLAGS, INSPECT_ICON, MODULE_ID } from './constants.js';
 import { getDefenceSections } from './defences.js';
 import { trackInputMode } from './inputMode.js';
 import { getFoldLabel } from './itemRows.js';
+import { getBiographies, getLore, getPersonal } from './personal.js';
 import { bindPlate } from './portraitPlate.js';
 import { getProficiencyGroups } from './proficiencies.js';
 import {
@@ -30,11 +31,11 @@ function markPending(button: HTMLElement): void {
     button.toggleAttribute('disabled', true);
 }
 
-function dropBrokenVeil(veil: HTMLImageElement): void {
-    if (veil.complete && veil.naturalWidth === 0) {
-        veil.remove();
+function removeIfBroken(image: HTMLImageElement): void {
+    if (image.complete && image.naturalWidth === 0) {
+        image.remove();
     } else {
-        veil.addEventListener('error', () => veil.remove(), { once: true });
+        image.addEventListener('error', () => image.remove(), { once: true });
     }
 }
 
@@ -99,13 +100,16 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         const isCurator = canCurate(this.actor);
         const revealed = getRevealed(this.actor);
         const isNameShown = revealed.personal.includes(NAME_KEY);
+        const lore = await getLore(this.actor, revealed, isCurator);
         const defences = getDefenceSections(this.actor, revealed, isCurator);
+        const personal = await getPersonal(this.actor, revealed, isCurator);
+        const biographies = await getBiographies(this.actor, revealed, isCurator);
         const statistics = getStatRows(this.actor, revealed, isCurator);
         const scores = getScoreTiles(this.actor, revealed, isCurator);
         const proficiencies = getProficiencyGroups(this.actor, revealed, isCurator);
         const abilityGroups = await getAbilityGroups(this.actor, revealed, isCurator, this.expanded);
         const spellGroups = await getSpellGroups(this.actor, revealed, isCurator, this.expanded);
-        const sections = [defences, statistics, scores, proficiencies, abilityGroups, spellGroups];
+        const sections = [defences, biographies, statistics, scores, proficiencies, abilityGroups, spellGroups];
 
         return {
             ...context,
@@ -114,13 +118,16 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
             isNameShown,
             nameToggleLabel: getToggleLabel(isNameShown),
             portrait: this.actor.img,
+            lore,
             defences,
+            personal,
+            biographies,
             statistics,
             scores,
             proficiencies,
             abilityGroups,
             spellGroups,
-            isEmpty: !isCurator && sections.every((section) => !section.length),
+            isEmpty: !isCurator && !lore && !personal && sections.every((section) => !section.length),
             ...Grimmtale.footerContext(MODULE_ID)
         };
     }
@@ -136,10 +143,11 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
     _onRender(context: unknown, options: unknown): void {
         super._onRender(context, options);
 
-        const veil = this.element.querySelector<HTMLImageElement>('.gs-interactable-actors-veil');
-
-        if (veil) {
-            dropBrokenVeil(veil);
+        // The backdrop and class icon are decoration
+        for (const image of this.element.querySelectorAll<HTMLImageElement>(
+            '.gs-interactable-actors-veil, .gs-interactable-actors-class-icon'
+        )) {
+            removeIfBroken(image);
         }
 
         bindPlate(this.element);

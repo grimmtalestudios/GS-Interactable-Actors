@@ -37,6 +37,8 @@
         "special": "Special Actions",
         "passive": "Passives"
       },
+      "lore": "Lore",
+      "personal": "Personal",
       "spells": "Spells",
       "spellLevel": "Level {level}",
       "expandEntry": "Read this description",
@@ -44,6 +46,26 @@
     },
     "menu": {
       "inspect": "Inspect"
+    },
+    "personal": {
+      "class": "Class",
+      "subclass": "Subclass",
+      "alignment": "Alignment",
+      "eyes": "Eyes",
+      "height": "Height",
+      "faith": "Faith",
+      "hair": "Hair",
+      "weight": "Weight",
+      "gender": "Gender",
+      "skin": "Skin",
+      "age": "Age",
+      "ideals": "Ideals",
+      "personalityTraits": "Personality Traits",
+      "bonds": "Bonds",
+      "appearance": "Appearance",
+      "flaws": "Flaws",
+      "biography": "Biography",
+      "biographyPublic": "Public biography"
     },
     "reveal": {
       "dr": "{name}'s resistance to {type} has revealed itself.",
