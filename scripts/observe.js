@@ -100,17 +100,9 @@ async function noteSwings(store, actor, swings) {
             })]);
     }
 }
-async function onCreateChatMessage(message) {
-    // dnd5e stores each target's AC on the card, except under total cover
-    const { roll, targets } = message.flags.dnd5e ?? {};
-    if (!isWriter() || roll?.type !== 'attack' || !Array.isArray(targets)) {
-        return;
-    }
-    const rolls = message.rolls.filter((each) => {
-        return each instanceof CONFIG.Dice.D20Roll && typeof each.total === 'number' && !isNatural(each);
-    });
+// One write per reveal store
+function getSwingsByStore(targets, rolls) {
     const byStore = new Map();
-    // One write per reveal store
     for (const { uuid, ac } of targets) {
         const actor = typeof ac === 'number' && uuid ? fromUuidSync(uuid) : null;
         const store = actor?.type === 'npc' ? getRevealStore(actor) : null;
@@ -128,10 +120,19 @@ async function onCreateChatMessage(message) {
         })));
         byStore.set(store.uuid, entry);
     }
-    for (const { store, actor, swings } of byStore.values()) {
-        if (swings.length) {
-            await noteSwings(store, actor, swings);
-        }
+    return [...byStore.values()];
+}
+async function onCreateChatMessage(message) {
+    // dnd5e stores each target's AC on the card, except under total cover
+    const { roll, targets } = message.flags.dnd5e ?? {};
+    if (!isWriter() || roll?.type !== 'attack' || !Array.isArray(targets)) {
+        return;
+    }
+    const rolls = message.rolls.filter((each) => {
+        return each instanceof CONFIG.Dice.D20Roll && typeof each.total === 'number' && !isNatural(each);
+    });
+    for (const { store, actor, swings } of getSwingsByStore(targets, rolls)) {
+        await noteSwings(store, actor, swings);
     }
 }
 function getBloodiedThreshold() {

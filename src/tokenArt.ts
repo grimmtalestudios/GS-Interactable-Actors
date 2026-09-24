@@ -109,6 +109,7 @@ function getBandUpdate(tokenDoc: TokenDocument, img: string, base: BaseArt | und
         'texture.src': img
     };
 
+    // Store the token's art from before the first band
     if (!base) {
         update[`flags.${MODULE_ID}.${FLAGS.baseArt}`] = {
             src: tokenDoc.texture.src ?? null,
@@ -124,18 +125,7 @@ function getBandUpdate(tokenDoc: TokenDocument, img: string, base: BaseArt | und
     return update;
 }
 
-// Store the token's art from before the first band
-function getArtUpdate(tokenDoc: TokenDocument, img: string | null): TokenUpdate | null {
-    const base = tokenDoc.getFlag(MODULE_ID, FLAGS.baseArt) as BaseArt | undefined;
-
-    if (img) {
-        return getBandUpdate(tokenDoc, img, base);
-    }
-
-    if (!base) {
-        return null;
-    }
-
+function getRestoreUpdate(tokenDoc: TokenDocument, base: BaseArt): TokenUpdate {
     const update: TokenUpdate = {
         _id: tokenDoc.id,
         [`flags.${MODULE_ID}.-=${FLAGS.baseArt}`]: null
@@ -150,6 +140,16 @@ function getArtUpdate(tokenDoc: TokenDocument, img: string | null): TokenUpdate 
     }
 
     return update;
+}
+
+function getArtUpdate(tokenDoc: TokenDocument, img: string | null): TokenUpdate | null {
+    const base = tokenDoc.getFlag(MODULE_ID, FLAGS.baseArt) as BaseArt | undefined;
+
+    if (img) {
+        return getBandUpdate(tokenDoc, img, base);
+    }
+
+    return base ? getRestoreUpdate(tokenDoc, base) : null;
 }
 
 function getTokensByScene(actor: Actor): Map<Scene, TokenDocument[]> {

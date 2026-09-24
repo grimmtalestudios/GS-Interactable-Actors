@@ -62,6 +62,7 @@ function getBandUpdate(tokenDoc, img, base) {
         _id: tokenDoc.id,
         'texture.src': img
     };
+    // Store the token's art from before the first band
     if (!base) {
         update[`flags.${MODULE_ID}.${FLAGS.baseArt}`] = {
             src: tokenDoc.texture.src ?? null,
@@ -74,15 +75,7 @@ function getBandUpdate(tokenDoc, img, base) {
     }
     return update;
 }
-// Store the token's art from before the first band
-function getArtUpdate(tokenDoc, img) {
-    const base = tokenDoc.getFlag(MODULE_ID, FLAGS.baseArt);
-    if (img) {
-        return getBandUpdate(tokenDoc, img, base);
-    }
-    if (!base) {
-        return null;
-    }
+function getRestoreUpdate(tokenDoc, base) {
     const update = {
         _id: tokenDoc.id,
         [`flags.${MODULE_ID}.-=${FLAGS.baseArt}`]: null
@@ -94,6 +87,13 @@ function getArtUpdate(tokenDoc, img) {
         update['ring.subject.texture'] = base.subject;
     }
     return update;
+}
+function getArtUpdate(tokenDoc, img) {
+    const base = tokenDoc.getFlag(MODULE_ID, FLAGS.baseArt);
+    if (img) {
+        return getBandUpdate(tokenDoc, img, base);
+    }
+    return base ? getRestoreUpdate(tokenDoc, base) : null;
 }
 function getTokensByScene(actor) {
     const byScene = new Map();

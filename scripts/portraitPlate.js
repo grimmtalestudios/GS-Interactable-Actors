@@ -6,6 +6,7 @@ const WHEEL_RATE = 0.0015;
 const WHEEL_LINE_PX = 16;
 const WHEEL_PAGE_PX = 100;
 const IDLE_MS = 200;
+const PLATE_KEYS = ['+', '=', '-', '_', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
 function clampOffset(value, limit) {
     return Math.min(limit, Math.max(-limit, value));
 }
@@ -119,13 +120,14 @@ class PortraitPlate {
         // Hiding the reset button drops its focus
         this.plate.focus();
     };
-    // Core pans the canvas with the arrow keys
     onKeyDown = (event) => {
-        if (!this.stepByKey(event.key)) {
+        if (!PLATE_KEYS.includes(event.key)) {
             return;
         }
+        // Core pans the canvas with the arrow keys
         event.preventDefault();
         event.stopPropagation();
+        this.stepByKey(event.key);
         this.markInteracting();
         this.draw();
     };
@@ -152,10 +154,7 @@ class PortraitPlate {
             case 'ArrowDown':
                 this.y -= PAN_STEP;
                 break;
-            default:
-                return false;
         }
-        return true;
     }
 }
 // Each render rebuilds the plate and resets the view

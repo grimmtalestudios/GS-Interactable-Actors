@@ -118,15 +118,17 @@ interface D20Roll {
     };
 }
 
+interface AttackTarget {
+    uuid?: string;
+    ac?: number | null;
+}
+
 interface ChatMessage {
     rolls: unknown[];
     flags: {
         dnd5e?: {
             roll?: { type?: string };
-            targets?: {
-                uuid?: string;
-                ac?: number | null
-            }[]
+            targets?: AttackTarget[]
         }
     };
 }

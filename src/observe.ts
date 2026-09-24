@@ -166,21 +166,10 @@ async function noteSwings(store: Actor, actor: Actor, swings: Swing[]): Promise<
     }
 }
 
-async function onCreateChatMessage(message: ChatMessage): Promise<void> {
-
-    // dnd5e stores each target's AC on the card, except under total cover
-    const { roll, targets } = message.flags.dnd5e ?? {};
-
-    if (!isWriter() || roll?.type !== 'attack' || !Array.isArray(targets)) {
-        return;
-    }
-
-    const rolls = message.rolls.filter((each): each is D20Roll => {
-        return each instanceof CONFIG.Dice.D20Roll && typeof each.total === 'number' && !isNatural(each);
-    });
+// One write per reveal store
+function getSwingsByStore(targets: AttackTarget[], rolls: D20Roll[]): StoreSwings[] {
     const byStore = new Map<string, StoreSwings>();
 
-    // One write per reveal store
     for (const { uuid, ac } of targets) {
         const actor = typeof ac === 'number' && uuid ? fromUuidSync(uuid) : null;
         const store = actor?.type === 'npc' ? getRevealStore(actor) : null;
@@ -202,10 +191,24 @@ async function onCreateChatMessage(message: ChatMessage): Promise<void> {
         byStore.set(store.uuid, entry);
     }
 
-    for (const { store, actor, swings } of byStore.values()) {
-        if (swings.length) {
-            await noteSwings(store, actor, swings);
-        }
+    return [...byStore.values()];
+}
+
+async function onCreateChatMessage(message: ChatMessage): Promise<void> {
+
+    // dnd5e stores each target's AC on the card, except under total cover
+    const { roll, targets } = message.flags.dnd5e ?? {};
+
+    if (!isWriter() || roll?.type !== 'attack' || !Array.isArray(targets)) {
+        return;
+    }
+
+    const rolls = message.rolls.filter((each): each is D20Roll => {
+        return each instanceof CONFIG.Dice.D20Roll && typeof each.total === 'number' && !isNatural(each);
+    });
+
+    for (const { store, actor, swings } of getSwingsByStore(targets, rolls)) {
+        await noteSwings(store, actor, swings);
     }
 }
 

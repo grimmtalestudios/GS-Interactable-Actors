@@ -266,23 +266,27 @@ function renderWindowOn(actor: Actor | null | undefined): void {
     void windows.get(actor?.uuid ?? '')?.render();
 }
 
-function onUpdateActor(actor: Actor, changes: ActorUpdate): void {
+function isKnowledgeChange(changes: ActorUpdate): boolean {
     const flags = changes.flags?.[MODULE_ID] ?? {};
 
+    return [FLAGS.revealed, FLAGS.observed].some((flag) => flag in flags || `-=${flag}` in flags);
+}
+
+function renderWindowsReading(store: Actor): void {
+    for (const inspect of windows.values()) {
+        if (getRevealStore(inspect.actor)?.uuid === store.uuid) {
+            void inspect.render();
+        }
+    }
+}
+
+function onUpdateActor(actor: Actor, changes: ActorUpdate): void {
     if ('system' in changes) {
         renderWindowOn(actor);
     }
 
-    const isKnowledgeMoved = [FLAGS.revealed, FLAGS.observed].some((flag) => flag in flags || `-=${flag}` in flags);
-
-    if (!isKnowledgeMoved) {
-        return;
-    }
-
-    for (const inspect of windows.values()) {
-        if (getRevealStore(inspect.actor)?.uuid === actor.uuid) {
-            void inspect.render();
-        }
+    if (isKnowledgeChange(changes)) {
+        renderWindowsReading(actor);
     }
 }
 
