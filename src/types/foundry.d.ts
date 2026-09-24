@@ -18,15 +18,40 @@ interface FoundryModule {
     api?: unknown;
 }
 
-interface SceneControls {
-    tokens: {
-        tools: Record<string, {}>;
-    }
+interface Actor {
+    id: string;
+    uuid: string;
+    name: string;
+    img: string;
+    type: string;
+    isToken: boolean;
+    isOwner: boolean;
+    token: TokenDocument | null;
+    getFlag(scope: string, key: string): unknown;
+}
+
+interface TokenDocument {
+    id: string;
+    name: string;
+    actor: Actor | null;
+    baseActor: Actor | null;
+}
+
+interface Token {
+    actor: Actor | null;
+    document: TokenDocument;
+}
+
+interface TokenHud {
+    object: Token;
 }
 
 declare const game: {
     modules: {
         get(id: string): FoundryModule | undefined
+    };
+    actors: {
+        get(id: string): Actor | undefined
     };
     i18n: {
         localize(key: string): string;

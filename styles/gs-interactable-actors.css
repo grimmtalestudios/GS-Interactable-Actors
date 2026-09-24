@@ -1,2 +1,124 @@
-.gs-interactable-actors-app {
+.gs-interactable-actors-inspect {
+  min-width: 560px;
+  min-height: 480px;
+}
+
+.gs-shared-base.gs-interactable-actors-inspect .gs-shell {
+  padding: 0;
+  line-height: 1.45;
+  container-type: inline-size;
+}
+
+.gs-interactable-actors-banner {
+  display: flex;
+  align-items: center;
+  gap: var(--gs-space-3);
+  padding: var(--gs-space-2) var(--gs-space-3);
+  border-bottom: 1px solid var(--gs-line);
+  background: var(--gs-surface-alt, var(--gs-bg-alt));
+}
+
+.gs-interactable-actors-name {
+  display: flex;
+  align-items: center;
+  gap: var(--gs-space-1);
+  min-width: 0;
+  margin: 0;
+  border: none;
+  color: var(--gs-ink);
+  font-family: var(--gs-font-title-family);
+  font-weight: var(--gs-font-title-weight);
+  font-size: var(--gs-text-xl);
+  line-height: 1.2;
+}
+
+.gs-interactable-actors-name.is-hidden > span {
+  opacity: 0.45;
+}
+
+.gs-interactable-actors-body {
+  display: flex;
+  flex: 1;
+  min-height: 360px;
+}
+
+.gs-interactable-actors-portrait-pane {
+  display: flex;
+  flex: 1 1 0;
+  align-items: flex-start;
+  justify-content: center;
+  min-width: 0;
+  padding: var(--gs-space-4);
+  border-right: 1px solid var(--gs-line);
+  background: var(--gs-surface-alt, var(--gs-bg-alt));
+}
+
+.gs-interactable-actors-plate {
+  position: relative;
+  width: 100%;
+  max-height: 100%;
+  aspect-ratio: 3 / 4;
+  overflow: hidden;
+  border: 1px solid var(--gs-line-strong);
+  border-radius: var(--gs-radius);
+  background: var(--gs-panel-raised);
+  box-shadow: var(--gs-elev-1);
+}
+
+.gs-interactable-actors-portrait {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+  object-fit: contain;
+  transform-origin: center;
+}
+
+.gs-interactable-actors-veil {
+  position: absolute;
+  inset: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: none;
+  object-fit: cover;
+  opacity: 0.45;
+  filter: blur(18px) saturate(0.6);
+  transform: scale(1.2);
+  pointer-events: none;
+}
+
+.gs-interactable-actors-inspect .gs-interactable-actors-known {
+  display: flex;
+  flex: 1 1 0;
+  flex-direction: column;
+  gap: var(--gs-space-2);
+  min-width: 0;
+  padding: var(--gs-space-1) var(--gs-space-3) var(--gs-space-3);
+}
+
+.gs-shared-base.gs-interactable-actors-inspect .gs-footer {
+  margin-top: 0;
+  padding: var(--gs-space-1) var(--gs-space-3);
+  background: var(--gs-surface, var(--gs-bg));
+}
+
+@container (max-width: 639px) {
+  .gs-interactable-actors-body {
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .gs-interactable-actors-portrait-pane {
+    flex: 0 0 auto;
+    border-right: none;
+    border-bottom: 1px solid var(--gs-line);
+  }
+
+  .gs-interactable-actors-plate {
+    width: auto;
+    max-width: 100%;
+    height: 240px;
+  }
 }

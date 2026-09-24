@@ -1,0 +1,30 @@
+<div class="gs-shell gs-interactable-actors-shell">
+  <header class="gs-interactable-actors-banner">
+    <h1 class="gs-interactable-actors-name{{#if isCurator}}{{#unless isNameShown}} is-hidden{{/unless}}{{/if}}">
+      <span>{{name}}</span>
+    </h1>
+  </header>
+  <div class="gs-interactable-actors-body">
+    <div class="gs-interactable-actors-portrait-pane">
+      <div class="gs-interactable-actors-plate" role="img" aria-label="{{name}}">
+        <img class="gs-interactable-actors-veil" src="{{portrait}}" alt="" aria-hidden="true" />
+        <img class="gs-interactable-actors-portrait" src="{{portrait}}" alt="" />
+      </div>
+    </div>
+    <div class="gs-scroll gs-interactable-actors-known">
+      {{#if isEmpty}}
+        <div class="gs-empty">
+          <i class="fa-solid fa-circle-question" inert></i>
+          <p>{{localize 'GS-Interactable-Actors.inspect.nothingKnown'}}</p>
+        </div>
+      {{/if}}
+    </div>
+  </div>
+  <footer class="gs-footer">
+    {{#if website}}
+      <a href="{{website}}" target="_blank" rel="noopener noreferrer">{{footer}}</a>
+    {{else}}
+      {{footer}}
+    {{/if}}
+  </footer>
+</div>

@@ -1,1 +1,13 @@
-{}
+{
+  "GS-Interactable-Actors": {
+    "inspect": {
+      "title": "Inspect",
+      "windowTitle": "Inspect: {name}",
+      "unknownName": "Unknown",
+      "nothingKnown": "Nothing is known about this creature yet."
+    },
+    "menu": {
+      "inspect": "Inspect"
+    }
+  }
+}
