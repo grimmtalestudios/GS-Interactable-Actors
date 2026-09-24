@@ -1,3 +1,4 @@
+import { getAbilityGroups, getFoldLabel } from './abilities.js';
 import { FLAGS, INSPECT_ICON, MODULE_ID } from './constants.js';
 import { getDefenceSections } from './defences.js';
 import { trackInputMode } from './inputMode.js';
@@ -37,7 +38,8 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
             height: 'auto'
         },
         actions: {
-            toggleReveal: InspectWindow.onToggleReveal
+            toggleReveal: InspectWindow.onToggleReveal,
+            toggleDescription: InspectWindow.onToggleDescription
         }
     };
     static PARTS = {
@@ -49,6 +51,8 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
     actor;
     tokenDoc;
     pendingKeys = new Set();
+    // Descriptions start collapsed and open on a press
+    expanded = new Set();
     constructor(actor, tokenDoc) {
         super();
         this.actor = actor;
@@ -74,7 +78,8 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         const statistics = getStatRows(this.actor, revealed, isCurator);
         const scores = getScoreTiles(this.actor, revealed, isCurator);
         const proficiencies = getProficiencyGroups(this.actor, revealed, isCurator);
-        const sections = [defences, statistics, scores, proficiencies];
+        const abilityGroups = await getAbilityGroups(this.actor, revealed, isCurator, this.expanded);
+        const sections = [defences, statistics, scores, proficiencies, abilityGroups];
         return {
             ...context,
             isCurator,
@@ -86,6 +91,7 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
             statistics,
             scores,
             proficiencies,
+            abilityGroups,
             isEmpty: !isCurator && sections.every((section) => !section.length),
             ...Grimmtale.footerContext(MODULE_ID)
         };
@@ -127,6 +133,26 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
             void this.render();
         }
     }
+    // Collapsing is local to this window
+    static onToggleDescription(_event, target) {
+        const key = target.dataset.key ?? '';
+        const row = target.closest('.gs-interactable-actors-ability');
+        const fold = row?.querySelector('.gs-interactable-actors-fold');
+        const isCollapsing = this.expanded.has(key);
+        if (!row || !fold) {
+            return;
+        }
+        if (isCollapsing) {
+            this.expanded.delete(key);
+        }
+        else {
+            this.expanded.add(key);
+        }
+        row.classList.toggle('is-collapsed', isCollapsing);
+        fold.ariaExpanded = String(!isCollapsing);
+        fold.ariaLabel = getFoldLabel(isCollapsing);
+        fold.dataset.tooltip = getFoldLabel(isCollapsing);
+    }
     _onClose(options) {
         super._onClose(options);
         windows.delete(this.actor.uuid);
@@ -141,6 +167,11 @@ export async function openInspect(actor, tokenDoc = null) {
     inspect.tokenDoc = tokenDoc ?? inspect.tokenDoc;
     windows.set(actor.uuid, inspect);
     return inspect.render({ force: true });
+}
+export function renderOpenInspects() {
+    for (const inspect of windows.values()) {
+        void inspect.render();
+    }
 }
 function renderWindowOn(actor) {
     void windows.get(actor?.uuid ?? '')?.render();

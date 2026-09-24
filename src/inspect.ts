@@ -1,3 +1,4 @@
+import { getAbilityGroups, getFoldLabel } from './abilities.js';
 import { FLAGS, INSPECT_ICON, MODULE_ID } from './constants.js';
 import { getDefenceSections } from './defences.js';
 import { trackInputMode } from './inputMode.js';
@@ -52,7 +53,8 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
             height: 'auto'
         },
         actions: {
-            toggleReveal: InspectWindow.onToggleReveal
+            toggleReveal: InspectWindow.onToggleReveal,
+            toggleDescription: InspectWindow.onToggleDescription
         }
     };
 
@@ -67,6 +69,9 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
     tokenDoc: TokenDocument | null;
 
     pendingKeys = new Set<string>();
+
+    // Descriptions start collapsed and open on a press
+    expanded = new Set<string>();
 
     constructor(actor: Actor, tokenDoc: TokenDocument | null) {
         super();
@@ -96,7 +101,8 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         const statistics = getStatRows(this.actor, revealed, isCurator);
         const scores = getScoreTiles(this.actor, revealed, isCurator);
         const proficiencies = getProficiencyGroups(this.actor, revealed, isCurator);
-        const sections = [defences, statistics, scores, proficiencies];
+        const abilityGroups = await getAbilityGroups(this.actor, revealed, isCurator, this.expanded);
+        const sections = [defences, statistics, scores, proficiencies, abilityGroups];
 
         return {
             ...context,
@@ -109,6 +115,7 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
             statistics,
             scores,
             proficiencies,
+            abilityGroups,
             isEmpty: !isCurator && sections.every((section) => !section.length),
             ...Grimmtale.footerContext(MODULE_ID)
         };
@@ -160,6 +167,29 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         }
     }
 
+    // Collapsing is local to this window
+    static onToggleDescription(this: InspectWindow, _event: Event, target: HTMLElement): void {
+        const key = target.dataset.key ?? '';
+        const row = target.closest('.gs-interactable-actors-ability');
+        const fold = row?.querySelector<HTMLElement>('.gs-interactable-actors-fold');
+        const isCollapsing = this.expanded.has(key);
+
+        if (!row || !fold) {
+            return;
+        }
+
+        if (isCollapsing) {
+            this.expanded.delete(key);
+        } else {
+            this.expanded.add(key);
+        }
+
+        row.classList.toggle('is-collapsed', isCollapsing);
+        fold.ariaExpanded = String(!isCollapsing);
+        fold.ariaLabel = getFoldLabel(isCollapsing);
+        fold.dataset.tooltip = getFoldLabel(isCollapsing);
+    }
+
     _onClose(options: unknown): void {
         super._onClose(options);
         windows.delete(this.actor.uuid);
@@ -181,6 +211,12 @@ export async function openInspect(
     windows.set(actor.uuid, inspect);
 
     return inspect.render({ force: true });
+}
+
+export function renderOpenInspects(): void {
+    for (const inspect of windows.values()) {
+        void inspect.render();
+    }
 }
 
 function renderWindowOn(actor: Actor | null | undefined): void {

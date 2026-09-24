@@ -26,7 +26,19 @@
       "toolsTrained": "Tools",
       "armorTrained": "Armour training",
       "weaponsTrained": "Weapon training",
-      "languages": "Languages"
+      "languages": "Languages",
+      "abilities": "Abilities",
+      "activation": {
+        "action": "Actions",
+        "bonus": "Bonus Actions",
+        "reaction": "Reactions",
+        "legendary": "Legendary Actions",
+        "lair": "Lair Actions",
+        "special": "Special Actions",
+        "passive": "Passives"
+      },
+      "expandEntry": "Read this description",
+      "collapseEntry": "Fold this description away"
     },
     "menu": {
       "inspect": "Inspect"
@@ -44,6 +56,10 @@
       "announceReveals": {
         "name": "Whisper reveals to the GM",
         "hint": "A whispered chat line whenever a defence reveals itself, so you know the players' knowledge moved without keeping the Inspect window open."
+      },
+      "chatDescriptions": {
+        "name": "Use chat descriptions",
+        "hint": "Anything without a chat description falls back to its full text."
       }
     }
   }

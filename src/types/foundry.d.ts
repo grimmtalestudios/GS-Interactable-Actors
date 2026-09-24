@@ -12,6 +12,14 @@ declare namespace foundry {
             const ApplicationV2: any;
             function HandlebarsApplicationMixin(base: any): any;
         }
+        namespace ux {
+            const TextEditor: {
+                implementation: {
+                    enrichHTML(content: string, options?: object): Promise<string>
+                }
+            };
+        }
+
         namespace handlebars {
             function loadTemplates(paths: string[]): Promise<unknown>;
         }
@@ -71,6 +79,9 @@ interface Actor {
     isToken: boolean;
     isOwner: boolean;
     token: TokenDocument | null;
+    items: {
+        filter(test: (item: Item) => boolean): Item[]
+    };
     system: {
         traits?: {
             size?: string;
@@ -121,7 +132,21 @@ interface TokenDocument {
 }
 
 interface Item {
+    id: string;
+    uuid: string;
+    name: string;
+    img: string;
+    type: string;
     parent: Actor | null;
+    system: {
+        description?: {
+            value?: string;
+            chat?: string
+        };
+        activities?: {
+            contents: { activation?: { type?: string } }[]
+        }
+    };
 }
 
 interface Token {
