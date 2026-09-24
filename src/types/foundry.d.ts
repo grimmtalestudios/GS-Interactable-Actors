@@ -87,6 +87,10 @@ interface TokenDocument {
     _onRelatedUpdate(update: object, options: object): void;
 }
 
+interface Item {
+    parent: Actor | null;
+}
+
 interface Token {
     actor: Actor | null;
     document: TokenDocument;

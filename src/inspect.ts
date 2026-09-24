@@ -1,8 +1,8 @@
-import { INSPECT_ICON, MODULE_ID } from './constants.js';
+import { FLAGS, INSPECT_ICON, MODULE_ID } from './constants.js';
 import { getDefenceSections } from './defences.js';
 import { trackInputMode } from './inputMode.js';
 import { bindPlate } from './portraitPlate.js';
-import { canCurate, getKnownName, getRevealed, isRevealed, NAME_KEY, setRevealed } from './reveal.js';
+import { canCurate, getKnownName, getRevealed, getRevealStore, isRevealed, NAME_KEY, setRevealed } from './reveal.js';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
@@ -166,4 +166,52 @@ export async function openInspect(
     windows.set(actor.uuid, inspect);
 
     return inspect.render({ force: true });
+}
+
+function renderWindowOn(actor: Actor | null | undefined): void {
+    void windows.get(actor?.uuid ?? '')?.render();
+}
+
+function onUpdateActor(actor: Actor, changes: ActorUpdate): void {
+    const flags = changes.flags?.[MODULE_ID] ?? {};
+
+    if ('system' in changes) {
+        renderWindowOn(actor);
+    }
+
+    if (!(FLAGS.revealed in flags) && !(`-=${FLAGS.revealed}` in flags)) {
+        return;
+    }
+
+    for (const inspect of windows.values()) {
+        if (getRevealStore(inspect.actor)?.uuid === actor.uuid) {
+            void inspect.render();
+        }
+    }
+}
+
+function onItemChange(item: Item): void {
+    renderWindowOn(item.parent);
+}
+
+function onDeleteActor(actor: Actor): void {
+    void windows.get(actor.uuid)?.close();
+}
+
+// Deleting a token fires no deleteActor for its synthetic actor
+function onDeleteToken(tokenDoc: TokenDocument): void {
+    if (tokenDoc.actor?.isToken) {
+        onDeleteActor(tokenDoc.actor);
+    }
+}
+
+export function registerInspectRefresh(): void {
+    Hooks.on('updateActor', onUpdateActor);
+
+    for (const hook of ['createItem', 'updateItem', 'deleteItem']) {
+        Hooks.on(hook, onItemChange);
+    }
+
+    Hooks.on('deleteActor', onDeleteActor);
+    Hooks.on('deleteToken', onDeleteToken);
 }
