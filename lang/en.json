@@ -18,7 +18,8 @@
       "statistics": "Statistics",
       "creatureType": "Type",
       "creatureSize": "Size",
-      "hover": "hover"
+      "hover": "hover",
+      "abilityScores": "Ability Scores"
     },
     "menu": {
       "inspect": "Inspect"

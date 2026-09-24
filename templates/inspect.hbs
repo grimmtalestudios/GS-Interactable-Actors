@@ -70,6 +70,28 @@
           </dl>
         </fieldset>
       {{/if}}
+      {{#if scores.length}}
+        <fieldset class="gs-interactable-actors-section">
+          <legend>{{localize 'GS-Interactable-Actors.inspect.abilityScores'}}</legend>
+          <div class="gs-interactable-actors-scores">
+            {{#each scores}}
+              {{#if ../isCurator}}
+                <button type="button" class="gs-interactable-actors-score{{#unless isShown}} is-hidden{{/unless}}"
+                        data-action="toggleReveal" data-category="personal" data-key="{{key}}"
+                        aria-pressed="{{isShown}}">
+                  <span class="gs-interactable-actors-score-abbr">{{abbr}}</span>
+                  <span class="gs-figure">{{value}} <span class="gs-interactable-actors-score-mod">({{mod}})</span></span>
+                </button>
+              {{else}}
+                <div class="gs-interactable-actors-score">
+                  <span class="gs-interactable-actors-score-abbr">{{abbr}}</span>
+                  <span class="gs-figure">{{value}} <span class="gs-interactable-actors-score-mod">({{mod}})</span></span>
+                </div>
+              {{/if}}
+            {{/each}}
+          </div>
+        </fieldset>
+      {{/if}}
       {{#if isEmpty}}
         <div class="gs-empty">
           <i class="fa-solid fa-circle-question" inert></i>

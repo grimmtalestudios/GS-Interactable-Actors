@@ -3,6 +3,7 @@ import { getDefenceSections } from './defences.js';
 import { trackInputMode } from './inputMode.js';
 import { bindPlate } from './portraitPlate.js';
 import { canCurate, getKnownName, getRevealed, getRevealStore, getToggleLabel, isRevealed, NAME_KEY, setRevealed } from './reveal.js';
+import { getScoreTiles } from './scores.js';
 import { getStatRows } from './statistics.js';
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 const theme = Grimmtale.createTheme(MODULE_ID);
@@ -70,6 +71,7 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         const isNameShown = revealed.personal.includes(NAME_KEY);
         const defences = getDefenceSections(this.actor, revealed, isCurator);
         const statistics = getStatRows(this.actor, revealed, isCurator);
+        const scores = getScoreTiles(this.actor, revealed, isCurator);
         return {
             ...context,
             isCurator,
@@ -79,7 +81,8 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
             portrait: this.actor.img,
             defences,
             statistics,
-            isEmpty: !isCurator && !defences.length && !statistics.length,
+            scores,
+            isEmpty: !isCurator && !defences.length && !statistics.length && !scores.length,
             ...Grimmtale.footerContext(MODULE_ID)
         };
     }

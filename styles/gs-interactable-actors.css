@@ -266,6 +266,66 @@
   font-size: var(--gs-text-xs);
 }
 
+.gs-interactable-actors-scores {
+  display: grid;
+  grid-template-columns: repeat(6, 1fr);
+  gap: var(--gs-space-1);
+}
+
+.gs-interactable-actors-inspect .gs-interactable-actors-score {
+  display: grid;
+  align-content: center;
+  justify-items: center;
+  gap: 0;
+  height: auto;
+  min-height: 0;
+  aspect-ratio: 1 / 1;
+  padding: var(--gs-space-1);
+  border: 1px solid transparent;
+  border-radius: var(--gs-radius);
+  background: none;
+  color: inherit;
+  font: inherit;
+  line-height: 1.2;
+  text-align: center;
+}
+
+.gs-interactable-actors-inspect button.gs-interactable-actors-score {
+  cursor: pointer;
+  transition:
+    background-color var(--gs-hover-ease),
+    border-color var(--gs-hover-ease),
+    color var(--gs-hover-ease) !important;
+}
+
+.gs-interactable-actors-inspect button.gs-interactable-actors-score:hover {
+  border-color: var(--gs-line-strong);
+  background: var(--gs-panel);
+  box-shadow: none;
+}
+
+.gs-interactable-actors-score-abbr {
+  color: var(--gs-muted);
+  font-size: var(--gs-text-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
+.gs-interactable-actors-score > .gs-figure {
+  font-size: var(--gs-text);
+  white-space: nowrap;
+}
+
+.gs-interactable-actors-score-mod {
+  color: var(--gs-muted);
+}
+
+.gs-interactable-actors-inspect .gs-interactable-actors-score.is-hidden {
+  border-style: dashed;
+  border-color: var(--gs-line-strong);
+  opacity: 0.45;
+}
+
 .gs-shared-base.gs-interactable-actors-inspect .gs-footer {
   margin-top: 0;
   padding: var(--gs-space-1) var(--gs-space-3);
@@ -275,6 +335,10 @@
 @container (max-width: 799px) {
   .gs-interactable-actors-stats {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .gs-interactable-actors-scores {
+    grid-template-columns: repeat(3, 1fr);
   }
 }
 

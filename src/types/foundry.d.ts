@@ -86,6 +86,10 @@ interface Actor {
                 custom?: string
             }
         };
+        abilities?: Record<string, {
+            value?: number;
+            mod?: number
+        } | undefined>;
         attributes?: {
             movement?: Record<string, number | string | boolean | undefined> & {
                 units?: string;
@@ -126,6 +130,10 @@ declare const CONFIG: {
         conditionTypes: Record<string, SystemConfigEntry | undefined>;
         itemProperties: Record<string, SystemConfigEntry | undefined>;
         creatureTypes: Record<string, SystemConfigEntry | undefined>;
+        abilities: Record<string, {
+            label?: string;
+            abbreviation?: string
+        }>;
         actorSizes: Record<string, SystemConfigEntry | undefined>;
         movementTypes: Record<string, {
             label?: string;
