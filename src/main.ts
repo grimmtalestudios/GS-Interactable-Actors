@@ -16,7 +16,10 @@ import { registerTokenRebuildSkip } from './tokenRebuild.js';
 const log = Grimmtale.createLogger(MODULE_ID);
 
 Hooks.once('init', () => {
-    void foundry.applications.handlebars.loadTemplates([`modules/${MODULE_ID}/templates/item-row.hbs`]);
+    void foundry.applications.handlebars.loadTemplates([
+        `modules/${MODULE_ID}/templates/item-row.hbs`,
+        `modules/${MODULE_ID}/templates/eye.hbs`
+    ]);
     registerSettings(renderOpenInspects);
     registerAutoReveal();
     registerArmourObservation();

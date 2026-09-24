@@ -15,11 +15,7 @@
       </button>
     {{/if}}
     {{#if isCurator}}
-      <button type="button" class="gs-icon-btn dense gs-interactable-actors-eye" data-action="toggleReveal"
-              data-category="items" data-key="{{id}}"
-              aria-label="{{toggleLabel}}" aria-pressed="{{isShown}}">
-        <i class="fa-solid fa-fw {{#if isShown}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>
-      </button>
+      {{> "modules/GS-Interactable-Actors/templates/eye.hbs" category="items" key=id}}
     {{/if}}
   </header>
   {{#if descriptionHTML}}

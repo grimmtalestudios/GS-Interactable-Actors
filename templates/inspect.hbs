@@ -31,12 +31,8 @@
           <legend>
             {{localize 'GS-Interactable-Actors.inspect.lore'}}
             {{#if isCurator}}
-                <button type="button" class="gs-icon-btn dense gs-interactable-actors-eye" data-action="toggleReveal"
-                        data-category="personal" data-key="biographyPublic"
-                        aria-label="{{lore.toggleLabel}}" aria-pressed="{{lore.isShown}}">
-                  <i class="fa-solid fa-fw {{#if lore.isShown}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>
-                </button>
-              {{/if}}
+              {{> "modules/GS-Interactable-Actors/templates/eye.hbs" category="personal" key="biographyPublic" isShown=lore.isShown toggleLabel=lore.toggleLabel}}
+            {{/if}}
           </legend>
           <div class="gs-interactable-actors-prose">{{{lore.html}}}</div>
         </fieldset>
@@ -104,12 +100,8 @@
                           {{#if img}}<img class="gs-interactable-actors-class-icon" src="{{img}}" alt="" loading="lazy" />{{/if}}
                           <span class="gs-interactable-actors-class-name">{{name}}</span>
                           {{#if ../../isCurator}}
-                <button type="button" class="gs-icon-btn dense gs-interactable-actors-eye" data-action="toggleReveal"
-                        data-category="personal" data-key="{{key}}"
-                        aria-label="{{toggleLabel}}" aria-pressed="{{isShown}}">
-                  <i class="fa-solid fa-fw {{#if isShown}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>
-                </button>
-              {{/if}}
+                            {{> "modules/GS-Interactable-Actors/templates/eye.hbs" category="personal"}}
+                          {{/if}}
                         </li>
                       {{/each}}
                     </ul>
@@ -125,12 +117,8 @@
                   <dt>
                     {{label}}
                     {{#if ../isCurator}}
-                <button type="button" class="gs-icon-btn dense gs-interactable-actors-eye" data-action="toggleReveal"
-                        data-category="personal" data-key="{{key}}"
-                        aria-label="{{toggleLabel}}" aria-pressed="{{isShown}}">
-                  <i class="fa-solid fa-fw {{#if isShown}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>
-                </button>
-              {{/if}}
+                      {{> "modules/GS-Interactable-Actors/templates/eye.hbs" category="personal"}}
+                    {{/if}}
                   </dt>
                   <dd>{{value}}</dd>
                 </div>
@@ -142,12 +130,8 @@
               <h3>
                 {{label}}
                 {{#if ../isCurator}}
-                <button type="button" class="gs-icon-btn dense gs-interactable-actors-eye" data-action="toggleReveal"
-                        data-category="personal" data-key="{{key}}"
-                        aria-label="{{toggleLabel}}" aria-pressed="{{isShown}}">
-                  <i class="fa-solid fa-fw {{#if isShown}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>
-                </button>
-              {{/if}}
+                  {{> "modules/GS-Interactable-Actors/templates/eye.hbs" category="personal"}}
+                {{/if}}
               </h3>
               <div class="gs-interactable-actors-prose">{{{html}}}</div>
             </div>
@@ -159,12 +143,8 @@
           <legend>
             {{label}}
             {{#if ../isCurator}}
-                <button type="button" class="gs-icon-btn dense gs-interactable-actors-eye" data-action="toggleReveal"
-                        data-category="personal" data-key="{{key}}"
-                        aria-label="{{toggleLabel}}" aria-pressed="{{isShown}}">
-                  <i class="fa-solid fa-fw {{#if isShown}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>
-                </button>
-              {{/if}}
+              {{> "modules/GS-Interactable-Actors/templates/eye.hbs" category="personal"}}
+            {{/if}}
           </legend>
           <div class="gs-interactable-actors-prose">{{{html}}}</div>
         </fieldset>
@@ -178,11 +158,7 @@
                 <dt>{{label}}</dt>
                 <dd class="{{#if isFigure}}gs-figure{{/if}}">{{value}}</dd>
                 {{#if ../isCurator}}
-                  <button type="button" class="gs-icon-btn dense gs-interactable-actors-eye" data-action="toggleReveal"
-                          data-category="personal" data-key="{{key}}"
-                          aria-label="{{toggleLabel}}" aria-pressed="{{isShown}}">
-                    <i class="fa-solid fa-fw {{#if isShown}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>
-                  </button>
+                  {{> "modules/GS-Interactable-Actors/templates/eye.hbs" category="personal"}}
                 {{/if}}
               </div>
             {{/each}}
