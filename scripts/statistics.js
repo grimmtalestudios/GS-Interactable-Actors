@@ -6,8 +6,12 @@ function localize(key) {
 }
 function getCreatureType(actor) {
     const type = actor.system.details?.type;
-    if (!type || typeof type === 'string') {
-        return type ?? '';
+    if (typeof type === 'string') {
+        return type;
+    }
+    // Unset types are empty records
+    if (!type?.value) {
+        return '';
     }
     if (type.value === 'custom') {
         return type.custom ?? '';

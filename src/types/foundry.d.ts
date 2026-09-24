@@ -95,7 +95,7 @@ interface Actor {
         };
         details?: {
             type?: string | {
-                value: string;
+                value?: string;
                 subtype?: string;
                 custom?: string
             }
