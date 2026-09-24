@@ -19,7 +19,14 @@
       "creatureType": "Type",
       "creatureSize": "Size",
       "hover": "hover",
-      "abilityScores": "Ability Scores"
+      "abilityScores": "Ability Scores",
+      "proficiencies": "Proficiencies",
+      "savingThrows": "Saving Throws",
+      "skillsTrained": "Skills",
+      "toolsTrained": "Tools",
+      "armorTrained": "Armour training",
+      "weaponsTrained": "Weapon training",
+      "languages": "Languages"
     },
     "menu": {
       "inspect": "Inspect"

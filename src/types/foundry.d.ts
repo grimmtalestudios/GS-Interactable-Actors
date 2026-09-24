@@ -77,7 +77,10 @@ interface Actor {
             dr?: ActorTrait;
             di?: ActorTrait;
             dv?: ActorTrait;
-            ci?: ActorTrait
+            ci?: ActorTrait;
+            armorProf?: ActorTrait;
+            weaponProf?: ActorTrait;
+            languages?: ActorTrait
         };
         details?: {
             type?: string | {
@@ -88,8 +91,15 @@ interface Actor {
         };
         abilities?: Record<string, {
             value?: number;
-            mod?: number
+            mod?: number;
+            proficient?: number;
+            save?: number | { value?: number }
         } | undefined>;
+        skills?: Record<string, {
+            value?: number;
+            total?: number
+        } | undefined>;
+        tools?: Record<string, { value?: number } | undefined>;
         attributes?: {
             movement?: Record<string, number | string | boolean | undefined> & {
                 units?: string;
@@ -134,6 +144,7 @@ declare const CONFIG: {
             label?: string;
             abbreviation?: string
         }>;
+        skills: Record<string, { label?: string } | undefined>;
         actorSizes: Record<string, SystemConfigEntry | undefined>;
         movementTypes: Record<string, {
             label?: string;
@@ -164,6 +175,14 @@ declare const game: {
         format(key: string, data?: Record<string, unknown>): string
     };
     user: User;
+};
+
+declare const dnd5e: {
+    documents: {
+        Trait: {
+            keyLabel(key: string, options: { trait: string }): string
+        }
+    }
 };
 
 declare const libWrapper: {

@@ -2,6 +2,7 @@ import { FLAGS, INSPECT_ICON, MODULE_ID } from './constants.js';
 import { getDefenceSections } from './defences.js';
 import { trackInputMode } from './inputMode.js';
 import { bindPlate } from './portraitPlate.js';
+import { getProficiencyGroups } from './proficiencies.js';
 import {
     canCurate,
     getKnownName,
@@ -94,6 +95,8 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         const defences = getDefenceSections(this.actor, revealed, isCurator);
         const statistics = getStatRows(this.actor, revealed, isCurator);
         const scores = getScoreTiles(this.actor, revealed, isCurator);
+        const proficiencies = getProficiencyGroups(this.actor, revealed, isCurator);
+        const sections = [defences, statistics, scores, proficiencies];
 
         return {
             ...context,
@@ -105,7 +108,8 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
             defences,
             statistics,
             scores,
-            isEmpty: !isCurator && !defences.length && !statistics.length && !scores.length,
+            proficiencies,
+            isEmpty: !isCurator && sections.every((section) => !section.length),
             ...Grimmtale.footerContext(MODULE_ID)
         };
     }

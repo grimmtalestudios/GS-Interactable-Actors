@@ -1,4 +1,4 @@
-function toSigned(value) {
+export function toSigned(value) {
     return `${value >= 0 ? '+' : ''}${value}`;
 }
 export function getScoreTiles(actor, revealed, isCurator) {

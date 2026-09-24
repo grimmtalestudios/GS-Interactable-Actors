@@ -217,6 +217,31 @@
   opacity: 0.45;
 }
 
+.gs-interactable-actors-chip-detail {
+  color: var(--gs-muted);
+  font-size: var(--gs-text-xs);
+}
+
+.gs-interactable-actors-inspect .gs-interactable-actors-proficiencies {
+  display: grid;
+  gap: var(--gs-space-2);
+}
+
+.gs-interactable-actors-proficiency-group {
+  display: grid;
+  gap: var(--gs-space-1);
+}
+
+.gs-interactable-actors-inspect .gs-interactable-actors-group-heading {
+  margin: 0;
+  border: none;
+  color: var(--gs-muted);
+  font-size: var(--gs-text-xs);
+  font-weight: inherit;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
 .gs-interactable-actors-bypass {
   margin: var(--gs-space-2) 0 0;
   color: var(--gs-muted);

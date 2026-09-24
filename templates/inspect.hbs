@@ -92,6 +92,35 @@
           </div>
         </fieldset>
       {{/if}}
+      {{#if proficiencies.length}}
+        <fieldset class="gs-interactable-actors-section gs-interactable-actors-proficiencies">
+          <legend>{{localize 'GS-Interactable-Actors.inspect.proficiencies'}}</legend>
+          {{#each proficiencies}}
+            <div class="gs-interactable-actors-proficiency-group">
+              <h3 class="gs-interactable-actors-group-heading">{{label}}</h3>
+              <ul class="gs-chips">
+                {{#each chips}}
+                  <li>
+                    {{#if ../../isCurator}}
+                      <button type="button" class="gs-interactable-actors-chip{{#unless isShown}} is-hidden{{/unless}}"
+                              data-action="toggleReveal" data-category="personal" data-key="{{key}}"
+                              aria-pressed="{{isShown}}">
+                        <span>{{label}}</span>
+                        {{#if detail}}<span class="gs-interactable-actors-chip-detail">{{detail}}</span>{{/if}}
+                      </button>
+                    {{else}}
+                      <span class="gs-interactable-actors-chip">
+                        <span>{{label}}</span>
+                        {{#if detail}}<span class="gs-interactable-actors-chip-detail">{{detail}}</span>{{/if}}
+                      </span>
+                    {{/if}}
+                  </li>
+                {{/each}}
+              </ul>
+            </div>
+          {{/each}}
+        </fieldset>
+      {{/if}}
       {{#if isEmpty}}
         <div class="gs-empty">
           <i class="fa-solid fa-circle-question" inert></i>

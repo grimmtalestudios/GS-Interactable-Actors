@@ -1,6 +1,6 @@
 import type { Revealed } from './reveal.js';
 
-function toSigned(value: number): string {
+export function toSigned(value: number): string {
     return `${value >= 0 ? '+' : ''}${value}`;
 }
 
