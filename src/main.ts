@@ -5,6 +5,7 @@ import { addHudButton } from './hudButton.js';
 import { registerInspectRefresh, renderOpenInspects } from './inspect.js';
 import { registerObservation } from './observe.js';
 import { registerSettings } from './settings.js';
+import { registerTokenArt } from './tokenArt.js';
 import { registerTokenRebuildSkip } from './tokenRebuild.js';
 
 const log = Grimmtale.createLogger(MODULE_ID);
@@ -17,6 +18,7 @@ Hooks.once('init', () => {
     registerTokenRebuildSkip();
     registerInspectRefresh();
     registerContextMenu();
+    registerTokenArt();
 });
 
 Hooks.once('ready', () => {

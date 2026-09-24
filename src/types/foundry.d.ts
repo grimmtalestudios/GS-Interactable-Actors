@@ -1,4 +1,8 @@
 declare namespace foundry {
+    namespace utils {
+        function getProperty(object: object, key: string): unknown;
+    }
+
     namespace documents {
         const TokenDocument: {
             prototype: TokenDocument & {
@@ -43,6 +47,15 @@ interface ActorTrait {
     value?: Iterable<string>;
     custom?: string;
     bypasses?: Iterable<string>;
+}
+
+type TokenUpdate = Record<string, unknown> & { _id: string };
+
+interface Scene {
+    tokens: {
+        filter(test: (tokenDoc: TokenDocument) => boolean): TokenDocument[]
+    };
+    updateEmbeddedDocuments(type: string, updates: object[], options?: object): Promise<unknown>;
 }
 
 interface ActorUpdate {
@@ -175,6 +188,15 @@ interface TokenDocument {
     sort: number;
     elevation: number;
     isOwner: boolean;
+    actorLink: boolean;
+    actorId: string | null;
+    parent: Scene | null;
+    texture: { src: string | null };
+    ring: {
+        enabled: boolean;
+        subject: { texture: string | null }
+    };
+    update(data: object, options?: object): Promise<unknown>;
     getFlag(scope: string, key: string): unknown;
     setFlag(scope: string, key: string, value: unknown): Promise<unknown>;
     _onRelatedUpdate(update: object, options: object): void;
@@ -260,6 +282,7 @@ declare const game: {
     actors: {
         get(id: string): Actor | undefined
     };
+    scenes: Iterable<Scene>;
     users: {
         filter(test: (user: User) => boolean): User[];
         activeGM?: User & { isSelf: boolean }
