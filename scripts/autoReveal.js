@@ -1,7 +1,7 @@
 import { MODULE_ID } from './constants.js';
-import { getDamageTypeLabel } from './defences.js';
 import { getRevealed, getRevealStore, writeRevealed } from './reveal.js';
 import { isAnnouncingReveals, isRevealOnDamageEnabled } from './settings.js';
+import { getDamageTypeLabel } from './systemLabels.js';
 const CAUSES = [['resistance', 'dr'], ['immunity', 'di'], ['vulnerability', 'dv']];
 // dnd5e also calculates damage for a card's previews
 const calculated = new Map();

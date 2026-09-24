@@ -1,5 +1,6 @@
 import { MODULE_ID } from './constants.js';
 import type { Revealed } from './reveal.js';
+import { getDamageTypeLabel, localizeConfigEntry } from './systemLabels.js';
 
 interface DefenceChip {
     category: string;
@@ -15,23 +16,6 @@ interface DefenceSection {
 }
 
 const DEFENCE_CATEGORIES = ['dr', 'di', 'dv', 'ci'] as const;
-
-// Conditions use name where other dnd5e entries use label
-function localizeConfigEntry(entry: SystemConfigEntry | undefined, fallback: string): string {
-    const label = typeof entry === 'string' ? entry : entry?.label ?? entry?.name;
-
-    return label ? game.i18n.localize(label) : fallback;
-}
-
-export function getDamageTypeLabel(key: string): string {
-    const { damageTypes, healingTypes, conditionTypes } = CONFIG.DND5E;
-
-    if (key === 'ALL') {
-        return game.i18n.localize(`${MODULE_ID}.inspect.allDamage`);
-    }
-
-    return localizeConfigEntry(damageTypes[key] ?? healingTypes[key] ?? conditionTypes[key], key);
-}
 
 function getBypassNote({ bypasses }: ActorTrait): string {
     const labels = [...bypasses ?? []].map((key) => localizeConfigEntry(CONFIG.DND5E.itemProperties[key], key));

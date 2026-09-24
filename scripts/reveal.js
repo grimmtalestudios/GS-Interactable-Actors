@@ -36,6 +36,9 @@ export async function setRevealed(actor, category, key, isShown) {
     revealed[category] = isShown ? [...list, key] : list.filter((entry) => entry !== key);
     await writeRevealed(store, revealed);
 }
+export function getToggleLabel(isShown) {
+    return game.i18n.localize(`${MODULE_ID}.inspect.${isShown ? 'hideEntry' : 'revealEntry'}`);
+}
 // Owners see the facts on their sheet
 export function canCurate(actor) {
     return game.user.isGM || getRevealStore(actor)?.isOwner === true;

@@ -72,7 +72,26 @@ interface Actor {
     isOwner: boolean;
     token: TokenDocument | null;
     system: {
-        traits?: Partial<Record<string, ActorTrait>>
+        traits?: {
+            size?: string;
+            dr?: ActorTrait;
+            di?: ActorTrait;
+            dv?: ActorTrait;
+            ci?: ActorTrait
+        };
+        details?: {
+            type?: string | {
+                value: string;
+                subtype?: string;
+                custom?: string
+            }
+        };
+        attributes?: {
+            movement?: Record<string, number | string | boolean | undefined> & {
+                units?: string;
+                hover?: boolean
+            }
+        }
     };
     getFlag(scope: string, key: string): unknown;
     update(data: object, options?: object): Promise<unknown>;
@@ -105,7 +124,17 @@ declare const CONFIG: {
         damageTypes: Record<string, SystemConfigEntry | undefined>;
         healingTypes: Record<string, SystemConfigEntry | undefined>;
         conditionTypes: Record<string, SystemConfigEntry | undefined>;
-        itemProperties: Record<string, SystemConfigEntry | undefined>
+        itemProperties: Record<string, SystemConfigEntry | undefined>;
+        creatureTypes: Record<string, SystemConfigEntry | undefined>;
+        actorSizes: Record<string, SystemConfigEntry | undefined>;
+        movementTypes: Record<string, {
+            label?: string;
+            hidden?: boolean
+        }>;
+        movementUnits: Record<string, string | {
+            label?: string;
+            abbreviation?: string
+        } | undefined>
     }
 };
 

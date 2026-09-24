@@ -50,6 +50,26 @@
           {{/if}}
         </fieldset>
       {{/each}}
+      {{#if statistics.length}}
+        <fieldset class="gs-interactable-actors-section">
+          <legend>{{localize 'GS-Interactable-Actors.inspect.statistics'}}</legend>
+          <dl class="gs-interactable-actors-stats">
+            {{#each statistics}}
+              <div class="gs-interactable-actors-stat{{#unless isShown}} is-hidden{{/unless}}">
+                <dt>{{label}}</dt>
+                <dd class="{{#if isFigure}}gs-figure{{/if}}">{{value}}</dd>
+                {{#if ../isCurator}}
+                  <button type="button" class="gs-icon-btn dense gs-interactable-actors-eye" data-action="toggleReveal"
+                          data-category="personal" data-key="{{key}}"
+                          aria-label="{{toggleLabel}}" aria-pressed="{{isShown}}">
+                    <i class="fa-solid fa-fw {{#if isShown}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>
+                  </button>
+                {{/if}}
+              </div>
+            {{/each}}
+          </dl>
+        </fieldset>
+      {{/if}}
       {{#if isEmpty}}
         <div class="gs-empty">
           <i class="fa-solid fa-circle-question" inert></i>

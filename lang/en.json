@@ -14,7 +14,11 @@
       "dv": "Damage Vulnerabilities",
       "ci": "Condition Immunities",
       "allDamage": "All damage",
-      "bypassNote": "Except from {properties} attacks."
+      "bypassNote": "Except from {properties} attacks.",
+      "statistics": "Statistics",
+      "creatureType": "Type",
+      "creatureSize": "Size",
+      "hover": "hover"
     },
     "menu": {
       "inspect": "Inspect"

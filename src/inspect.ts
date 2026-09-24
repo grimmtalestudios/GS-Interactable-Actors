@@ -2,16 +2,22 @@ import { FLAGS, INSPECT_ICON, MODULE_ID } from './constants.js';
 import { getDefenceSections } from './defences.js';
 import { trackInputMode } from './inputMode.js';
 import { bindPlate } from './portraitPlate.js';
-import { canCurate, getKnownName, getRevealed, getRevealStore, isRevealed, NAME_KEY, setRevealed } from './reveal.js';
+import {
+    canCurate,
+    getKnownName,
+    getRevealed,
+    getRevealStore,
+    getToggleLabel,
+    isRevealed,
+    NAME_KEY,
+    setRevealed
+} from './reveal.js';
+import { getStatRows } from './statistics.js';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 const theme = Grimmtale.createTheme(MODULE_ID);
 const windows = new Map<string, InspectWindow>();
-
-function getToggleLabel(isShown: boolean): string {
-    return game.i18n.localize(`${MODULE_ID}.inspect.${isShown ? 'hideEntry' : 'revealEntry'}`);
-}
 
 // Disable while saving so a second click doesn't undo the first
 function markPending(button: HTMLElement): void {
@@ -85,6 +91,7 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         const revealed = getRevealed(this.actor);
         const isNameShown = revealed.personal.includes(NAME_KEY);
         const defences = getDefenceSections(this.actor, revealed, isCurator);
+        const statistics = getStatRows(this.actor, revealed, isCurator);
 
         return {
             ...context,
@@ -94,7 +101,8 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
             nameToggleLabel: getToggleLabel(isNameShown),
             portrait: this.actor.img,
             defences,
-            isEmpty: !isCurator && !defences.length,
+            statistics,
+            isEmpty: !isCurator && !defences.length && !statistics.length,
             ...Grimmtale.footerContext(MODULE_ID)
         };
     }
