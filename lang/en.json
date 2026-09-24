@@ -1,5 +1,6 @@
 {
   "GS-Interactable-Actors": {
+    "title": "Interactable Actors",
     "inspect": {
       "title": "Inspect",
       "windowTitle": "Inspect: {name}",
@@ -17,6 +18,21 @@
     },
     "menu": {
       "inspect": "Inspect"
+    },
+    "reveal": {
+      "dr": "{name}'s resistance to {type} has revealed itself.",
+      "di": "{name}'s immunity to {type} has revealed itself.",
+      "dv": "{name}'s vulnerability to {type} has revealed itself."
+    },
+    "settings": {
+      "revealOnDamage": {
+        "name": "Defences reveal themselves",
+        "hint": "When applied damage is changed by a creature's resistance, immunity or vulnerability, that defence appears on its Inspect sheet automatically."
+      },
+      "announceReveals": {
+        "name": "Whisper reveals to the GM",
+        "hint": "A whispered chat line whenever a defence reveals itself, so you know the players' knowledge moved without keeping the Inspect window open."
+      }
     }
   }
 }

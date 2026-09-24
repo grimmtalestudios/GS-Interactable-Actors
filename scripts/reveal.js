@@ -22,6 +22,10 @@ export function getRevealed(actor) {
 export function isRevealed(actor, category, key) {
     return isCategory(category) && getRevealed(actor)[category].includes(key);
 }
+// update() replaces arrays whole
+export async function writeRevealed(store, revealed) {
+    await store.update({ [`flags.${MODULE_ID}.${FLAGS.revealed}`]: revealed });
+}
 export async function setRevealed(actor, category, key, isShown) {
     const store = getRevealStore(actor);
     if (!store || !isCategory(category) || isRevealed(store, category, key) === isShown) {
@@ -30,8 +34,7 @@ export async function setRevealed(actor, category, key, isShown) {
     const revealed = getRevealed(store);
     const list = revealed[category];
     revealed[category] = isShown ? [...list, key] : list.filter((entry) => entry !== key);
-    // update() replaces arrays whole
-    await store.update({ [`flags.${MODULE_ID}.${FLAGS.revealed}`]: revealed });
+    await writeRevealed(store, revealed);
 }
 // Owners see the facts on their sheet
 export function canCurate(actor) {

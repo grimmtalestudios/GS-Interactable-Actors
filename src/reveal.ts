@@ -41,6 +41,11 @@ export function isRevealed(actor: Actor | null, category: string, key: string): 
     return isCategory(category) && getRevealed(actor)[category].includes(key);
 }
 
+// update() replaces arrays whole
+export async function writeRevealed(store: Actor, revealed: Revealed): Promise<void> {
+    await store.update({ [`flags.${MODULE_ID}.${FLAGS.revealed}`]: revealed });
+}
+
 export async function setRevealed(actor: Actor | null, category: string, key: string, isShown: boolean): Promise<void> {
     const store = getRevealStore(actor);
 
@@ -52,9 +57,7 @@ export async function setRevealed(actor: Actor | null, category: string, key: st
     const list = revealed[category];
 
     revealed[category] = isShown ? [...list, key] : list.filter((entry) => entry !== key);
-
-    // update() replaces arrays whole
-    await store.update({ [`flags.${MODULE_ID}.${FLAGS.revealed}`]: revealed });
+    await writeRevealed(store, revealed);
 }
 
 // Owners see the facts on their sheet

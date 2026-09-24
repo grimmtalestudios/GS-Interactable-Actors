@@ -29,6 +29,26 @@ interface ActorTrait {
     bypasses?: Iterable<string>;
 }
 
+interface User {
+    id: string;
+    isGM: boolean;
+    name: string;
+}
+
+interface DamageMarks {
+    resistance?: boolean;
+    immunity?: boolean;
+    vulnerability?: boolean;
+}
+
+interface DamageDescription {
+    type?: string;
+    active?: {
+        type?: DamageMarks;
+        all?: DamageMarks
+    };
+}
+
 interface Actor {
     id: string;
     uuid: string;
@@ -43,6 +63,7 @@ interface Actor {
     };
     getFlag(scope: string, key: string): unknown;
     update(data: object, options?: object): Promise<unknown>;
+    canUserModify(user: User, action: string): boolean;
 }
 
 interface TokenDocument {
@@ -77,14 +98,23 @@ declare const game: {
     actors: {
         get(id: string): Actor | undefined
     };
+    users: {
+        filter(test: (user: User) => boolean): User[]
+    };
+    settings: {
+        get(namespace: string, key: string): unknown
+    };
     i18n: {
         localize(key: string): string;
         format(key: string, data?: Record<string, unknown>): string
     };
-    user: {
-        isGM: boolean;
-        name: string
-    };
+    user: User;
+};
+
+declare const ChatMessage: {
+    implementation: {
+        create(data: object): Promise<unknown>
+    }
 };
 
 declare const Hooks: {

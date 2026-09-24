@@ -17,4 +17,5 @@ declare const Grimmtale: {
         website: string
     };
     quietCloseButton(root: ParentNode): void;
+    registerSettings(moduleId: string, l10nPrefix: string, definitions: Record<string, object>): void;
 };
