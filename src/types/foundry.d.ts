@@ -139,6 +139,7 @@ interface Item {
     type: string;
     parent: Actor | null;
     system: {
+        level?: number;
         description?: {
             value?: string;
             chat?: string
@@ -170,6 +171,7 @@ declare const CONFIG: {
             abbreviation?: string
         }>;
         skills: Record<string, { label?: string } | undefined>;
+        spellLevels: Record<number, string | undefined>;
         actorSizes: Record<string, SystemConfigEntry | undefined>;
         movementTypes: Record<string, {
             label?: string;

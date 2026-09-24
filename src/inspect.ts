@@ -1,7 +1,8 @@
-import { getAbilityGroups, getFoldLabel } from './abilities.js';
+import { getAbilityGroups } from './abilities.js';
 import { FLAGS, INSPECT_ICON, MODULE_ID } from './constants.js';
 import { getDefenceSections } from './defences.js';
 import { trackInputMode } from './inputMode.js';
+import { getFoldLabel } from './itemRows.js';
 import { bindPlate } from './portraitPlate.js';
 import { getProficiencyGroups } from './proficiencies.js';
 import {
@@ -15,6 +16,7 @@ import {
     setRevealed
 } from './reveal.js';
 import { getScoreTiles } from './scores.js';
+import { getSpellGroups } from './spells.js';
 import { getStatRows } from './statistics.js';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
@@ -102,7 +104,8 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         const scores = getScoreTiles(this.actor, revealed, isCurator);
         const proficiencies = getProficiencyGroups(this.actor, revealed, isCurator);
         const abilityGroups = await getAbilityGroups(this.actor, revealed, isCurator, this.expanded);
-        const sections = [defences, statistics, scores, proficiencies, abilityGroups];
+        const spellGroups = await getSpellGroups(this.actor, revealed, isCurator, this.expanded);
+        const sections = [defences, statistics, scores, proficiencies, abilityGroups, spellGroups];
 
         return {
             ...context,
@@ -116,6 +119,7 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
             scores,
             proficiencies,
             abilityGroups,
+            spellGroups,
             isEmpty: !isCurator && sections.every((section) => !section.length),
             ...Grimmtale.footerContext(MODULE_ID)
         };
@@ -170,7 +174,7 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
     // Collapsing is local to this window
     static onToggleDescription(this: InspectWindow, _event: Event, target: HTMLElement): void {
         const key = target.dataset.key ?? '';
-        const row = target.closest('.gs-interactable-actors-ability');
+        const row = target.closest('.gs-interactable-actors-item');
         const fold = row?.querySelector<HTMLElement>('.gs-interactable-actors-fold');
         const isCollapsing = this.expanded.has(key);
 

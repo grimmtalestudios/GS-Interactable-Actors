@@ -6,6 +6,7 @@ import { registerSettings } from './settings.js';
 import { registerTokenRebuildSkip } from './tokenRebuild.js';
 const log = Grimmtale.createLogger(MODULE_ID);
 Hooks.once('init', () => {
+    void foundry.applications.handlebars.loadTemplates([`modules/${MODULE_ID}/templates/item-row.hbs`]);
     registerSettings(renderOpenInspects);
     registerAutoReveal();
     registerTokenRebuildSkip();

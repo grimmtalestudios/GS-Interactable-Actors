@@ -37,6 +37,8 @@
         "special": "Special Actions",
         "passive": "Passives"
       },
+      "spells": "Spells",
+      "spellLevel": "Level {level}",
       "expandEntry": "Read this description",
       "collapseEntry": "Fold this description away"
     },

@@ -1,0 +1,28 @@
+<li class="gs-interactable-actors-item{{#unless isShown}} is-hidden{{/unless}}{{#if isCollapsed}} is-collapsed{{/if}}">
+  <header class="gs-interactable-actors-item-head">
+    <div class="gs-interactable-actors-item-id{{#if isFoldable}} is-foldable{{/if}}"
+         data-action="{{#if isFoldable}}toggleDescription{{/if}}" data-key="{{id}}"
+         data-tooltip="{{cardTooltip}}" data-tooltip-class="dnd5e2 dnd5e-tooltip item-tooltip"
+         data-tooltip-direction="LEFT">
+      <img src="{{img}}" alt="" />
+      <h4>{{name}}</h4>
+    </div>
+    {{#if isFoldable}}
+      <button type="button" class="gs-icon-btn dense gs-interactable-actors-fold"
+              data-action="toggleDescription" data-key="{{id}}" data-tooltip="{{foldLabel}}"
+              aria-label="{{foldLabel}}" aria-expanded="{{#if isCollapsed}}false{{else}}true{{/if}}">
+        <i class="fa-solid fa-fw fa-chevron-down" inert></i>
+      </button>
+    {{/if}}
+    {{#if isCurator}}
+      <button type="button" class="gs-icon-btn dense gs-interactable-actors-eye" data-action="toggleReveal"
+              data-category="items" data-key="{{id}}"
+              aria-label="{{toggleLabel}}" aria-pressed="{{isShown}}">
+        <i class="fa-solid fa-fw {{#if isShown}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>
+      </button>
+    {{/if}}
+  </header>
+  {{#if descriptionHTML}}
+    <div class="gs-interactable-actors-prose">{{{descriptionHTML}}}</div>
+  {{/if}}
+</li>
