@@ -1,6 +1,34 @@
 {
   "GS-Interactable-Actors": {
     "title": "Interactable Actors",
+    "artConfig": {
+      "title": "Threshold token art",
+      "windowTitle": "Threshold token art: {name}",
+      "lead": "The token wears the lowest band the watched resource has fallen to, and its own art above them all.",
+      "enabled": "Enable threshold art for this actor",
+      "resource": "Watched resource",
+      "mode": "Thresholds read as",
+      "percent": "Percent of maximum",
+      "value": "Flat value",
+      "reading": "Currently reads",
+      "unreadable": "Nothing readable at that path on this actor.",
+      "bands": "Bands",
+      "imagePlaceholder": "path/to/image.webp",
+      "browse": "Browse",
+      "removeBand": "Remove",
+      "addBand": "Add a band",
+      "save": "Save and apply",
+      "noBands": "Threshold art is enabled but has no complete bands. Give each band a threshold and an image, or disable it.",
+      "saved": "Threshold art saved for {name} - {tokens} on {scenes} will wear it.",
+      "savedNone": "Threshold art saved for {name} - none of its tokens are placed yet, so the change shows the moment one is.",
+      "savedOff": "Threshold art saved for {name} - it is switched off, so its tokens keep their own art.",
+      "count": {
+        "token": "{count} token",
+        "tokens": "{count} tokens",
+        "scene": "{count} scene",
+        "scenes": "{count} scenes"
+      }
+    },
     "inspect": {
       "title": "Inspect",
       "windowTitle": "Inspect: {name}",

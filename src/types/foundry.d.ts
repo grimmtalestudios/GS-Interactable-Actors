@@ -1,6 +1,7 @@
 declare namespace foundry {
     namespace utils {
         function getProperty(object: object, key: string): unknown;
+        function expandObject(object: object): Record<string, unknown>;
     }
 
     namespace documents {
@@ -16,7 +17,14 @@ declare namespace foundry {
             const ApplicationV2: any;
             function HandlebarsApplicationMixin(base: any): any;
         }
+        namespace apps {
+            const FilePicker: {
+                implementation: new (options: object) => { browse(): Promise<unknown> }
+            };
+        }
+
         namespace ux {
+            const FormDataExtended: new (form: HTMLFormElement) => { object: Record<string, unknown> };
             const TextEditor: {
                 implementation: {
                     enrichHTML(content: string, options?: object): Promise<string>
@@ -124,7 +132,10 @@ interface Actor {
     isToken: boolean;
     isOwner: boolean;
     token: TokenDocument | null;
-    prototypeToken?: { disposition?: number };
+    prototypeToken?: {
+        disposition?: number;
+        texture?: { src?: string | null }
+    };
     items: {
         filter(test: (item: Item) => boolean): Item[]
     };
@@ -176,6 +187,7 @@ interface Actor {
     update(data: object, options?: object): Promise<unknown>;
     canUserModify(user: User, action: string): boolean;
     setFlag(scope: string, key: string, value: unknown): Promise<unknown>;
+    unsetFlag(scope: string, key: string): Promise<unknown>;
     getActiveTokens(linked: true, document: true): TokenDocument[];
 }
 
@@ -233,6 +245,13 @@ interface Token {
     isTargeted: boolean;
     bounds: { contains(x: number, y: number): boolean };
     setTarget(isTargeted: boolean, options: { releaseOthers: boolean }): void;
+}
+
+interface ContextMenuEntry {
+    name: string;
+    icon: string;
+    condition: () => boolean;
+    callback: (target: HTMLElement) => void;
 }
 
 interface TokenHud {

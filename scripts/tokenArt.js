@@ -1,10 +1,10 @@
 import { FLAGS, MODULE_ID } from './constants.js';
-const DEFAULT_RESOURCE = 'attributes.hp';
+export const DEFAULT_RESOURCE = 'attributes.hp';
 // The active GM writes for everyone
 function isWriter() {
     return game.users.activeGM?.isSelf === true;
 }
-function getArtConfig(actor) {
+export function getArtConfig(actor) {
     const stored = (actor?.getFlag(MODULE_ID, FLAGS.tokenArt) ?? {});
     const resource = typeof stored.resource === 'string' ? stored.resource.trim() : '';
     const bands = (Array.isArray(stored.bands) ? stored.bands : []);
@@ -20,7 +20,7 @@ function getArtConfig(actor) {
             .filter((band) => Number.isFinite(band.threshold) && band.img)
     };
 }
-function getResource(actor, path) {
+export function getResource(actor, path) {
     const found = foundry.utils.getProperty(actor?.system ?? {}, path);
     // Bare numbers have no max
     const pool = (typeof found === 'object' ? found : { value: found });
@@ -113,6 +113,22 @@ async function applyArtForActor(actor) {
             await scene.updateEmbeddedDocuments('Token', updates, { animation: {} });
         }
     }
+}
+export function getTokenCounts(actor) {
+    const byScene = [...getTokensByScene(actor).values()];
+    return {
+        tokens: byScene.flat().length,
+        scenes: byScene.length
+    };
+}
+export async function setArtConfig(actor, config) {
+    if (config.enabled || config.bands.length) {
+        await actor.setFlag(MODULE_ID, FLAGS.tokenArt, config);
+    }
+    else {
+        await actor.unsetFlag(MODULE_ID, FLAGS.tokenArt);
+    }
+    await applyArtForActor(actor);
 }
 // New tokens get the prototype token's texture
 async function onCreateToken(tokenDoc) {

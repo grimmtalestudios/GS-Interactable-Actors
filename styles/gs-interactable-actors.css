@@ -3,7 +3,7 @@
   min-height: 480px;
 }
 
-.gs-shared-base.gs-interactable-actors-inspect .gs-shell {
+.gs-shared-base.gs-interactable-actors-app .gs-shell {
   padding: 0;
   line-height: 1.45;
   container-type: inline-size;
@@ -157,7 +157,7 @@
   padding: var(--gs-space-1) var(--gs-space-3) var(--gs-space-3);
 }
 
-.gs-interactable-actors-inspect .gs-interactable-actors-section {
+.gs-interactable-actors-app .gs-interactable-actors-section {
   min-width: 0;
   margin: var(--gs-space-2) 0 0;
   padding: var(--gs-space-2) var(--gs-space-3);
@@ -166,7 +166,7 @@
   background: var(--gs-panel);
 }
 
-.gs-interactable-actors-inspect .gs-interactable-actors-section > legend {
+.gs-interactable-actors-app .gs-interactable-actors-section > legend {
   max-width: 100%;
   margin-inline-start: var(--gs-space-1);
   padding: 0 var(--gs-space-1);
@@ -692,10 +692,163 @@
   opacity: 0.45;
 }
 
-.gs-shared-base.gs-interactable-actors-inspect .gs-footer {
+.gs-shared-base.gs-interactable-actors-app .gs-footer {
   margin-top: 0;
   padding: var(--gs-space-1) var(--gs-space-3);
   background: var(--gs-surface, var(--gs-bg));
+}
+
+.gs-interactable-actors-banner-image {
+  flex: 0 0 auto;
+  width: 64px;
+  height: 64px;
+  border: none;
+  border-radius: var(--gs-radius);
+  object-fit: cover;
+}
+
+.gs-interactable-actors-banner-text {
+  min-width: 0;
+}
+
+.gs-interactable-actors-banner .gs-hint {
+  margin: var(--gs-space-1) 0 0;
+}
+
+.gs-interactable-actors-art-body {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gs-space-2);
+  padding: var(--gs-space-1) var(--gs-space-3) var(--gs-space-3);
+}
+
+.gs-interactable-actors-art-config .gs-row.is-master {
+  margin-bottom: var(--gs-space-2);
+  padding-bottom: var(--gs-space-2);
+  font-family: var(--gs-font-title-family);
+}
+
+.gs-interactable-actors-fields {
+  display: flex;
+  gap: var(--gs-space-2);
+}
+
+.gs-interactable-actors-field {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: var(--gs-space-1);
+  min-width: 0;
+}
+
+.gs-interactable-actors-field > span {
+  color: var(--gs-muted);
+  font-size: var(--gs-text-sm);
+}
+
+.gs-interactable-actors-art-config :is(.gs-interactable-actors-field, .gs-interactable-actors-band) :is(input:not([type="checkbox"]), select) {
+  height: 28px;
+  padding: 0 var(--gs-space-2);
+}
+
+.gs-interactable-actors-reading {
+  margin: var(--gs-space-2) 0 0;
+}
+
+.gs-interactable-actors-reading.is-bad {
+  color: var(--gs-bad);
+}
+
+.gs-interactable-actors-band {
+  display: flex;
+  align-items: center;
+  gap: var(--gs-space-2);
+  margin-bottom: var(--gs-space-2);
+  padding: var(--gs-space-2);
+  border: 1px solid var(--gs-line);
+  border-radius: var(--gs-radius);
+  background: var(--gs-panel-raised);
+}
+
+.gs-interactable-actors-band-thumb {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  overflow: hidden;
+  border: 1px solid var(--gs-line);
+  border-radius: var(--gs-radius);
+  background: var(--gs-surface-alt, var(--gs-bg-alt));
+  color: var(--gs-muted);
+}
+
+.gs-interactable-actors-band-thumb img {
+  width: 100%;
+  height: 100%;
+  border: none;
+  object-fit: cover;
+}
+
+.gs-interactable-actors-band-threshold {
+  display: flex;
+  flex: 0 0 auto;
+  align-items: center;
+  gap: var(--gs-space-1);
+  color: var(--gs-muted);
+}
+
+.gs-interactable-actors-art-config .gs-interactable-actors-band-threshold input {
+  width: 64px;
+  font-family: var(--gs-font-figure-family);
+  font-weight: var(--gs-font-figure-weight);
+  font-variant-numeric: tabular-nums;
+  text-align: center;
+}
+
+.gs-interactable-actors-band-image {
+  flex: 1;
+  min-width: 0;
+}
+
+.gs-interactable-actors-band .gs-icon-btn {
+  border-color: var(--gs-line-strong);
+}
+
+.gs-interactable-actors-art-config .gs-interactable-actors-add-band {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gs-space-2);
+  width: auto;
+  height: auto;
+  min-height: 0;
+  margin: 0;
+  padding: var(--gs-space-1) var(--gs-space-3);
+  border: 1px dashed var(--gs-line-strong);
+  border-radius: var(--gs-radius);
+  background: var(--gs-panel);
+  color: var(--gs-muted);
+  font: inherit;
+  cursor: pointer;
+  transition:
+    background-color var(--gs-hover-ease),
+    border-color var(--gs-hover-ease),
+    color var(--gs-hover-ease) !important;
+}
+
+.gs-interactable-actors-art-config .gs-interactable-actors-add-band:hover {
+  border-color: var(--gs-accent);
+  background: var(--gs-panel-hover);
+  color: var(--gs-ink);
+}
+
+.gs-interactable-actors-buttons {
+  display: flex;
+  justify-content: flex-end;
+  padding: var(--gs-space-2) var(--gs-space-3);
+  border-top: 1px solid var(--gs-line);
+  background: var(--gs-surface-alt, var(--gs-bg-alt));
 }
 
 .gs-interactable-actors-menu {

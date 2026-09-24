@@ -1,0 +1,91 @@
+<div class="gs-shell gs-interactable-actors-shell">
+  <header class="gs-interactable-actors-banner">
+    <img class="gs-interactable-actors-banner-image" src="{{image}}" alt="" />
+    <div class="gs-interactable-actors-banner-text">
+      <h1 class="gs-interactable-actors-name"><span>{{name}}</span></h1>
+      <p class="gs-hint">{{localize 'GS-Interactable-Actors.artConfig.lead'}}</p>
+    </div>
+  </header>
+  <div class="gs-scroll gs-interactable-actors-art-body">
+    <section class="gs-interactable-actors-section">
+      <label class="gs-row is-master">
+        <input type="checkbox" name="enabled" {{checked enabled}} />
+        <span class="gs-row-label">{{localize 'GS-Interactable-Actors.artConfig.enabled'}}</span>
+      </label>
+      <div class="gs-interactable-actors-fields">
+        <label class="gs-interactable-actors-field">
+          <span>{{localize 'GS-Interactable-Actors.artConfig.resource'}}</span>
+          <input type="text" name="resource" value="{{resource}}" list="{{pathListId}}" placeholder="attributes.hp" />
+          <datalist id="{{pathListId}}">
+            {{#each resourcePaths}}
+              <option value="{{this}}"></option>
+            {{/each}}
+          </datalist>
+        </label>
+        <label class="gs-interactable-actors-field">
+          <span>{{localize 'GS-Interactable-Actors.artConfig.mode'}}</span>
+          <select name="mode">
+            {{selectOptions modes selected=mode localize=true}}
+          </select>
+        </label>
+      </div>
+      {{#if reading}}
+        <p class="gs-hint gs-interactable-actors-reading">
+          {{localize 'GS-Interactable-Actors.artConfig.reading'}} <strong class="gs-figure">{{reading}}</strong>
+        </p>
+      {{else}}
+        <p class="gs-hint gs-interactable-actors-reading is-bad">
+          <i class="fa-solid fa-triangle-exclamation" inert></i> {{localize 'GS-Interactable-Actors.artConfig.unreadable'}}
+        </p>
+      {{/if}}
+    </section>
+    <fieldset class="gs-interactable-actors-section">
+      <legend>{{localize 'GS-Interactable-Actors.artConfig.bands'}}</legend>
+      {{#each bands}}
+        <div class="gs-interactable-actors-band">
+          <div class="gs-interactable-actors-band-thumb">
+            {{#if img}}
+              <img src="{{img}}" alt="" />
+            {{else}}
+              <i class="fa-regular fa-image" inert></i>
+            {{/if}}
+          </div>
+          <label class="gs-interactable-actors-band-threshold">
+            <span>&le;</span>
+            <input type="number" name="bands.{{index}}.threshold" value="{{threshold}}" step="any" />
+            {{#if ../isPercent}}
+              <span>%</span>
+            {{/if}}
+          </label>
+          <input type="text" class="gs-interactable-actors-band-image" name="bands.{{index}}.img" value="{{img}}"
+                 placeholder="{{localize 'GS-Interactable-Actors.artConfig.imagePlaceholder'}}" />
+          <button type="button" class="gs-icon-btn" data-action="pickImage" data-index="{{index}}"
+                  data-tooltip="{{localize 'GS-Interactable-Actors.artConfig.browse'}}"
+                  aria-label="{{localize 'GS-Interactable-Actors.artConfig.browse'}}">
+            <i class="fa-solid fa-fw fa-file-import" inert></i>
+          </button>
+          <button type="button" class="gs-icon-btn" data-action="removeBand" data-index="{{index}}"
+                  data-tooltip="{{localize 'GS-Interactable-Actors.artConfig.removeBand'}}"
+                  aria-label="{{localize 'GS-Interactable-Actors.artConfig.removeBand'}}">
+            <i class="fa-solid fa-fw fa-trash" inert></i>
+          </button>
+        </div>
+      {{/each}}
+      <button type="button" class="gs-interactable-actors-add-band" data-action="addBand">
+        <i class="fa-solid fa-fw fa-plus" inert></i> {{localize 'GS-Interactable-Actors.artConfig.addBand'}}
+      </button>
+    </fieldset>
+  </div>
+  <footer class="gs-interactable-actors-buttons">
+    <button type="submit" class="gs-btn">
+      <i class="fa-solid fa-fw fa-floppy-disk" inert></i> <span>{{localize 'GS-Interactable-Actors.artConfig.save'}}</span>
+    </button>
+  </footer>
+  <footer class="gs-footer">
+    {{#if website}}
+      <a href="{{website}}" target="_blank" rel="noopener noreferrer">{{footer}}</a>
+    {{else}}
+      {{footer}}
+    {{/if}}
+  </footer>
+</div>

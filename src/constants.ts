@@ -9,3 +9,5 @@ export const FLAGS = {
 };
 
 export const INSPECT_ICON = 'fa-solid fa-magnifying-glass';
+
+export const ART_ICON = 'fa-solid fa-images';

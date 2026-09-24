@@ -1,11 +1,11 @@
 import { FLAGS, MODULE_ID } from './constants.js';
 
-interface ArtBand {
+export interface ArtBand {
     threshold: number;
     img: string;
 }
 
-interface ArtConfig {
+export interface ArtConfig {
     enabled: boolean;
     resource: string;
     mode: 'percent' | 'value';
@@ -22,14 +22,19 @@ interface Resource {
     max: number | null;
 }
 
-const DEFAULT_RESOURCE = 'attributes.hp';
+interface TokenCounts {
+    tokens: number;
+    scenes: number;
+}
+
+export const DEFAULT_RESOURCE = 'attributes.hp';
 
 // The active GM writes for everyone
 function isWriter(): boolean {
     return game.users.activeGM?.isSelf === true;
 }
 
-function getArtConfig(actor: Actor | null): ArtConfig {
+export function getArtConfig(actor: Actor | null): ArtConfig {
     const stored = (actor?.getFlag(MODULE_ID, FLAGS.tokenArt) ?? {}) as Partial<Record<keyof ArtConfig, unknown>>;
     const resource = typeof stored.resource === 'string' ? stored.resource.trim() : '';
     const bands = (Array.isArray(stored.bands) ? stored.bands : []) as Partial<ArtBand>[];
@@ -47,7 +52,7 @@ function getArtConfig(actor: Actor | null): ArtConfig {
     };
 }
 
-function getResource(actor: Actor | null, path: string): Resource | null {
+export function getResource(actor: Actor | null, path: string): Resource | null {
     const found = foundry.utils.getProperty(actor?.system ?? {}, path);
 
     // Bare numbers have no max
@@ -171,6 +176,25 @@ async function applyArtForActor(actor: Actor | null): Promise<void> {
             await scene.updateEmbeddedDocuments('Token', updates, { animation: {} });
         }
     }
+}
+
+export function getTokenCounts(actor: Actor): TokenCounts {
+    const byScene = [...getTokensByScene(actor).values()];
+
+    return {
+        tokens: byScene.flat().length,
+        scenes: byScene.length
+    };
+}
+
+export async function setArtConfig(actor: Actor, config: ArtConfig): Promise<void> {
+    if (config.enabled || config.bands.length) {
+        await actor.setFlag(MODULE_ID, FLAGS.tokenArt, config);
+    } else {
+        await actor.unsetFlag(MODULE_ID, FLAGS.tokenArt);
+    }
+
+    await applyArtForActor(actor);
 }
 
 // New tokens get the prototype token's texture
