@@ -6,7 +6,8 @@
       "unknownName": "Unknown",
       "nothingKnown": "Nothing is known about this creature yet.",
       "revealEntry": "Reveal to players",
-      "hideEntry": "Hide from players"
+      "hideEntry": "Hide from players",
+      "resetView": "Reset the view"
     },
     "menu": {
       "inspect": "Inspect"

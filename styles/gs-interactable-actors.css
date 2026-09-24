@@ -64,6 +64,13 @@
   background: var(--gs-surface-alt, var(--gs-bg-alt));
 }
 
+.gs-interactable-actors-plate-wrap {
+  position: relative;
+  align-self: stretch;
+  width: 100%;
+  min-width: 0;
+}
+
 .gs-interactable-actors-plate {
   position: relative;
   width: 100%;
@@ -74,6 +81,18 @@
   border-radius: var(--gs-radius);
   background: var(--gs-panel-raised);
   box-shadow: var(--gs-elev-1);
+}
+
+.gs-interactable-actors-plate.is-zoomed {
+  cursor: grab;
+}
+
+.gs-interactable-actors-plate.is-dragging {
+  cursor: grabbing;
+}
+
+.gs-interactable-actors-plate.is-interacting .gs-interactable-actors-portrait {
+  will-change: transform;
 }
 
 .gs-interactable-actors-portrait {
@@ -98,6 +117,23 @@
   filter: blur(18px) saturate(0.6);
   transform: scale(1.2);
   pointer-events: none;
+}
+
+.gs-interactable-actors-inspect .gs-interactable-actors-plate-reset {
+  position: absolute;
+  top: var(--gs-space-2);
+  right: var(--gs-space-2);
+  border-color: var(--gs-line-strong);
+  background: var(--gs-surface, var(--gs-bg));
+}
+
+.gs-interactable-actors-inspect .gs-interactable-actors-plate-reset:is(:hover, :active) {
+  background: var(--gs-surface-alt, var(--gs-bg-alt));
+  color: var(--gs-ink);
+}
+
+.gs-interactable-actors-inspect .gs-interactable-actors-plate-reset[hidden] {
+  display: none;
 }
 
 .gs-interactable-actors-inspect .gs-interactable-actors-known {
@@ -125,6 +161,10 @@
     flex: 0 0 auto;
     border-right: none;
     border-bottom: 1px solid var(--gs-line);
+  }
+
+  .gs-interactable-actors-plate-wrap {
+    width: auto;
   }
 
   .gs-interactable-actors-plate {

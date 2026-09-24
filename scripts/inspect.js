@@ -1,5 +1,6 @@
 import { INSPECT_ICON, MODULE_ID } from './constants.js';
 import { trackInputMode } from './inputMode.js';
+import { bindPlate } from './portraitPlate.js';
 import { canCurate, getKnownName, isRevealed, NAME_KEY, setRevealed } from './reveal.js';
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 const theme = Grimmtale.createTheme(MODULE_ID);
@@ -91,6 +92,7 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         if (veil) {
             dropBrokenVeil(veil);
         }
+        bindPlate(this.element);
         for (const eye of this.element.querySelectorAll('[data-action="toggleReveal"]')) {
             if (this.pendingKeys.has(`${eye.dataset.category}:${eye.dataset.key}`)) {
                 markPending(eye);

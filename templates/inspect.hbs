@@ -13,9 +13,16 @@
   </header>
   <div class="gs-interactable-actors-body">
     <div class="gs-interactable-actors-portrait-pane">
-      <div class="gs-interactable-actors-plate" role="img" aria-label="{{name}}">
-        <img class="gs-interactable-actors-veil" src="{{portrait}}" alt="" aria-hidden="true" />
-        <img class="gs-interactable-actors-portrait" src="{{portrait}}" alt="" />
+      <div class="gs-interactable-actors-plate-wrap">
+        <div class="gs-interactable-actors-plate" tabindex="0" role="img" aria-label="{{name}}">
+          <img class="gs-interactable-actors-veil" src="{{portrait}}" alt="" aria-hidden="true" />
+          <img class="gs-interactable-actors-portrait" src="{{portrait}}" alt="" />
+        </div>
+        <button type="button" class="gs-icon-btn gs-interactable-actors-plate-reset" hidden
+                data-tooltip="{{localize 'GS-Interactable-Actors.inspect.resetView'}}"
+                aria-label="{{localize 'GS-Interactable-Actors.inspect.resetView'}}">
+          <i class="fa-solid fa-fw fa-compress" inert></i>
+        </button>
       </div>
     </div>
     <div class="gs-scroll gs-interactable-actors-known">
