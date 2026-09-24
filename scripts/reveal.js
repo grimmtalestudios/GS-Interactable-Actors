@@ -1,6 +1,9 @@
 import { FLAGS, MODULE_ID } from './constants.js';
 const CATEGORIES = ['dr', 'di', 'dv', 'ci', 'items', 'personal'];
 export const NAME_KEY = 'name';
+function isCategory(category) {
+    return CATEGORIES.includes(category);
+}
 // We store reveals on the world actor, not the token
 export function getRevealStore(actor) {
     if (!actor?.isToken) {
@@ -15,6 +18,20 @@ export function getRevealed(actor) {
         return [category, Array.isArray(list) ? [...list] : []];
     });
     return Object.fromEntries(entries);
+}
+export function isRevealed(actor, category, key) {
+    return isCategory(category) && getRevealed(actor)[category].includes(key);
+}
+export async function setRevealed(actor, category, key, isShown) {
+    const store = getRevealStore(actor);
+    if (!store || !isCategory(category) || isRevealed(store, category, key) === isShown) {
+        return;
+    }
+    const revealed = getRevealed(store);
+    const list = revealed[category];
+    revealed[category] = isShown ? [...list, key] : list.filter((entry) => entry !== key);
+    // update() replaces arrays whole
+    await store.update({ [`flags.${MODULE_ID}.${FLAGS.revealed}`]: revealed });
 }
 // Owners see the facts on their sheet
 export function canCurate(actor) {

@@ -13,6 +13,10 @@ const CATEGORIES: (keyof Revealed)[] = ['dr', 'di', 'dv', 'ci', 'items', 'person
 
 export const NAME_KEY = 'name';
 
+function isCategory(category: string): category is keyof Revealed {
+    return (CATEGORIES as string[]).includes(category);
+}
+
 // We store reveals on the world actor, not the token
 export function getRevealStore(actor: Actor | null): Actor | null {
     if (!actor?.isToken) {
@@ -31,6 +35,26 @@ export function getRevealed(actor: Actor | null): Revealed {
     });
 
     return Object.fromEntries(entries) as Revealed;
+}
+
+export function isRevealed(actor: Actor | null, category: string, key: string): boolean {
+    return isCategory(category) && getRevealed(actor)[category].includes(key);
+}
+
+export async function setRevealed(actor: Actor | null, category: string, key: string, isShown: boolean): Promise<void> {
+    const store = getRevealStore(actor);
+
+    if (!store || !isCategory(category) || isRevealed(store, category, key) === isShown) {
+        return;
+    }
+
+    const revealed = getRevealed(store);
+    const list = revealed[category];
+
+    revealed[category] = isShown ? [...list, key] : list.filter((entry) => entry !== key);
+
+    // update() replaces arrays whole
+    await store.update({ [`flags.${MODULE_ID}.${FLAGS.revealed}`]: revealed });
 }
 
 // Owners see the facts on their sheet

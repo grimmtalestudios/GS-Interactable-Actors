@@ -4,7 +4,9 @@
       "title": "Inspect",
       "windowTitle": "Inspect: {name}",
       "unknownName": "Unknown",
-      "nothingKnown": "Nothing is known about this creature yet."
+      "nothingKnown": "Nothing is known about this creature yet.",
+      "revealEntry": "Reveal to players",
+      "hideEntry": "Hide from players"
     },
     "menu": {
       "inspect": "Inspect"

@@ -1,11 +1,21 @@
 import { INSPECT_ICON, MODULE_ID } from './constants.js';
 import { trackInputMode } from './inputMode.js';
-import { canCurate, getKnownName, getRevealed, NAME_KEY } from './reveal.js';
+import { canCurate, getKnownName, isRevealed, NAME_KEY, setRevealed } from './reveal.js';
 
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 
 const theme = Grimmtale.createTheme(MODULE_ID);
 const windows = new Map<string, InspectWindow>();
+
+function getToggleLabel(isShown: boolean): string {
+    return game.i18n.localize(`${MODULE_ID}.inspect.${isShown ? 'hideEntry' : 'revealEntry'}`);
+}
+
+// Disable while saving so a second click doesn't undo the first
+function markPending(button: HTMLElement): void {
+    button.setAttribute('aria-busy', 'true');
+    button.toggleAttribute('disabled', true);
+}
 
 function dropBrokenVeil(veil: HTMLImageElement): void {
     if (veil.complete && veil.naturalWidth === 0) {
@@ -30,6 +40,9 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         position: {
             width: 880, // two 440px halves: the portrait and what is known
             height: 'auto'
+        },
+        actions: {
+            toggleReveal: InspectWindow.onToggleReveal
         }
     };
 
@@ -42,6 +55,8 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
 
     actor: Actor;
     tokenDoc: TokenDocument | null;
+
+    pendingKeys = new Set<string>();
 
     constructor(actor: Actor, tokenDoc: TokenDocument | null) {
         super();
@@ -65,12 +80,14 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
     async _prepareContext(options: unknown) {
         const context = await super._prepareContext(options);
         const isCurator = canCurate(this.actor);
+        const isNameShown = isRevealed(this.actor, 'personal', NAME_KEY);
 
         return {
             ...context,
             isCurator,
             name: getKnownName(this.actor, this.tokenDoc),
-            isNameShown: getRevealed(this.actor).personal.includes(NAME_KEY),
+            isNameShown,
+            nameToggleLabel: getToggleLabel(isNameShown),
             portrait: this.actor.img,
             isEmpty: !isCurator,
             ...Grimmtale.footerContext(MODULE_ID)
@@ -92,6 +109,32 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
 
         if (veil) {
             dropBrokenVeil(veil);
+        }
+
+        for (const eye of this.element.querySelectorAll<HTMLElement>('[data-action="toggleReveal"]')) {
+            if (this.pendingKeys.has(`${eye.dataset.category}:${eye.dataset.key}`)) {
+                markPending(eye);
+            }
+        }
+    }
+
+    static async onToggleReveal(this: InspectWindow, _event: Event, target: HTMLElement): Promise<void> {
+        const { category = '', key = '' } = target.dataset;
+        const pendingKey = `${category}:${key}`;
+
+        // Ownership can change after the render
+        if (!canCurate(this.actor) || this.pendingKeys.has(pendingKey)) {
+            return;
+        }
+
+        this.pendingKeys.add(pendingKey);
+        markPending(target);
+
+        try {
+            await setRevealed(this.actor, category, key, !isRevealed(this.actor, category, key));
+        } finally {
+            this.pendingKeys.delete(pendingKey);
+            void this.render();
         }
     }
 

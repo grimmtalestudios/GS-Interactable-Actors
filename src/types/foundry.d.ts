@@ -28,6 +28,7 @@ interface Actor {
     isOwner: boolean;
     token: TokenDocument | null;
     getFlag(scope: string, key: string): unknown;
+    update(data: object, options?: object): Promise<unknown>;
 }
 
 interface TokenDocument {
