@@ -20,4 +20,5 @@ declare const Grimmtale: {
     };
     quietCloseButton(root: ParentNode): void;
     registerSettings(moduleId: string, l10nPrefix: string, definitions: Record<string, object>): void;
+    publishApi(moduleId: string, api: object, options: { gameAlias: string }): unknown;
 };

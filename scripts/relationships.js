@@ -22,7 +22,7 @@ function toRelationship(entry) {
     };
 }
 export function getRelationships(actor, user) {
-    const viewer = user.character;
+    const viewer = user?.character;
     // Relationships are between characters
     if (!actor || !viewer) {
         return null;

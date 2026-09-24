@@ -42,7 +42,7 @@ export function getReading(actor, path) {
     }
     return resource.max === null ? `${resource.value}` : `${resource.value} / ${resource.max}`;
 }
-function resolveArt(actor) {
+export function resolveArt(actor) {
     const config = getArtConfig(actor);
     const resource = config.enabled && config.bands.length ? getResource(actor, config.resource) : null;
     const isPercent = config.mode === 'percent';
@@ -108,7 +108,7 @@ function getTokensByScene(actor) {
     }
     return byScene;
 }
-async function applyArtForActor(actor) {
+export async function applyArtForActor(actor) {
     const img = resolveArt(actor);
     if (!actor || !isWriter()) {
         return;
@@ -128,8 +128,12 @@ export function getTokenCounts(actor) {
         scenes: byScene.length
     };
 }
+// Macros may pass a partial config
 export async function setArtConfig(actor, config) {
-    if (config.enabled || config.bands.length) {
+    if (!actor) {
+        return;
+    }
+    if (config?.enabled || config?.bands?.length) {
         await actor.setFlag(MODULE_ID, FLAGS.tokenArt, config);
     }
     else {

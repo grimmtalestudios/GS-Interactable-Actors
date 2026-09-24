@@ -1,3 +1,4 @@
+import { api } from './api.js';
 import { registerArtConfig } from './artConfig.js';
 import { registerArtSummary } from './artSummary.js';
 import { registerAutoReveal } from './autoReveal.js';
@@ -26,6 +27,7 @@ Hooks.once('init', () => {
 });
 
 Hooks.once('ready', () => {
+    Grimmtale.publishApi(MODULE_ID, api, { gameAlias: 'interactableActors' });
     log.info('Ready');
 });
 

@@ -37,8 +37,8 @@ function toRelationship(entry: unknown): Relationship | null {
     };
 }
 
-export function getRelationships(actor: Actor | null, user: User): Relationship[] | null {
-    const viewer = user.character;
+export function getRelationships(actor: Actor | null, user: User | null): Relationship[] | null {
+    const viewer = user?.character;
 
     // Relationships are between characters
     if (!actor || !viewer) {

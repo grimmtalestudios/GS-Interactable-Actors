@@ -82,7 +82,7 @@ export function getReading(actor: Actor, path: string): string | null {
     return resource.max === null ? `${resource.value}` : `${resource.value} / ${resource.max}`;
 }
 
-function resolveArt(actor: Actor | null): string | null {
+export function resolveArt(actor: Actor | null): string | null {
     const config = getArtConfig(actor);
     const resource = config.enabled && config.bands.length ? getResource(actor, config.resource) : null;
     const isPercent = config.mode === 'percent';
@@ -170,7 +170,7 @@ function getTokensByScene(actor: Actor): Map<Scene, TokenDocument[]> {
     return byScene;
 }
 
-async function applyArtForActor(actor: Actor | null): Promise<void> {
+export async function applyArtForActor(actor: Actor | null): Promise<void> {
     const img = resolveArt(actor);
 
     if (!actor || !isWriter()) {
@@ -197,8 +197,13 @@ export function getTokenCounts(actor: Actor): TokenCounts {
     };
 }
 
-export async function setArtConfig(actor: Actor, config: ArtConfig): Promise<void> {
-    if (config.enabled || config.bands.length) {
+// Macros may pass a partial config
+export async function setArtConfig(actor: Actor | null, config: Partial<ArtConfig> | null): Promise<void> {
+    if (!actor) {
+        return;
+    }
+
+    if (config?.enabled || config?.bands?.length) {
         await actor.setFlag(MODULE_ID, FLAGS.tokenArt, config);
     } else {
         await actor.unsetFlag(MODULE_ID, FLAGS.tokenArt);
