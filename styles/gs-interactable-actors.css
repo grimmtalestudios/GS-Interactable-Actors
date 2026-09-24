@@ -5,8 +5,6 @@
 
 .gs-shared-base.gs-interactable-actors-app .gs-shell {
   padding: 0;
-  line-height: 1.45;
-  container-type: inline-size;
 }
 
 .gs-interactable-actors-banner {
@@ -36,11 +34,7 @@
   opacity: 0.45;
 }
 
-.gs-interactable-actors-inspect .gs-interactable-actors-eye {
-  border-radius: 50%;
-}
-
-.gs-interactable-actors-inspect :is(.gs-interactable-actors-fold, .gs-interactable-actors-forget) {
+.gs-interactable-actors-inspect :is(.gs-interactable-actors-eye, .gs-interactable-actors-fold, .gs-interactable-actors-forget) {
   border-radius: 50%;
 }
 
@@ -280,6 +274,21 @@
   opacity: 0.45;
 }
 
+.gs-interactable-actors-inspect :is(
+  .gs-interactable-actors-fact dt,
+  .gs-interactable-actors-stat dt,
+  .gs-interactable-actors-passage h3,
+  .gs-interactable-actors-group-heading,
+  .gs-interactable-actors-list-heading,
+  .gs-interactable-actors-level-heading,
+  .gs-interactable-actors-score-abbr
+) {
+  color: var(--gs-muted);
+  font-size: var(--gs-text-xs);
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+}
+
 .gs-interactable-actors-facts {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -291,10 +300,6 @@
   display: flex;
   align-items: center;
   gap: var(--gs-space-1);
-  color: var(--gs-muted);
-  font-size: var(--gs-text-xs);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
 }
 
 .gs-interactable-actors-fact dd {
@@ -330,11 +335,7 @@
   gap: var(--gs-space-1);
   margin: 0 0 var(--gs-space-1);
   border: none;
-  color: var(--gs-muted);
-  font-size: var(--gs-text-xs);
   font-weight: inherit;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
 }
 
 .gs-interactable-actors-passage > .gs-interactable-actors-prose {
@@ -363,21 +364,13 @@
 .gs-interactable-actors-inspect .gs-interactable-actors-group-heading {
   margin: 0;
   border: none;
-  color: var(--gs-muted);
-  font-size: var(--gs-text-xs);
   font-weight: inherit;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
 }
 
 .gs-interactable-actors-inspect :is(.gs-interactable-actors-list-heading, .gs-interactable-actors-level-heading) {
   margin: var(--gs-space-3) 0 var(--gs-space-1);
   border: none;
-  color: var(--gs-muted);
-  font-size: var(--gs-text-xs);
   font-weight: inherit;
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
 }
 
 .gs-interactable-actors-inspect .gs-interactable-actors-list-heading {
@@ -584,13 +577,6 @@
   column-gap: var(--gs-space-1);
 }
 
-.gs-interactable-actors-stat dt {
-  color: var(--gs-muted);
-  font-size: var(--gs-text-xs);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
-}
-
 .gs-interactable-actors-stat dd {
   grid-column: 1 / -1;
   margin: 0;
@@ -668,13 +654,6 @@
   border-color: var(--gs-line-strong);
   background: var(--gs-panel);
   box-shadow: none;
-}
-
-.gs-interactable-actors-score-abbr {
-  color: var(--gs-muted);
-  font-size: var(--gs-text-xs);
-  letter-spacing: 0.16em;
-  text-transform: uppercase;
 }
 
 .gs-interactable-actors-score > .gs-figure {
@@ -939,14 +918,6 @@
   z-index: calc(var(--z-index-tooltip, 9999) - 1);
   min-width: 150px;
   overflow: hidden;
-  border: 1px solid var(--gs-line-strong);
-  border-radius: var(--gs-radius);
-  background: var(--gs-surface, var(--gs-bg));
-  box-shadow: var(--gs-elev-2);
-  color: var(--gs-ink);
-  font-family: var(--gs-font-body-family);
-  font-weight: var(--gs-font-body-weight);
-  font-size: var(--gs-text);
 }
 
 .gs-interactable-actors-menu-name {
