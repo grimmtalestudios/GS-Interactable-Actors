@@ -1,6 +1,6 @@
 import { FLAGS, MODULE_ID } from './constants.js';
 
-export interface ArtBand {
+interface ArtBand {
     threshold: number;
     img: string;
 }
