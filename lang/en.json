@@ -13,6 +13,8 @@
       "reading": "Currently reads",
       "unreadable": "Nothing readable at that path on this actor.",
       "bands": "Bands",
+      "threshold": "Threshold",
+      "imagePath": "Image path",
       "imagePlaceholder": "path/to/image.webp",
       "browse": "Browse",
       "removeBand": "Remove",

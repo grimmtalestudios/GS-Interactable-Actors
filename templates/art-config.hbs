@@ -52,13 +52,15 @@
           </div>
           <label class="gs-interactable-actors-band-threshold">
             <span>&le;</span>
-            <input type="number" name="bands.{{index}}.threshold" value="{{threshold}}" step="any" />
+            <input type="number" name="bands.{{index}}.threshold" value="{{threshold}}" step="any"
+                   aria-label="{{localize 'GS-Interactable-Actors.artConfig.threshold'}}" />
             {{#if ../isPercent}}
               <span>%</span>
             {{/if}}
           </label>
           <input type="text" class="gs-interactable-actors-band-image" name="bands.{{index}}.img" value="{{img}}"
-                 placeholder="{{localize 'GS-Interactable-Actors.artConfig.imagePlaceholder'}}" />
+                 placeholder="{{localize 'GS-Interactable-Actors.artConfig.imagePlaceholder'}}"
+                 aria-label="{{localize 'GS-Interactable-Actors.artConfig.imagePath'}}" />
           <button type="button" class="gs-icon-btn" data-action="pickImage" data-index="{{index}}"
                   data-tooltip="{{localize 'GS-Interactable-Actors.artConfig.browse'}}"
                   aria-label="{{localize 'GS-Interactable-Actors.artConfig.browse'}}">
