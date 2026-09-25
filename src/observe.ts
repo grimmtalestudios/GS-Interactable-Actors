@@ -13,7 +13,6 @@ export interface Sample {
     min: number;
     max: number;
     final: boolean;
-    at?: number;
 }
 
 export interface Observed {

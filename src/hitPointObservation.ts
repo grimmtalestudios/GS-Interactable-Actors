@@ -102,8 +102,7 @@ async function recordSample(actor: Actor, key: string, tally: Tally): Promise<vo
         key,
         min: tally.low,
         max: tally.high,
-        final: tally.final,
-        at: Date.now()
+        final: tally.final
     }].slice(-SAMPLE_LIMIT);
     await writeObserved(store, observed);
 }
