@@ -7,6 +7,7 @@ interface GrimmtaleLogger {
 interface GrimmtaleTheme {
     apply(app: { element: HTMLElement }): void;
     applyTo(element: HTMLElement): void;
+    applyToOverlay(element: HTMLElement): void;
 }
 
 declare const Grimmtale: {

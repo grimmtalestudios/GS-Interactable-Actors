@@ -166,7 +166,7 @@ function createMenu(token: Token, items: MenuItem[]): HTMLElement {
     list.setAttribute('role', 'menu');
     list.append(...items.map(createMenuRow));
     root.append(header, list);
-    theme.applyTo(root);
+    theme.applyToOverlay(root);
     bindInputMode(root);
 
     return root;
