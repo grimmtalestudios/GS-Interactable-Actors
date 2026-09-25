@@ -49,14 +49,6 @@ interface Math {
     clamp(value: number, min: number, max: number): number;
 }
 
-interface FoundryModule {
-    id: string;
-    title: string;
-    version: string;
-    active: boolean;
-    api?: unknown;
-}
-
 type SystemConfigEntry = string | {
     label?: string;
     name?: string
@@ -85,9 +77,7 @@ interface ActorUpdate {
 }
 
 interface User {
-    id: string;
     isGM: boolean;
-    name: string;
     character?: Actor | null;
 }
 
@@ -313,9 +303,6 @@ declare const CONFIG: {
 };
 
 declare const game: {
-    modules: {
-        get(id: string): FoundryModule | undefined
-    };
     actors: Iterable<Actor> & {
         get(id: string): Actor | undefined
     };
@@ -374,14 +361,12 @@ declare const ChatMessage: {
 declare const Hooks: {
     once(hook: string, fn: (...args: any[]) => void): number;
     on(hook: string, fn: (...args: any[]) => void): number;
-    off(hook: string, id: number): void;
     callAll(hook: string, ...args: any[]): boolean;
 };
 
 declare const ui: {
     notifications: {
         info(message: string): void;
-        warn(message: string): void;
-        error(message: string): void
+        warn(message: string): void
     };
 };

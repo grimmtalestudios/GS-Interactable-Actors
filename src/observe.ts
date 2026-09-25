@@ -15,7 +15,7 @@ export interface Sample {
     final: boolean;
 }
 
-export interface Observed {
+interface Observed {
     ac: ArmourRange;
     hp: { samples: Sample[] };
 }
