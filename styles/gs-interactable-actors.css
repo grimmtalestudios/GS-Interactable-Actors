@@ -308,6 +308,7 @@
   .gs-interactable-actors-score-abbr
 ) {
   color: var(--gs-muted);
+  font-family: var(--gs-font-body-family);
   font-size: var(--gs-text-xs);
   letter-spacing: 0.16em;
   text-shadow: none;
