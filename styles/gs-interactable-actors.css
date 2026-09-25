@@ -939,6 +939,10 @@
   gap: var(--gs-space-2);
   margin-block-start: var(--gs-space-2);
   cursor: pointer;
+  transition:
+    background-color var(--gs-hover-ease),
+    border-color var(--gs-hover-ease),
+    color var(--gs-hover-ease) !important;
 }
 
 .gs-interactable-actors-menu {
