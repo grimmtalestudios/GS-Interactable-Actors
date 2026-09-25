@@ -52,8 +52,6 @@ function getTokenAt(event: MouseEvent): Token | null {
 function wasDragged(event: MouseEvent): boolean {
     const moved = rightDownAt ? Math.hypot(event.clientX - rightDownAt.x, event.clientY - rightDownAt.y) : 0;
 
-    rightDownAt = null;
-
     return moved > DRAG_TOLERANCE;
 }
 
@@ -235,6 +233,7 @@ function onBoardContextMenu(event: MouseEvent): void {
     const isOurs = isContextMenuEnabled() && !isTokenMenuActive() && !wasDragged(event);
     const token = isOurs ? getTokenAt(event) : null;
 
+    rightDownAt = null;
     closeMenu();
 
     // Owners get the token HUD on right-click

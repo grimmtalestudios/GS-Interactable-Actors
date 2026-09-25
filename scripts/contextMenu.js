@@ -33,7 +33,6 @@ function getTokenAt(event) {
 // Ending a right-drag pan fires contextmenu too
 function wasDragged(event) {
     const moved = rightDownAt ? Math.hypot(event.clientX - rightDownAt.x, event.clientY - rightDownAt.y) : 0;
-    rightDownAt = null;
     return moved > DRAG_TOLERANCE;
 }
 function getItems() {
@@ -187,6 +186,7 @@ function onBoardPointerDown(event) {
 function onBoardContextMenu(event) {
     const isOurs = isContextMenuEnabled() && !isTokenMenuActive() && !wasDragged(event);
     const token = isOurs ? getTokenAt(event) : null;
+    rightDownAt = null;
     closeMenu();
     // Owners get the token HUD on right-click
     if (!token || token.document.isOwner) {
