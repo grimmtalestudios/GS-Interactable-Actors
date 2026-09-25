@@ -969,6 +969,8 @@
 }
 
 .gs-interactable-actors-menu ol {
+  display: grid;
+  gap: var(--gs-space-1);
   margin: 0;
   padding: var(--gs-space-1);
   list-style: none;
