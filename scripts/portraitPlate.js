@@ -124,9 +124,7 @@ class PortraitPlate {
         if (!PLATE_KEYS.includes(event.key)) {
             return;
         }
-        // Core pans the canvas with the arrow keys
-        event.preventDefault();
-        event.stopPropagation();
+        Grimmtale.consumeKey(event);
         this.stepByKey(event.key);
         this.markInteracting();
         this.draw();

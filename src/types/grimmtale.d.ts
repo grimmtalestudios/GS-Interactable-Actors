@@ -16,6 +16,7 @@ declare const Grimmtale: {
     createLocalizer(prefix: string): (key: string, data?: Record<string, unknown>) => string;
     createLogger(moduleId: string): GrimmtaleLogger;
     createTheme(moduleId: string): GrimmtaleTheme;
+    consumeKey(event: KeyboardEvent): void;
     callPeer(moduleId: string, names: string | string[], args?: unknown[], fallback?: unknown): unknown;
     footerContext(moduleId: string): {
         footer: string;

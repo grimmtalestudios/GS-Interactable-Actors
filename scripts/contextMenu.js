@@ -92,9 +92,7 @@ function onMenuKey(event) {
         closeMenu();
     }
     else if (isMenuKey(event.key, index)) {
-        // Core pans the canvas with the arrow keys
-        event.preventDefault();
-        event.stopPropagation();
+        Grimmtale.consumeKey(event);
         applyMenuKey(event.key, items, index);
     }
 }
