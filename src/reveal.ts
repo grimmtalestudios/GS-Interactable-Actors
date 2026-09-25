@@ -23,7 +23,7 @@ export function getRevealStore(actor: Actor | null): Actor | null {
         return actor;
     }
 
-    return actor.token?.baseActor ?? game.actors.get(actor.id) ?? actor;
+    return actor.token?.baseActor ?? actor;
 }
 
 export function getRevealed(actor: Actor | null): Revealed {

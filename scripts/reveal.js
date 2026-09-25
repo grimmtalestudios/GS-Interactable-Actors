@@ -9,7 +9,7 @@ export function getRevealStore(actor) {
     if (!actor?.isToken) {
         return actor;
     }
-    return actor.token?.baseActor ?? game.actors.get(actor.id) ?? actor;
+    return actor.token?.baseActor ?? actor;
 }
 export function getRevealed(actor) {
     const stored = (getRevealStore(actor)?.getFlag(MODULE_ID, FLAGS.revealed) ?? {});
