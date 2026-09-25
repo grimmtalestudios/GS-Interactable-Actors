@@ -107,12 +107,9 @@ class ArtConfigWindow extends HandlebarsApplicationMixin(ApplicationV2) {
             ...Grimmtale.footerContext(MODULE_ID)
         };
     }
-    // Core keeps the frame across renders
     _onFirstRender(context, options) {
         super._onFirstRender(context, options);
-        theme.apply(this);
-        Grimmtale.bindInputMode(this.element);
-        Grimmtale.quietCloseButton(this.element);
+        Grimmtale.bindFrame(this, theme);
     }
     captureDraft() {
         const form = new foundry.applications.ux.FormDataExtended(this.element);

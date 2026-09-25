@@ -11,6 +11,7 @@ interface GrimmtaleTheme {
 }
 
 declare const Grimmtale: {
+    bindFrame(app: { element: HTMLElement }, theme: GrimmtaleTheme): void;
     bindInputMode(root: HTMLElement): void;
     createLocalizer(prefix: string): (key: string, data?: Record<string, unknown>) => string;
     createLogger(moduleId: string): GrimmtaleLogger;
@@ -21,7 +22,6 @@ declare const Grimmtale: {
         website: string
     };
     injectOnce(container: HTMLElement, markerClass: string, build: () => HTMLElement): HTMLElement;
-    quietCloseButton(root: ParentNode): void;
     isPrimaryGM(): boolean;
     gmIds(): string[];
     registerSettings(moduleId: string, l10nPrefix: string, definitions: Record<string, object>): void;

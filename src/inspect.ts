@@ -145,12 +145,9 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         };
     }
 
-    // Core keeps the frame across renders
     _onFirstRender(context: unknown, options: unknown): void {
         super._onFirstRender(context, options);
-        theme.apply(this);
-        Grimmtale.bindInputMode(this.element);
-        Grimmtale.quietCloseButton(this.element);
+        Grimmtale.bindFrame(this, theme);
     }
 
     _onRender(context: unknown, options: unknown): void {
