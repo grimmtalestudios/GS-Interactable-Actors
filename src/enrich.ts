@@ -57,7 +57,7 @@ export async function enrich(text: string, relativeTo: Actor | Item): Promise<st
 
 // Items without a chat description use the full text
 export function getDescription(item: Item): string {
-    const { value = '', chat = '' } = item.system.description ?? {};
+    const { value, chat } = item.system.description ?? {};
 
-    return isUsingChatDescriptions() && chat.trim() ? chat : value;
+    return isUsingChatDescriptions() && chat?.trim() ? chat : value ?? '';
 }

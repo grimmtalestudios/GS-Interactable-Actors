@@ -237,8 +237,8 @@ interface Item {
     system: {
         level?: number;
         description?: {
-            value?: string;
-            chat?: string
+            value?: string | null;
+            chat?: string | null
         };
         activities?: {
             contents: { activation?: { type?: string } }[]

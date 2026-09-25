@@ -46,6 +46,6 @@ export async function enrich(text, relativeTo) {
 }
 // Items without a chat description use the full text
 export function getDescription(item) {
-    const { value = '', chat = '' } = item.system.description ?? {};
-    return isUsingChatDescriptions() && chat.trim() ? chat : value;
+    const { value, chat } = item.system.description ?? {};
+    return isUsingChatDescriptions() && chat?.trim() ? chat : value ?? '';
 }
