@@ -22,7 +22,8 @@ function getPendingKey({ dataset }) {
 // Disable while saving so a second click doesn't undo the first
 function markPending(button) {
     button.setAttribute('aria-busy', 'true');
-    button.toggleAttribute('disabled', true);
+    // disabled drops keyboard focus
+    button.setAttribute('aria-disabled', 'true');
 }
 function removeIfBroken(image) {
     if (image.complete && image.naturalWidth === 0) {

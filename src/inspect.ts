@@ -35,7 +35,9 @@ function getPendingKey({ dataset }: HTMLElement): string {
 // Disable while saving so a second click doesn't undo the first
 function markPending(button: HTMLElement): void {
     button.setAttribute('aria-busy', 'true');
-    button.toggleAttribute('disabled', true);
+
+    // disabled drops keyboard focus
+    button.setAttribute('aria-disabled', 'true');
 }
 
 function removeIfBroken(image: HTMLImageElement): void {

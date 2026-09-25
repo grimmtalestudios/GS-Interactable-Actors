@@ -4,7 +4,7 @@
       <span>{{name}}</span>
       {{#if isCurator}}
         <button type="button" class="gs-icon-btn dense gs-interactable-actors-eye" data-action="toggleReveal"
-                data-category="personal" data-key="name" data-tooltip="{{nameToggleLabel}}"
+                data-category="personal" data-key="name" name="personal:name" data-tooltip="{{nameToggleLabel}}"
                 aria-label="{{nameToggleLabel}}" aria-pressed="{{isNameShown}}">
           <i class="fa-solid fa-fw {{#if isNameShown}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>
         </button>
@@ -50,7 +50,7 @@
                 {{#if ../isCurator}}
                   {{#if isKnown}}
                     <button type="button" class="gs-icon-btn dense gs-interactable-actors-forget" data-action="forgetObserved"
-                            data-stat="{{stat}}" data-tooltip="{{../vitals.forgetLabel}}"
+                            data-stat="{{stat}}" name="observed:{{stat}}" data-tooltip="{{../vitals.forgetLabel}}"
                             aria-label="{{../vitals.forgetLabel}}">
                       <i class="fa-solid fa-fw fa-rotate-left" inert></i>
                     </button>
@@ -70,7 +70,7 @@
                 {{#if ../../isCurator}}
                   <button type="button" class="gs-interactable-actors-chip{{#unless isShown}} is-hidden{{/unless}}"
                           data-action="toggleReveal" data-category="{{category}}" data-key="{{key}}"
-                          aria-pressed="{{isShown}}">
+                          name="{{category}}:{{key}}" aria-pressed="{{isShown}}">
                     <span>{{label}}</span>
                     <i class="fa-solid fa-fw {{#if isShown}}fa-eye{{else}}fa-eye-slash{{/if}}" inert></i>
                   </button>
@@ -173,7 +173,7 @@
               {{#if ../isCurator}}
                 <button type="button" class="gs-interactable-actors-score{{#unless isShown}} is-hidden{{/unless}}"
                         data-action="toggleReveal" data-category="personal" data-key="{{key}}"
-                        aria-pressed="{{isShown}}">
+                        name="personal:{{key}}" aria-pressed="{{isShown}}">
                   <span class="gs-interactable-actors-score-abbr">{{abbr}}</span>
                   <span class="gs-figure">{{value}} <span class="gs-interactable-actors-score-mod">({{mod}})</span></span>
                 </button>
@@ -199,7 +199,7 @@
                     {{#if ../../isCurator}}
                       <button type="button" class="gs-interactable-actors-chip{{#unless isShown}} is-hidden{{/unless}}"
                               data-action="toggleReveal" data-category="personal" data-key="{{key}}"
-                              aria-pressed="{{isShown}}">
+                              name="personal:{{key}}" aria-pressed="{{isShown}}">
                         <span>{{label}}</span>
                         {{#if detail}}<span class="gs-interactable-actors-chip-detail">{{detail}}</span>{{/if}}
                       </button>
