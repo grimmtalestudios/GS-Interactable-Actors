@@ -11,13 +11,11 @@ const EDGE_GAP = 4;
 const MENU_KEYS = ['Escape', 'ArrowDown', 'ArrowUp', 'Home', 'End'];
 const PRESS_KEYS = [' ', 'Enter'];
 const theme = Grimmtale.createTheme(MODULE_ID);
+const localize = Grimmtale.createLocalizer(`${MODULE_ID}.menu`);
 let menu = null;
 let menuToken = null;
 let focusBefore = null;
 let rightDownAt = null;
-function localize(key) {
-    return game.i18n.localize(`${MODULE_ID}.menu.${key}`);
-}
 // QoL's token menu replaces this one when enabled
 function isTokenMenuActive() {
     return Grimmtale.callPeer('GS-Quality-of-Life', 'tokenMenuActive', [], false) === true;

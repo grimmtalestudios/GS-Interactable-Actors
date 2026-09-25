@@ -9,9 +9,7 @@ interface StatEntry {
     isFigure?: boolean;
 }
 
-function localize(key: string): string {
-    return game.i18n.localize(`${MODULE_ID}.inspect.${key}`);
-}
+const localize = Grimmtale.createLocalizer(`${MODULE_ID}.inspect`);
 
 function getCreatureType(actor: Actor): string {
     const type = actor.system.details?.type;

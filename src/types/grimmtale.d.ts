@@ -11,6 +11,7 @@ interface GrimmtaleTheme {
 }
 
 declare const Grimmtale: {
+    createLocalizer(prefix: string): (key: string, data?: Record<string, unknown>) => string;
     createLogger(moduleId: string): GrimmtaleLogger;
     createTheme(moduleId: string): GrimmtaleTheme;
     callPeer(moduleId: string, names: string | string[], args?: unknown[], fallback?: unknown): unknown;

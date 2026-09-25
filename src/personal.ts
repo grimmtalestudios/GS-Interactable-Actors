@@ -12,9 +12,7 @@ const PASSAGES = [
     ['flaws', 'flaw']
 ];
 
-function localize(key: string): string {
-    return game.i18n.localize(`${MODULE_ID}.personal.${key}`);
-}
+const localize = Grimmtale.createLocalizer(`${MODULE_ID}.personal`);
 
 function toSlug(name: string): string {
     return name.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');

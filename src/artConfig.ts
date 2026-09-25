@@ -27,11 +27,8 @@ const MODES = {
 };
 
 const theme = Grimmtale.createTheme(MODULE_ID);
+const localize = Grimmtale.createLocalizer(`${MODULE_ID}.artConfig`);
 const windows = new Map<string, ArtConfigWindow>();
-
-function localize(key: string, data?: Record<string, unknown>): string {
-    return game.i18n.format(`${MODULE_ID}.artConfig.${key}`, data);
-}
 
 function isResource(node: unknown): node is Record<string, unknown> {
     const value = (node as Record<string, unknown> | null)?.value;

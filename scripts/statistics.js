@@ -1,9 +1,7 @@
 import { MODULE_ID } from './constants.js';
 import { getToggleLabel } from './reveal.js';
 import { localizeConfigEntry } from './systemLabels.js';
-function localize(key) {
-    return game.i18n.localize(`${MODULE_ID}.inspect.${key}`);
-}
+const localize = Grimmtale.createLocalizer(`${MODULE_ID}.inspect`);
 function getCreatureType(actor) {
     const type = actor.system.details?.type;
     if (typeof type === 'string') {

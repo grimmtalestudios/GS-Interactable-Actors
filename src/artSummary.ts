@@ -12,10 +12,7 @@ const SUMMARY = '.gs-interactable-actors-art-summary';
 const TEMPLATE = `modules/${MODULE_ID}/templates/art-summary.hbs`;
 
 const theme = Grimmtale.createTheme(MODULE_ID);
-
-function localize(key: string, data?: Record<string, unknown>): string {
-    return game.i18n.format(`${MODULE_ID}.artSummary.${key}`, data);
-}
+const localize = Grimmtale.createLocalizer(`${MODULE_ID}.artSummary`);
 
 async function createSummary(actor: Actor): Promise<HTMLElement> {
     const { enabled, resource, bands } = getArtConfig(actor);

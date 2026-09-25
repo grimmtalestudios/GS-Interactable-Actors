@@ -22,15 +22,12 @@ const MENU_KEYS = ['Escape', 'ArrowDown', 'ArrowUp', 'Home', 'End'];
 const PRESS_KEYS = [' ', 'Enter'];
 
 const theme = Grimmtale.createTheme(MODULE_ID);
+const localize = Grimmtale.createLocalizer(`${MODULE_ID}.menu`);
 
 let menu: HTMLElement | null = null;
 let menuToken: Token | null = null;
 let focusBefore: Element | null = null;
 let rightDownAt: Point | null = null;
-
-function localize(key: string): string {
-    return game.i18n.localize(`${MODULE_ID}.menu.${key}`);
-}
 
 // QoL's token menu replaces this one when enabled
 function isTokenMenuActive(): boolean {

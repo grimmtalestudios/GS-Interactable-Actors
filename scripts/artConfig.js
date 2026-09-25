@@ -7,10 +7,8 @@ const MODES = {
     value: `${MODULE_ID}.artConfig.value`
 };
 const theme = Grimmtale.createTheme(MODULE_ID);
+const localize = Grimmtale.createLocalizer(`${MODULE_ID}.artConfig`);
 const windows = new Map();
-function localize(key, data) {
-    return game.i18n.format(`${MODULE_ID}.artConfig.${key}`, data);
-}
 function isResource(node) {
     const value = node?.value;
     return typeof node === 'object' && node !== null && Number.isFinite(Number(value));

@@ -2,9 +2,7 @@ import { MODULE_ID } from './constants.js';
 import { type ArmourRange, getObserved, type Sample } from './observe.js';
 import { isObservingCombat } from './settings.js';
 
-function localize(key: string, data?: Record<string, unknown>): string {
-    return game.i18n.format(`${MODULE_ID}.inspect.${key}`, data);
-}
+const localize = Grimmtale.createLocalizer(`${MODULE_ID}.inspect`);
 
 // The range narrows: 10–17, then 12–17, then 15
 function getArmourText({ min, max }: ArmourRange): string | null {
