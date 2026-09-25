@@ -334,11 +334,11 @@
   opacity: 0.45;
 }
 
-.gs-interactable-actors-inspect :is(.gs-interactable-actors-fact dt, .gs-interactable-actors-passage h3) .gs-interactable-actors-eye {
+.gs-interactable-actors-inspect .gs-interactable-actors-fact dt .gs-interactable-actors-eye {
   margin: calc(-1 * var(--gs-space-1));
 }
 
-:is(.gs-interactable-actors-fact dt, .gs-interactable-actors-passage h3) .gs-interactable-actors-eye > i {
+.gs-interactable-actors-fact dt .gs-interactable-actors-eye > i {
   font-size: var(--gs-text-xs);
 }
 
