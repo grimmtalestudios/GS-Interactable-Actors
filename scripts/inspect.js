@@ -1,4 +1,5 @@
 import { getAbilityGroups } from './abilities.js';
+import { bindActorDeleted } from './actorDeleted.js';
 import { FLAGS, INSPECT_ICON, MODULE_ID } from './constants.js';
 import { getDefenceSections } from './defences.js';
 import { getCollapseLabel } from './itemRows.js';
@@ -232,20 +233,10 @@ function onUpdateActor(actor, changes) {
 function onItemChange(item) {
     renderWindowOn(item.parent);
 }
-function onDeleteActor(actor) {
-    void windows.get(actor.uuid)?.close();
-}
-// Deleting a token fires no deleteActor for its synthetic actor
-function onDeleteToken(tokenDoc) {
-    if (tokenDoc.actor?.isToken) {
-        onDeleteActor(tokenDoc.actor);
-    }
-}
 export function registerInspectRefresh() {
     Hooks.on('updateActor', onUpdateActor);
     for (const hook of ['createItem', 'updateItem', 'deleteItem']) {
         Hooks.on(hook, onItemChange);
     }
-    Hooks.on('deleteActor', onDeleteActor);
-    Hooks.on('deleteToken', onDeleteToken);
+    bindActorDeleted((uuid) => void windows.get(uuid)?.close());
 }

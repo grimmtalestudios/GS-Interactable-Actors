@@ -1,3 +1,4 @@
+import { bindActorDeleted } from './actorDeleted.js';
 import { ART_ICON, MODULE_ID } from './constants.js';
 import {
     type ArtConfig,
@@ -267,19 +268,7 @@ function addDirectoryEntry(_directory: unknown, entries: ContextMenuEntry[]): vo
     });
 }
 
-function onDeleteActor(actor: Actor): void {
-    void windows.get(actor.uuid)?.close();
-}
-
-// Deleting a token fires no deleteActor for its synthetic actor
-function onDeleteToken(tokenDoc: TokenDocument): void {
-    if (tokenDoc.actor?.isToken) {
-        onDeleteActor(tokenDoc.actor);
-    }
-}
-
 export function registerArtConfig(): void {
     Hooks.on('getActorContextOptions', addDirectoryEntry);
-    Hooks.on('deleteActor', onDeleteActor);
-    Hooks.on('deleteToken', onDeleteToken);
+    bindActorDeleted((uuid) => void windows.get(uuid)?.close());
 }

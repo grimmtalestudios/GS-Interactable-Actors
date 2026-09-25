@@ -1,3 +1,4 @@
+import { bindActorDeleted } from './actorDeleted.js';
 import { ART_ICON, MODULE_ID } from './constants.js';
 import { DEFAULT_RESOURCE, getArtConfig, getReading, getTokenCounts, setArtConfig } from './tokenArt.js';
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
@@ -199,17 +200,7 @@ function addDirectoryEntry(_directory, entries) {
         callback: (target) => void openArtConfig(game.actors.get(target.dataset.entryId ?? '') ?? null)
     });
 }
-function onDeleteActor(actor) {
-    void windows.get(actor.uuid)?.close();
-}
-// Deleting a token fires no deleteActor for its synthetic actor
-function onDeleteToken(tokenDoc) {
-    if (tokenDoc.actor?.isToken) {
-        onDeleteActor(tokenDoc.actor);
-    }
-}
 export function registerArtConfig() {
     Hooks.on('getActorContextOptions', addDirectoryEntry);
-    Hooks.on('deleteActor', onDeleteActor);
-    Hooks.on('deleteToken', onDeleteToken);
+    bindActorDeleted((uuid) => void windows.get(uuid)?.close());
 }
