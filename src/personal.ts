@@ -16,7 +16,6 @@ function localize(key: string): string {
     return game.i18n.localize(`${MODULE_ID}.personal.${key}`);
 }
 
-// Item ids differ between copies of an actor
 function toSlug(name: string): string {
     return name.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
 }
@@ -36,16 +35,19 @@ function getClassRows(actor: Actor, revealed: Revealed, isCurator: boolean) {
         const entries = (actor.itemTypes[group] ?? [])
             .filter((item) => item.name.trim())
             .map((item) => {
-                const entry = toEntry({
-                    key: `${group}:${toSlug(item.name)}`,
-                    name: item.name.trim(),
-                    img: item.img
-                }, revealed);
+
+                // Item ids differ between copies of an actor
+                const key = `${group}:${toSlug(item.name)}`;
 
                 // Reveals from before per-class keys used the group key
+                const isShown = revealed.personal.includes(key) || revealed.personal.includes(group);
+
                 return {
-                    ...entry,
-                    isShown: entry.isShown || revealed.personal.includes(group)
+                    key,
+                    name: item.name.trim(),
+                    img: item.img,
+                    isShown,
+                    toggleLabel: getToggleLabel(isShown)
                 };
             })
             .filter((entry) => entry.isShown || isCurator);
