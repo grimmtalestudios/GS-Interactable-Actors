@@ -16,14 +16,13 @@ import { getVitals } from './vitals.js';
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 const theme = Grimmtale.createTheme(MODULE_ID);
 const windows = new Map();
-function getPendingKey({ dataset }) {
+function getSavingKey({ dataset }) {
     return dataset.stat ? `observed:${dataset.stat}` : `${dataset.category}:${dataset.key}`;
 }
-// Disable while saving so a second click doesn't undo the first
-function markPending(button) {
-    button.setAttribute('aria-busy', 'true');
+function disableWhileSaving(button) {
+    Grimmtale.markSaving(button);
     // disabled drops keyboard focus
-    button.setAttribute('aria-disabled', 'true');
+    button.ariaDisabled = 'true';
 }
 function removeIfBroken(image) {
     if (image.complete && image.naturalWidth === 0) {
@@ -60,7 +59,7 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
     };
     actor;
     tokenDoc;
-    pendingKeys = new Set();
+    savingKeys = new Set();
     // Descriptions start collapsed and open on a press
     expanded = new Set();
     constructor(actor, tokenDoc) {
@@ -131,40 +130,40 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         }
         bindPlate(this.element);
         for (const control of this.element.querySelectorAll('[data-action="toggleReveal"], [data-stat]')) {
-            if (this.pendingKeys.has(getPendingKey(control))) {
-                markPending(control);
+            if (this.savingKeys.has(getSavingKey(control))) {
+                disableWhileSaving(control);
             }
         }
     }
     static async onToggleReveal(_event, target) {
         const { category = '', key = '' } = target.dataset;
-        const pendingKey = getPendingKey(target);
+        const savingKey = getSavingKey(target);
         // Ownership can change after the render
-        if (!canCurate(this.actor) || this.pendingKeys.has(pendingKey)) {
+        if (!canCurate(this.actor) || this.savingKeys.has(savingKey)) {
             return;
         }
-        this.pendingKeys.add(pendingKey);
-        markPending(target);
+        this.savingKeys.add(savingKey);
+        disableWhileSaving(target);
         try {
             await setRevealed(this.actor, category, key, !isRevealed(this.actor, category, key));
         }
         finally {
-            this.pendingKeys.delete(pendingKey);
+            this.savingKeys.delete(savingKey);
             void this.render();
         }
     }
     static async onForgetObserved(_event, target) {
-        const pendingKey = getPendingKey(target);
-        if (!canCurate(this.actor) || this.pendingKeys.has(pendingKey)) {
+        const savingKey = getSavingKey(target);
+        if (!canCurate(this.actor) || this.savingKeys.has(savingKey)) {
             return;
         }
-        this.pendingKeys.add(pendingKey);
-        markPending(target);
+        this.savingKeys.add(savingKey);
+        disableWhileSaving(target);
         try {
             await forgetObserved(this.actor, target.dataset.stat ?? '');
         }
         finally {
-            this.pendingKeys.delete(pendingKey);
+            this.savingKeys.delete(savingKey);
             void this.render();
         }
     }
