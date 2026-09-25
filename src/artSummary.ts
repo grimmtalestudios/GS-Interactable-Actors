@@ -1,6 +1,6 @@
 import { openArtConfig } from './artConfig.js';
 import { ART_ICON, MODULE_ID } from './constants.js';
-import { trackInputMode } from './inputMode.js';
+import { bindInputMode } from './inputMode.js';
 import { getArtConfig, getReading } from './tokenArt.js';
 
 interface TokenConfigApp {
@@ -33,7 +33,7 @@ async function createSummary(actor: Actor): Promise<HTMLElement> {
     const summary = foundry.utils.parseHTML(html);
 
     theme.applyTo(summary);
-    trackInputMode(summary);
+    bindInputMode(summary);
     summary.querySelector('button')?.addEventListener('click', () => void openArtConfig(actor));
 
     return summary;

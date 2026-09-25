@@ -3,7 +3,7 @@ const NAVIGATION_KEYS = [
 ];
 
 // :focus-visible also matches focus() calls from scripts
-export function trackInputMode(root: HTMLElement): void {
+export function bindInputMode(root: HTMLElement): void {
     root.dataset.input = 'pointer';
     root.addEventListener('pointerdown', () => {
         root.dataset.input = 'pointer';
