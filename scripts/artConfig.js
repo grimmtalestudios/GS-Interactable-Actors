@@ -124,7 +124,7 @@ class ArtConfigWindow extends HandlebarsApplicationMixin(ApplicationV2) {
             resource: data.resource?.trim() || DEFAULT_RESOURCE,
             mode: data.mode === 'value' ? 'value' : 'percent',
             bands: Object.values(data.bands ?? {}).map((band) => ({
-                threshold: Number(band.threshold),
+                threshold: band.threshold ?? NaN,
                 img: band.img?.trim() ?? ''
             }))
         };
