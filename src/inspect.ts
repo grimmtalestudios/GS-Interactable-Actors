@@ -1,7 +1,6 @@
 import { getAbilityGroups } from './abilities.js';
 import { FLAGS, INSPECT_ICON, MODULE_ID } from './constants.js';
 import { getDefenceSections } from './defences.js';
-import { bindInputMode } from './inputMode.js';
 import { getCollapseLabel } from './itemRows.js';
 import { forgetObserved } from './observe.js';
 import { getBiographies, getLore, getPersonal } from './personal.js';
@@ -150,7 +149,7 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
     _onFirstRender(context: unknown, options: unknown): void {
         super._onFirstRender(context, options);
         theme.apply(this);
-        bindInputMode(this.element);
+        Grimmtale.bindInputMode(this.element);
         Grimmtale.quietCloseButton(this.element);
     }
 

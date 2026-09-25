@@ -1,5 +1,4 @@
 import { ART_ICON, MODULE_ID } from './constants.js';
-import { bindInputMode } from './inputMode.js';
 import { DEFAULT_RESOURCE, getArtConfig, getReading, getTokenCounts, setArtConfig } from './tokenArt.js';
 const { ApplicationV2, HandlebarsApplicationMixin } = foundry.applications.api;
 const MODES = {
@@ -112,7 +111,7 @@ class ArtConfigWindow extends HandlebarsApplicationMixin(ApplicationV2) {
     _onFirstRender(context, options) {
         super._onFirstRender(context, options);
         theme.apply(this);
-        bindInputMode(this.element);
+        Grimmtale.bindInputMode(this.element);
         Grimmtale.quietCloseButton(this.element);
     }
     captureDraft() {

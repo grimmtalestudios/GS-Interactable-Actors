@@ -1,5 +1,4 @@
 import { INSPECT_ICON, MODULE_ID } from './constants.js';
-import { bindInputMode } from './inputMode.js';
 import { openInspect } from './inspect.js';
 import { getKnownName } from './reveal.js';
 import { isContextMenuEnabled } from './settings.js';
@@ -133,7 +132,7 @@ function createMenu(token, items) {
     list.append(...items.map(createMenuRow));
     root.append(header, list);
     theme.applyToOverlay(root);
-    bindInputMode(root);
+    Grimmtale.bindInputMode(root);
     return root;
 }
 // Measure after insertion, when the content has a size

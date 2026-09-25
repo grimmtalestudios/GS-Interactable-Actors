@@ -1,5 +1,4 @@
 import { ART_ICON, MODULE_ID } from './constants.js';
-import { bindInputMode } from './inputMode.js';
 import {
     type ArtConfig,
     DEFAULT_RESOURCE,
@@ -155,7 +154,7 @@ class ArtConfigWindow extends HandlebarsApplicationMixin(ApplicationV2) {
     _onFirstRender(context: unknown, options: unknown): void {
         super._onFirstRender(context, options);
         theme.apply(this);
-        bindInputMode(this.element);
+        Grimmtale.bindInputMode(this.element);
         Grimmtale.quietCloseButton(this.element);
     }
 

@@ -11,6 +11,7 @@ interface GrimmtaleTheme {
 }
 
 declare const Grimmtale: {
+    bindInputMode(root: HTMLElement): void;
     createLocalizer(prefix: string): (key: string, data?: Record<string, unknown>) => string;
     createLogger(moduleId: string): GrimmtaleLogger;
     createTheme(moduleId: string): GrimmtaleTheme;
