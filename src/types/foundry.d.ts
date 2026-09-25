@@ -72,6 +72,7 @@ type TokenUpdate = Record<string, unknown> & { _id: string };
 
 interface Scene {
     tokens: {
+        contents: TokenDocument[];
         filter(test: (tokenDoc: TokenDocument) => boolean): TokenDocument[];
         map<T>(transform: (tokenDoc: TokenDocument) => T): T[]
     };

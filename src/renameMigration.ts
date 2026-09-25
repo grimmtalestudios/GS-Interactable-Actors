@@ -36,6 +36,31 @@ function getMissingFlags(stale: Flags | undefined, current: Flags | undefined): 
     return Object.fromEntries(Object.entries(stale ?? {}).filter(([key]) => !(key in (current ?? {}))));
 }
 
+function getDeltaReveals(tokenDoc: TokenDocument) {
+    const flags = (tokenDoc.delta?.toObject().flags ?? {}) as Record<string, Flags | undefined>;
+
+    return {
+        stale: flags[OLD_MODULE_ID]?.[FLAGS.revealed],
+        current: flags[MODULE_ID]?.[FLAGS.revealed]
+    };
+}
+
+function addDeltaReveals(updates: Map<string, Flags>, tokenDoc: TokenDocument): void {
+    const { stale, current } = getDeltaReveals(tokenDoc);
+    const deltaReveals = mergeRevealed(stale, current);
+    const base = tokenDoc.baseActor;
+
+    if (!base || !Object.keys(deltaReveals).length) {
+        return;
+    }
+
+    const pending = updates.get(base.id) ?? {};
+    const revealed = pending[FLAGS.revealed] ?? base.getFlag(MODULE_ID, FLAGS.revealed);
+
+    pending[FLAGS.revealed] = mergeRevealed(revealed, deltaReveals);
+    updates.set(base.id, pending);
+}
+
 function getActorUpdates(): Map<string, Flags> {
     const updates = new Map<string, Flags>();
 
@@ -47,42 +72,33 @@ function getActorUpdates(): Map<string, Flags> {
         }
     }
 
+    for (const tokenDoc of [...game.scenes].flatMap((scene) => scene.tokens.contents)) {
+        addDeltaReveals(updates, tokenDoc);
+    }
+
     return updates;
 }
 
-function foldDeltaReveals(tokenDoc: TokenDocument, actorUpdates: Map<string, Flags>, row: TokenUpdate): void {
-    const flags = (tokenDoc.delta?.toObject().flags ?? {}) as Record<string, Flags | undefined>;
-    const underNewName = flags[MODULE_ID]?.[FLAGS.revealed];
-    const deltaReveals = mergeRevealed(flags[OLD_MODULE_ID]?.[FLAGS.revealed], underNewName);
-    const base = tokenDoc.baseActor;
+// If the base actor is gone, the reveals stay on the token
+function getStrandedReveals(tokenDoc: TokenDocument): Partial<Revealed> {
+    const { stale, current } = getDeltaReveals(tokenDoc);
 
-    if (!Object.keys(deltaReveals).length) {
-        return;
-    }
-
-    if (base) {
-        const pending = actorUpdates.get(base.id) ?? {};
-        const current = pending[FLAGS.revealed] ?? base.getFlag(MODULE_ID, FLAGS.revealed);
-
-        pending[FLAGS.revealed] = mergeRevealed(current, deltaReveals);
-        actorUpdates.set(base.id, pending);
-    } else if (!underNewName) {
-
-        // If the base actor is gone, the reveals stay on the token
-        row[`delta.flags.${MODULE_ID}.${FLAGS.revealed}`] = deltaReveals;
-    }
+    return tokenDoc.baseActor || current ? {} : mergeRevealed(stale);
 }
 
 // Base art and the tally are stored per token
-function getTokenRow(tokenDoc: TokenDocument, actorUpdates: Map<string, Flags>): TokenUpdate | null {
+function getTokenRow(tokenDoc: TokenDocument): TokenUpdate | null {
     const carried = getMissingFlags(tokenDoc.flags[OLD_MODULE_ID], tokenDoc.flags[MODULE_ID]);
+    const stranded = getStrandedReveals(tokenDoc);
     const row: TokenUpdate = { _id: tokenDoc.id };
 
     for (const [key, value] of Object.entries(carried)) {
         row[`flags.${MODULE_ID}.${key}`] = value;
     }
 
-    foldDeltaReveals(tokenDoc, actorUpdates, row);
+    if (Object.keys(stranded).length) {
+        row[`delta.flags.${MODULE_ID}.${FLAGS.revealed}`] = stranded;
+    }
 
     return Object.keys(row).length > 1 ? row : null;
 }
@@ -91,7 +107,7 @@ async function carryFlags(): Promise<Carried> {
     const actorUpdates = getActorUpdates();
     const rowsByScene = [...game.scenes].map((scene) => ({
         scene,
-        rows: scene.tokens.map((tokenDoc) => getTokenRow(tokenDoc, actorUpdates)).filter((row) => row !== null)
+        rows: scene.tokens.map(getTokenRow).filter((row) => row !== null)
     }));
     let tokens = 0;
 
