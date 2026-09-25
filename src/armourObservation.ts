@@ -43,7 +43,22 @@ function narrowArmour(ac: ArmourRange, { total, isHit }: Swing): void {
     ac.swings += 1;
 }
 
-async function noteSwings(store: Actor, actor: Actor, swings: Swing[]): Promise<void> {
+function isSameRange(a: ArmourRange, b: ArmourRange): boolean {
+    return a.min === b.min && a.max === b.max && a.swings === b.swings;
+}
+
+function isNewlyPinned(before: ArmourRange, after: ArmourRange): boolean {
+    return after.min !== null && after.min === after.max && before.min !== before.max;
+}
+
+async function whisperPinnedArmour(actor: Actor, ac: ArmourRange): Promise<void> {
+    await whisperToGM([game.i18n.format(`${MODULE_ID}.reveal.acPinned`, {
+        name: actor.name,
+        ac: ac.min
+    })]);
+}
+
+async function observeSwings(store: Actor, actor: Actor, swings: Swing[]): Promise<void> {
     const observed = getObserved(store);
     const before = { ...observed.ac };
 
@@ -51,20 +66,14 @@ async function noteSwings(store: Actor, actor: Actor, swings: Swing[]): Promise<
         narrowArmour(observed.ac, swing);
     }
 
-    const { min, max } = observed.ac;
-
-    if (before.min === min && before.max === max && before.swings === observed.ac.swings) {
+    if (isSameRange(before, observed.ac)) {
         return;
     }
 
     await writeObserved(store, observed);
 
-    // Whisper the GM once, when the range narrows to one value
-    if (min !== null && min === max && before.min !== before.max && isAnnouncingReveals()) {
-        await whisperToGM([game.i18n.format(`${MODULE_ID}.reveal.acPinned`, {
-            name: actor.name,
-            ac: min
-        })]);
+    if (isNewlyPinned(before, observed.ac) && isAnnouncingReveals()) {
+        await whisperPinnedArmour(actor, observed.ac);
     }
 }
 
@@ -110,7 +119,7 @@ async function onCreateChatMessage(message: ChatMessage): Promise<void> {
     });
 
     for (const { store, actor, swings } of getSwingsByStore(targets, rolls)) {
-        await noteSwings(store, actor, swings);
+        await observeSwings(store, actor, swings);
     }
 }
 

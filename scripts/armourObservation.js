@@ -25,23 +25,30 @@ function narrowArmour(ac, { total, isHit }) {
     }
     ac.swings += 1;
 }
-async function noteSwings(store, actor, swings) {
+function isSameRange(a, b) {
+    return a.min === b.min && a.max === b.max && a.swings === b.swings;
+}
+function isNewlyPinned(before, after) {
+    return after.min !== null && after.min === after.max && before.min !== before.max;
+}
+async function whisperPinnedArmour(actor, ac) {
+    await whisperToGM([game.i18n.format(`${MODULE_ID}.reveal.acPinned`, {
+            name: actor.name,
+            ac: ac.min
+        })]);
+}
+async function observeSwings(store, actor, swings) {
     const observed = getObserved(store);
     const before = { ...observed.ac };
     for (const swing of swings) {
         narrowArmour(observed.ac, swing);
     }
-    const { min, max } = observed.ac;
-    if (before.min === min && before.max === max && before.swings === observed.ac.swings) {
+    if (isSameRange(before, observed.ac)) {
         return;
     }
     await writeObserved(store, observed);
-    // Whisper the GM once, when the range narrows to one value
-    if (min !== null && min === max && before.min !== before.max && isAnnouncingReveals()) {
-        await whisperToGM([game.i18n.format(`${MODULE_ID}.reveal.acPinned`, {
-                name: actor.name,
-                ac: min
-            })]);
+    if (isNewlyPinned(before, observed.ac) && isAnnouncingReveals()) {
+        await whisperPinnedArmour(actor, observed.ac);
     }
 }
 // One write per reveal store
@@ -76,7 +83,7 @@ async function onCreateChatMessage(message) {
         return each instanceof CONFIG.Dice.D20Roll && typeof each.total === 'number' && !isNatural(each);
     });
     for (const { store, actor, swings } of getSwingsByStore(targets, rolls)) {
-        await noteSwings(store, actor, swings);
+        await observeSwings(store, actor, swings);
     }
 }
 export function registerArmourObservation() {
