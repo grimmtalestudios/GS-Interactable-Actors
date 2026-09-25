@@ -87,5 +87,5 @@ export async function forgetObserved(actor: Actor, stat: string): Promise<void> 
 
 // One client writes so a card isn't counted twice
 export function isWriter(): boolean {
-    return game.users.activeGM?.isSelf === true && isObservingCombat();
+    return Grimmtale.isPrimaryGM() && isObservingCombat();
 }

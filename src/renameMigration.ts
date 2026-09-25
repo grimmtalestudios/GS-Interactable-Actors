@@ -144,7 +144,7 @@ async function carrySettings(): Promise<number> {
 }
 
 export async function migrateRename(): Promise<void> {
-    if (game.users.activeGM?.isSelf !== true || isRenameMigrated()) {
+    if (!Grimmtale.isPrimaryGM() || isRenameMigrated()) {
         return;
     }
 

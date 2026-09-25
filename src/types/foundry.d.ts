@@ -315,10 +315,6 @@ declare const game: {
         get(id: string): Actor | undefined
     };
     scenes: Iterable<Scene>;
-    users: {
-        filter(test: (user: User) => boolean): User[];
-        activeGM?: User & { isSelf: boolean }
-    };
     settings: {
         get(namespace: string, key: string): unknown;
         set(namespace: string, key: string, value: unknown): Promise<unknown>;

@@ -1,6 +1,6 @@
 import { MODULE_ID } from './constants.js';
 export async function whisperToGM(lines) {
-    const gmIds = game.users.filter((user) => user.isGM).map((user) => user.id);
+    const gmIds = Grimmtale.gmIds();
     // If the whisper list is empty, everyone sees the message
     if (!gmIds.length) {
         return;

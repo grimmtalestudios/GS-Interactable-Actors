@@ -107,7 +107,7 @@ async function carrySettings() {
     return moved;
 }
 export async function migrateRename() {
-    if (game.users.activeGM?.isSelf !== true || isRenameMigrated()) {
+    if (!Grimmtale.isPrimaryGM() || isRenameMigrated()) {
         return;
     }
     try {

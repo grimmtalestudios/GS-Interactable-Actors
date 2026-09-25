@@ -20,6 +20,8 @@ declare const Grimmtale: {
         website: string
     };
     quietCloseButton(root: ParentNode): void;
+    isPrimaryGM(): boolean;
+    gmIds(): string[];
     registerSettings(moduleId: string, l10nPrefix: string, definitions: Record<string, object>): void;
     publishApi(moduleId: string, api: object, options: { gameAlias: string }): unknown;
 };

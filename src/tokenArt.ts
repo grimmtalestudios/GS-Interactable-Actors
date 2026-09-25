@@ -29,11 +29,6 @@ interface TokenCounts {
 
 export const DEFAULT_RESOURCE = 'attributes.hp';
 
-// The active GM writes for everyone
-function isWriter(): boolean {
-    return game.users.activeGM?.isSelf === true;
-}
-
 export function getArtConfig(actor: Actor | null): ArtConfig {
     const stored = (actor?.getFlag(MODULE_ID, FLAGS.tokenArt) ?? {}) as Partial<Record<keyof ArtConfig, unknown>>;
     const resource = typeof stored.resource === 'string' ? stored.resource.trim() : '';
@@ -173,7 +168,7 @@ function getTokensByScene(actor: Actor): Map<Scene, TokenDocument[]> {
 export async function applyArtForActor(actor: Actor | null): Promise<void> {
     const img = resolveArt(actor);
 
-    if (!actor || !isWriter()) {
+    if (!actor || !Grimmtale.isPrimaryGM()) {
         return;
     }
 
@@ -214,13 +209,15 @@ export async function setArtConfig(actor: Actor | null, config: Partial<ArtConfi
 
 // New tokens get the prototype token's texture
 async function onCreateToken(tokenDoc: TokenDocument): Promise<void> {
-    const update = isWriter() && tokenDoc.actor ? getArtUpdate(tokenDoc, resolveArt(tokenDoc.actor)) : null;
+    const update = tokenDoc.actor ? getArtUpdate(tokenDoc, resolveArt(tokenDoc.actor)) : null;
 
-    if (update) {
-        const { _id, ...changes } = update;
-
-        await tokenDoc.update(changes, { animation: {} });
+    if (!update || !Grimmtale.isPrimaryGM()) {
+        return;
     }
+
+    const { _id, ...changes } = update;
+
+    await tokenDoc.update(changes, { animation: {} });
 }
 
 function isArtChange(changes: ActorUpdate): boolean {
