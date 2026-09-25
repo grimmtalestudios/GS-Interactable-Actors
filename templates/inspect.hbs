@@ -1,11 +1,11 @@
 <div class="gs-shell">
   <header class="gs-interactable-actors-banner">
-    <h1 class="gs-interactable-actors-name{{#if isCurator}}{{#unless isNameShown}} is-hidden{{/unless}}{{/if}}">
+    <h2 class="gs-interactable-actors-name{{#if isCurator}}{{#unless isNameShown}} is-hidden{{/unless}}{{/if}}">
       <span>{{name}}</span>
       {{#if isCurator}}
         {{> "modules/GS-Interactable-Actors/templates/eye.hbs" category="personal" key="name" isShown=isNameShown toggleLabel=nameToggleLabel}}
       {{/if}}
-    </h1>
+    </h2>
   </header>
   <div class="gs-interactable-actors-body">
     <div class="gs-interactable-actors-portrait-pane">
