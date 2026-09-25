@@ -130,7 +130,7 @@ function getRestoreUpdate(tokenDoc: TokenDocument, base: BaseArt): TokenUpdate {
         update['texture.src'] = base.src;
     }
 
-    if (base.subject && tokenDoc.ring.subject.texture !== undefined) {
+    if (base.subject) {
         update['ring.subject.texture'] = base.subject;
     }
 
