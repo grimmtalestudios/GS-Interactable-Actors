@@ -512,7 +512,7 @@
 }
 
 .gs-interactable-actors-roll-text {
-  color: var(--gs-accent);
+  color: var(--gs-accent-strong);
 }
 
 .gs-interactable-actors-inspect .gs-interactable-actors-prose a.content-link {
@@ -893,7 +893,7 @@
 
 .gs-interactable-actors-art-pill.is-on {
   border-color: var(--gs-accent);
-  color: var(--gs-accent);
+  color: var(--gs-accent-strong);
   opacity: 1;
 }
 
