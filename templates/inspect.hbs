@@ -86,7 +86,7 @@
         </fieldset>
       {{/each}}
       {{#if personal}}
-        <fieldset class="gs-interactable-actors-section">
+        <fieldset class="gs-interactable-actors-section gs-interactable-actors-personal">
           <legend>{{localize 'GS-Interactable-Actors.inspect.personal'}}</legend>
           {{#if personal.classes.length}}
             <dl class="gs-interactable-actors-class-rows">
@@ -217,7 +217,7 @@
         </fieldset>
       {{/if}}
       {{#if abilityGroups.length}}
-        <fieldset class="gs-interactable-actors-section">
+        <fieldset class="gs-interactable-actors-section gs-interactable-actors-abilities">
           <legend>{{localize 'GS-Interactable-Actors.inspect.abilities'}}</legend>
           {{#each abilityGroups}}
             <h3 class="gs-interactable-actors-list-heading">{{label}}</h3>

@@ -180,6 +180,10 @@
   background: var(--gs-panel);
 }
 
+.gs-interactable-actors-inspect .gs-interactable-actors-personal + .gs-interactable-actors-abilities {
+  margin-top: 0 !important;
+}
+
 .gs-interactable-actors-app .gs-interactable-actors-section > legend {
   max-width: 100%;
   margin-inline-start: var(--gs-space-1);
