@@ -598,13 +598,17 @@
 
 .gs-interactable-actors-stat {
   display: grid;
-  grid-template-columns: 1fr auto;
   align-items: start;
-  column-gap: var(--gs-space-1);
+}
+
+.gs-interactable-actors-stat dt {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: var(--gs-space-1);
 }
 
 .gs-interactable-actors-stat dd {
-  grid-column: 1 / -1;
   margin: 0;
   color: var(--gs-ink);
   font-size: var(--gs-text);
@@ -616,8 +620,6 @@
 }
 
 .gs-interactable-actors-inspect .gs-interactable-actors-stat :is(.gs-interactable-actors-eye, .gs-interactable-actors-forget) {
-  grid-row: 1;
-  grid-column: 2;
   margin: calc(-1 * var(--gs-space-1));
 }
 
@@ -638,8 +640,7 @@
   color: var(--gs-muted);
 }
 
-.gs-interactable-actors-vital-note {
-  grid-column: 1 / -1;
+.gs-interactable-actors-vital .gs-interactable-actors-vital-note {
   color: var(--gs-muted);
   font-size: var(--gs-text-xs);
   line-height: 1.45;

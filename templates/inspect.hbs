@@ -40,18 +40,20 @@
             {{#each vitals.rows}}
               <div class="gs-interactable-actors-stat gs-interactable-actors-vital{{#unless isKnown}} is-unknown{{/unless}}"
                    data-tooltip="{{truth}}">
-                <dt>{{label}}</dt>
-                <dd class="gs-figure">{{value}}</dd>
-                <span class="gs-interactable-actors-vital-note">{{note}}</span>
-                {{#if ../isCurator}}
-                  {{#if isKnown}}
-                    <button type="button" class="gs-icon-btn dense gs-interactable-actors-forget" data-action="forgetObserved"
-                            data-stat="{{stat}}" name="observed:{{stat}}" data-tooltip="{{../vitals.forgetLabel}}"
-                            aria-label="{{../vitals.forgetLabel}}">
-                      <i class="fa-solid fa-fw fa-rotate-left" inert></i>
-                    </button>
+                <dt>
+                  {{label}}
+                  {{#if ../isCurator}}
+                    {{#if isKnown}}
+                      <button type="button" class="gs-icon-btn dense gs-interactable-actors-forget"
+                              data-action="forgetObserved" data-stat="{{stat}}" name="observed:{{stat}}"
+                              data-tooltip="{{../vitals.forgetLabel}}" aria-label="{{../vitals.forgetLabel}}">
+                        <i class="fa-solid fa-fw fa-rotate-left" inert></i>
+                      </button>
+                    {{/if}}
                   {{/if}}
-                {{/if}}
+                </dt>
+                <dd class="gs-figure">{{value}}</dd>
+                <dd class="gs-interactable-actors-vital-note">{{note}}</dd>
               </div>
             {{/each}}
           </dl>
@@ -151,11 +153,13 @@
           <dl class="gs-interactable-actors-stats">
             {{#each statistics}}
               <div class="gs-interactable-actors-stat{{#unless isShown}} is-hidden{{/unless}}">
-                <dt>{{label}}</dt>
+                <dt>
+                  {{label}}
+                  {{#if ../isCurator}}
+                    {{> "modules/GS-Interactable-Actors/templates/eye.hbs" category="personal"}}
+                  {{/if}}
+                </dt>
                 <dd class="{{#if isFigure}}gs-figure{{/if}}">{{value}}</dd>
-                {{#if ../isCurator}}
-                  {{> "modules/GS-Interactable-Actors/templates/eye.hbs" category="personal"}}
-                {{/if}}
               </div>
             {{/each}}
           </dl>
