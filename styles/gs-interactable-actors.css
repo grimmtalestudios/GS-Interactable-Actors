@@ -596,11 +596,6 @@
   margin: 0;
 }
 
-.gs-interactable-actors-stat {
-  display: grid;
-  align-items: start;
-}
-
 .gs-interactable-actors-stat dt {
   display: flex;
   align-items: flex-start;
