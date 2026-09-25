@@ -49,36 +49,62 @@ function toTally(stored: unknown): Tally | null {
     };
 }
 
-// Each state bounds max HP: alive, unbloodied, bloodied, dead
-function addDamage(tally: Tally, dealt: number, remaining: number, max: number): Tally {
+function addBloodiedBound(tally: Tally, remaining: number, max: number): Tally {
+    if (!isBloodiedShown()) {
+        return tally;
+    }
+
     const threshold = getBloodiedThreshold();
-    const share = 1 - threshold;
-    const isWatched = isBloodiedShown();
-    const isAlive = remaining > 0;
-    const isBloodied = isAlive && remaining <= max * threshold;
-    const next = {
+    const bloodiedMax = Math.floor(tally.dealt / (1 - threshold));
+
+    if (remaining <= max * threshold) {
+        return {
+            ...tally,
+            high: Math.min(tally.high ?? Infinity, bloodiedMax)
+        };
+    }
+
+    return {
         ...tally,
-        dealt: tally.dealt + dealt
+        low: Math.max(tally.low, bloodiedMax + 1)
     };
+}
 
-    if (isAlive) {
-        next.low = Math.max(next.low, next.dealt + 1);
+// Each state bounds max HP: alive, unbloodied, bloodied, dead
+function addDamage(tally: Tally, damage: number, remaining: number, max: number): Tally {
+    const dealt = tally.dealt + damage;
+
+    if (remaining <= 0) {
+        return {
+            ...tally,
+            dealt,
+            high: Math.min(tally.high ?? Infinity, dealt),
+            final: true
+        };
     }
 
-    if (isAlive && !isBloodied && isWatched) {
-        next.low = Math.max(next.low, Math.floor(next.dealt / share) + 1);
+    return addBloodiedBound({
+        ...tally,
+        dealt,
+        low: Math.max(tally.low, dealt + 1)
+    }, remaining, max);
+}
+
+function nextTally(tally: Tally, before: number, after: number, max: number): Tally | null {
+    if (after > before) {
+
+        // Healing to full HP starts a new tally
+        return after >= max ? createTally(true) : {
+            ...tally,
+            full: false
+        };
     }
 
-    if (isBloodied && isWatched) {
-        next.high = Math.min(next.high ?? Infinity, Math.floor(next.dealt / share));
+    if (after === before || tally.final) {
+        return null;
     }
 
-    if (!isAlive) {
-        next.high = Math.min(next.high ?? Infinity, next.dealt);
-        next.final = true;
-    }
-
-    return next;
+    return tally.full ? addDamage(tally, before - after, after, max) : tally;
 }
 
 function getTallyHolder(actor: Actor): TokenDocument | Actor | null {
@@ -93,7 +119,8 @@ async function recordSample(actor: Actor, key: string, tally: Tally): Promise<vo
     const store = getRevealStore(actor);
     const observed = getObserved(store);
 
-    if (!store || tally.high === null) {
+    // low above high means max HP changed mid-tally
+    if (!store || !tally.full || tally.high === null || tally.low > tally.high) {
         return;
     }
 
@@ -107,7 +134,6 @@ async function recordSample(actor: Actor, key: string, tally: Tally): Promise<vo
     await writeObserved(store, observed);
 }
 
-// Healing to full HP starts a new tally
 async function noteHitPoints(actor: Actor, previous: HitPoints): Promise<void> {
     const next = actor.system.attributes?.hp;
     const holder = getTallyHolder(actor);
@@ -121,27 +147,14 @@ async function noteHitPoints(actor: Actor, previous: HitPoints): Promise<void> {
         return;
     }
 
-    if (after > before) {
-        await holder.setFlag(MODULE_ID, FLAGS.tally, after >= maxNow ? createTally(true) : {
-            ...tally,
-            full: false
-        });
+    const counted = nextTally(tally, before, after, maxNow);
 
+    if (!counted) {
         return;
     }
-
-    if (before - after <= 0 || tally.final) {
-        return;
-    }
-
-    const counted = tally.full ? addDamage(tally, before - after, after, maxNow) : tally;
 
     await holder.setFlag(MODULE_ID, FLAGS.tally, counted);
-
-    // low above high means max HP changed mid-tally
-    if (counted.full && counted.high !== null && counted.low <= counted.high) {
-        await recordSample(actor, holder.id, counted);
-    }
+    await recordSample(actor, holder.id, counted);
 }
 
 function onUpdateActor(actor: Actor, _changes: object, options: { dnd5e?: { hp?: HitPoints } }): void {

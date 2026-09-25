@@ -32,31 +32,52 @@ function toTally(stored) {
         final: tally.final === true
     };
 }
-// Each state bounds max HP: alive, unbloodied, bloodied, dead
-function addDamage(tally, dealt, remaining, max) {
+function addBloodiedBound(tally, remaining, max) {
+    if (!isBloodiedShown()) {
+        return tally;
+    }
     const threshold = getBloodiedThreshold();
-    const share = 1 - threshold;
-    const isWatched = isBloodiedShown();
-    const isAlive = remaining > 0;
-    const isBloodied = isAlive && remaining <= max * threshold;
-    const next = {
+    const bloodiedMax = Math.floor(tally.dealt / (1 - threshold));
+    if (remaining <= max * threshold) {
+        return {
+            ...tally,
+            high: Math.min(tally.high ?? Infinity, bloodiedMax)
+        };
+    }
+    return {
         ...tally,
-        dealt: tally.dealt + dealt
+        low: Math.max(tally.low, bloodiedMax + 1)
     };
-    if (isAlive) {
-        next.low = Math.max(next.low, next.dealt + 1);
+}
+// Each state bounds max HP: alive, unbloodied, bloodied, dead
+function addDamage(tally, damage, remaining, max) {
+    const dealt = tally.dealt + damage;
+    if (remaining <= 0) {
+        return {
+            ...tally,
+            dealt,
+            high: Math.min(tally.high ?? Infinity, dealt),
+            final: true
+        };
     }
-    if (isAlive && !isBloodied && isWatched) {
-        next.low = Math.max(next.low, Math.floor(next.dealt / share) + 1);
+    return addBloodiedBound({
+        ...tally,
+        dealt,
+        low: Math.max(tally.low, dealt + 1)
+    }, remaining, max);
+}
+function nextTally(tally, before, after, max) {
+    if (after > before) {
+        // Healing to full HP starts a new tally
+        return after >= max ? createTally(true) : {
+            ...tally,
+            full: false
+        };
     }
-    if (isBloodied && isWatched) {
-        next.high = Math.min(next.high ?? Infinity, Math.floor(next.dealt / share));
+    if (after === before || tally.final) {
+        return null;
     }
-    if (!isAlive) {
-        next.high = Math.min(next.high ?? Infinity, next.dealt);
-        next.final = true;
-    }
-    return next;
+    return tally.full ? addDamage(tally, before - after, after, max) : tally;
 }
 function getTallyHolder(actor) {
     if (actor.isToken) {
@@ -67,7 +88,8 @@ function getTallyHolder(actor) {
 async function recordSample(actor, key, tally) {
     const store = getRevealStore(actor);
     const observed = getObserved(store);
-    if (!store || tally.high === null) {
+    // low above high means max HP changed mid-tally
+    if (!store || !tally.full || tally.high === null || tally.low > tally.high) {
         return;
     }
     // The same tally can be sampled at bloodied and at death
@@ -79,7 +101,6 @@ async function recordSample(actor, key, tally) {
         }].slice(-SAMPLE_LIMIT);
     await writeObserved(store, observed);
 }
-// Healing to full HP starts a new tally
 async function noteHitPoints(actor, previous) {
     const next = actor.system.attributes?.hp;
     const holder = getTallyHolder(actor);
@@ -91,22 +112,12 @@ async function noteHitPoints(actor, previous) {
     if (!holder || !Number.isFinite(after) || maxNow <= 0) {
         return;
     }
-    if (after > before) {
-        await holder.setFlag(MODULE_ID, FLAGS.tally, after >= maxNow ? createTally(true) : {
-            ...tally,
-            full: false
-        });
+    const counted = nextTally(tally, before, after, maxNow);
+    if (!counted) {
         return;
     }
-    if (before - after <= 0 || tally.final) {
-        return;
-    }
-    const counted = tally.full ? addDamage(tally, before - after, after, maxNow) : tally;
     await holder.setFlag(MODULE_ID, FLAGS.tally, counted);
-    // low above high means max HP changed mid-tally
-    if (counted.full && counted.high !== null && counted.low <= counted.high) {
-        await recordSample(actor, holder.id, counted);
-    }
+    await recordSample(actor, holder.id, counted);
 }
 function onUpdateActor(actor, _changes, options) {
     // dnd5e passes the pre-update HP in options.dnd5e.hp
