@@ -8,7 +8,7 @@ interface TokenConfigApp {
     actor?: Actor | null;
 }
 
-const SUMMARY = '.gs-interactable-actors-art-summary';
+const SUMMARY_CLASS = 'gs-interactable-actors-art-summary';
 const TEMPLATE = `modules/${MODULE_ID}/templates/art-summary.hbs`;
 
 const theme = Grimmtale.createTheme(MODULE_ID);
@@ -37,7 +37,7 @@ async function createSummary(actor: Actor): Promise<HTMLElement> {
 }
 
 async function addArtSummary(app: TokenConfigApp, html: HTMLElement): Promise<void> {
-    const tab = html.querySelector('.tab[data-tab="appearance"]');
+    const tab = html.querySelector<HTMLElement>('.tab[data-tab="appearance"]');
 
     // Players cannot edit the bands on tokens they own
     if (!game.user.isGM || !app.actor || !tab) {
@@ -46,15 +46,14 @@ async function addArtSummary(app: TokenConfigApp, html: HTMLElement): Promise<vo
 
     const summary = await createSummary(app.actor);
 
-    // Replace any summary from an earlier render
-    tab.querySelector(SUMMARY)?.remove();
-    tab.append(summary);
+    Grimmtale.injectOnce(tab, SUMMARY_CLASS, () => summary);
 }
 
-// Synthetic actors have the same id as their base actor
 function onUpdateActor(actor: Actor): void {
     for (const app of foundry.applications.instances.values()) {
-        if (app.element?.querySelector(SUMMARY) && app.actor?.id === actor.id) {
+
+        // Synthetic actors have the same id as their base actor
+        if (app.element?.querySelector(`.${SUMMARY_CLASS}`) && app.actor?.id === actor.id) {
             void addArtSummary(app, app.element);
         }
     }

@@ -19,6 +19,7 @@ declare const Grimmtale: {
         footer: string;
         website: string
     };
+    injectOnce(container: HTMLElement, markerClass: string, build: () => HTMLElement): HTMLElement;
     quietCloseButton(root: ParentNode): void;
     isPrimaryGM(): boolean;
     gmIds(): string[];

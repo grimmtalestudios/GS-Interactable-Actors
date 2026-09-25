@@ -2,7 +2,7 @@ import { openArtConfig } from './artConfig.js';
 import { ART_ICON, MODULE_ID } from './constants.js';
 import { bindInputMode } from './inputMode.js';
 import { getArtConfig, getReading } from './tokenArt.js';
-const SUMMARY = '.gs-interactable-actors-art-summary';
+const SUMMARY_CLASS = 'gs-interactable-actors-art-summary';
 const TEMPLATE = `modules/${MODULE_ID}/templates/art-summary.hbs`;
 const theme = Grimmtale.createTheme(MODULE_ID);
 const localize = Grimmtale.createLocalizer(`${MODULE_ID}.artSummary`);
@@ -32,14 +32,12 @@ async function addArtSummary(app, html) {
         return;
     }
     const summary = await createSummary(app.actor);
-    // Replace any summary from an earlier render
-    tab.querySelector(SUMMARY)?.remove();
-    tab.append(summary);
+    Grimmtale.injectOnce(tab, SUMMARY_CLASS, () => summary);
 }
-// Synthetic actors have the same id as their base actor
 function onUpdateActor(actor) {
     for (const app of foundry.applications.instances.values()) {
-        if (app.element?.querySelector(SUMMARY) && app.actor?.id === actor.id) {
+        // Synthetic actors have the same id as their base actor
+        if (app.element?.querySelector(`.${SUMMARY_CLASS}`) && app.actor?.id === actor.id) {
             void addArtSummary(app, app.element);
         }
     }
