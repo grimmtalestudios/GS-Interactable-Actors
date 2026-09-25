@@ -170,9 +170,10 @@
   padding: var(--gs-space-1) var(--gs-space-3) var(--gs-space-3);
 }
 
+/* Carolingian UI sets fieldset margins outside any layer */
 .gs-interactable-actors-app .gs-interactable-actors-section {
   min-width: 0;
-  margin: var(--gs-space-2) 0 0;
+  margin: var(--gs-space-2) 0 0 !important;
   padding: var(--gs-space-2) var(--gs-space-3);
   border: 1px solid var(--gs-line);
   border-radius: var(--gs-radius);
