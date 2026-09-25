@@ -31,7 +31,7 @@ function toRelationship(entry: unknown): Relationship | null {
         label,
         value: hasMeter ? amount : null,
         max: hasMeter ? limit : null,
-        percent: hasMeter ? Math.round(Math.min(100, Math.max(0, amount / limit * 100))) : null,
+        percent: hasMeter ? Math.round(Math.clamp(amount / limit * 100, 0, 100)) : null,
         description: typeof description === 'string' ? description : '',
         tone: typeof tone === 'string' ? tone : ''
     };

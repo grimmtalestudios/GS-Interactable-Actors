@@ -16,7 +16,7 @@ const IDLE_MS = 200;
 const PLATE_KEYS = ['+', '=', '-', '_', 'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'];
 
 function clampOffset(value: number, limit: number): number {
-    return Math.min(limit, Math.max(-limit, value));
+    return Math.clamp(value, -limit, limit);
 }
 
 // Line and page wheels report smaller deltas than pixel wheels
@@ -73,7 +73,7 @@ class PortraitPlate {
 
     // Offsets are from the centre, the transform-origin
     zoomTo(next: number, originX = 0, originY = 0): void {
-        const scale = Math.min(ZOOM_MAX, Math.max(ZOOM_MIN, next));
+        const scale = Math.clamp(next, ZOOM_MIN, ZOOM_MAX);
 
         if (scale === this.scale) {
             return;
