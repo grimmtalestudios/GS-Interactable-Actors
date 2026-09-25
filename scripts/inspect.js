@@ -38,7 +38,6 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         tag: 'div',
         classes: ['gs-shared-base', 'gs-interactable-actors-app', 'gs-interactable-actors-inspect'],
         window: {
-            title: `${MODULE_ID}.inspect.title`,
             icon: INSPECT_ICON,
             resizable: true
         },

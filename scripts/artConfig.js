@@ -54,7 +54,6 @@ class ArtConfigWindow extends HandlebarsApplicationMixin(ApplicationV2) {
         tag: 'form',
         classes: ['gs-shared-base', 'gs-interactable-actors-app', 'gs-interactable-actors-art-config'],
         window: {
-            title: `${MODULE_ID}.artConfig.title`,
             icon: ART_ICON,
             resizable: true
         },
