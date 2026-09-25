@@ -680,7 +680,7 @@
 
 .gs-interactable-actors-inspect button.gs-interactable-actors-score:hover {
   border-color: var(--gs-line-strong);
-  background: var(--gs-panel);
+  background: var(--gs-panel-hover);
   box-shadow: none;
 }
 
