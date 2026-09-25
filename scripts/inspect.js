@@ -2,7 +2,7 @@ import { getAbilityGroups } from './abilities.js';
 import { FLAGS, INSPECT_ICON, MODULE_ID } from './constants.js';
 import { getDefenceSections } from './defences.js';
 import { bindInputMode } from './inputMode.js';
-import { getFoldLabel } from './itemRows.js';
+import { getCollapseLabel } from './itemRows.js';
 import { forgetObserved } from './observe.js';
 import { getBiographies, getLore, getPersonal } from './personal.js';
 import { bindPlate } from './portraitPlate.js';
@@ -174,9 +174,9 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
     static onToggleDescription(_event, target) {
         const key = target.dataset.key ?? '';
         const row = target.closest('.gs-interactable-actors-item');
-        const fold = row?.querySelector('.gs-interactable-actors-fold');
+        const button = row?.querySelector('.gs-interactable-actors-collapse');
         const isCollapsing = this.expanded.has(key);
-        if (!row || !fold) {
+        if (!row || !button) {
             return;
         }
         if (isCollapsing) {
@@ -186,9 +186,9 @@ class InspectWindow extends HandlebarsApplicationMixin(ApplicationV2) {
             this.expanded.add(key);
         }
         row.classList.toggle('is-collapsed', isCollapsing);
-        fold.ariaExpanded = String(!isCollapsing);
-        fold.ariaLabel = getFoldLabel(isCollapsing);
-        fold.dataset.tooltip = getFoldLabel(isCollapsing);
+        button.ariaExpanded = String(!isCollapsing);
+        button.ariaLabel = getCollapseLabel(isCollapsing);
+        button.dataset.tooltip = getCollapseLabel(isCollapsing);
     }
     _onClose(options) {
         super._onClose(options);

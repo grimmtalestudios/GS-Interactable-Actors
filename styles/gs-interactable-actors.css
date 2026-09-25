@@ -53,11 +53,11 @@
   opacity: 0.45;
 }
 
-.gs-interactable-actors-inspect :is(.gs-interactable-actors-eye, .gs-interactable-actors-fold, .gs-interactable-actors-forget) {
+.gs-interactable-actors-inspect :is(.gs-interactable-actors-eye, .gs-interactable-actors-collapse, .gs-interactable-actors-forget) {
   border-radius: 50%;
 }
 
-.gs-interactable-actors-fold > i {
+.gs-interactable-actors-collapse > i {
   transition: transform var(--gs-hover-ease);
 }
 
@@ -449,7 +449,7 @@
   transition: background-color var(--gs-hover-ease);
 }
 
-.gs-interactable-actors-item-id.is-foldable {
+.gs-interactable-actors-item-id.is-collapsible {
   cursor: pointer;
 }
 
@@ -491,7 +491,7 @@
   font-size: var(--gs-text-sm);
 }
 
-.gs-interactable-actors-item.is-collapsed .gs-interactable-actors-fold > i {
+.gs-interactable-actors-item.is-collapsed .gs-interactable-actors-collapse > i {
   transform: rotate(-90deg);
 }
 

@@ -92,7 +92,7 @@
       "spells": "Spells",
       "spellLevel": "Level {level}",
       "expandEntry": "Read this description",
-      "collapseEntry": "Fold this description away"
+      "collapseEntry": "Collapse this description"
     },
     "migration": {
       "carried": "Interactable Actors carried {actors} creature(s) and {tokens} token(s) across the module's rename."

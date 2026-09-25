@@ -7,7 +7,7 @@ interface ItemRowOrder {
     name: string;
 }
 
-export function getFoldLabel(isCollapsed: boolean): string {
+export function getCollapseLabel(isCollapsed: boolean): string {
     return game.i18n.localize(`${MODULE_ID}.inspect.${isCollapsed ? 'expandEntry' : 'collapseEntry'}`);
 }
 
@@ -23,8 +23,8 @@ export async function getItemRow(item: Item, isShown: boolean, expanded: Set<str
     // If hidden, show the name but not the description
     const description = isShown ? getDescription(item) : '';
     const descriptionHTML = description ? await enrich(description, item) : '';
-    const isFoldable = descriptionHTML !== '';
-    const isCollapsed = isFoldable && !expanded.has(item.id);
+    const isCollapsible = descriptionHTML !== '';
+    const isCollapsed = isCollapsible && !expanded.has(item.id);
 
     return {
         id: item.id,
@@ -32,9 +32,9 @@ export async function getItemRow(item: Item, isShown: boolean, expanded: Set<str
         img: item.img,
         isShown,
         descriptionHTML,
-        isFoldable,
+        isCollapsible,
         isCollapsed,
-        foldLabel: getFoldLabel(isCollapsed),
+        collapseLabel: getCollapseLabel(isCollapsed),
         cardTooltip: getCardTooltip(item),
         toggleLabel: getToggleLabel(isShown)
     };

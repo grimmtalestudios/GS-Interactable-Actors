@@ -1,7 +1,7 @@
 import { MODULE_ID } from './constants.js';
 import { enrich, getDescription } from './enrich.js';
 import { getToggleLabel } from './reveal.js';
-export function getFoldLabel(isCollapsed) {
+export function getCollapseLabel(isCollapsed) {
     return game.i18n.localize(`${MODULE_ID}.inspect.${isCollapsed ? 'expandEntry' : 'collapseEntry'}`);
 }
 // dnd5e swaps its item card into a tooltip holding this
@@ -13,17 +13,17 @@ export async function getItemRow(item, isShown, expanded) {
     // If hidden, show the name but not the description
     const description = isShown ? getDescription(item) : '';
     const descriptionHTML = description ? await enrich(description, item) : '';
-    const isFoldable = descriptionHTML !== '';
-    const isCollapsed = isFoldable && !expanded.has(item.id);
+    const isCollapsible = descriptionHTML !== '';
+    const isCollapsed = isCollapsible && !expanded.has(item.id);
     return {
         id: item.id,
         name: item.name,
         img: item.img,
         isShown,
         descriptionHTML,
-        isFoldable,
+        isCollapsible,
         isCollapsed,
-        foldLabel: getFoldLabel(isCollapsed),
+        collapseLabel: getCollapseLabel(isCollapsed),
         cardTooltip: getCardTooltip(item),
         toggleLabel: getToggleLabel(isShown)
     };
