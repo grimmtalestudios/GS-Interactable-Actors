@@ -1,5 +1,5 @@
 import { MODULE_ID } from './constants.js';
-import { getToggleLabel, type Revealed } from './reveal.js';
+import { type Revealed, toEntry } from './reveal.js';
 import { localizeConfigEntry } from './systemLabels.js';
 
 interface StatEntry {
@@ -90,14 +90,6 @@ export function getStatRows(actor: Actor, revealed: Revealed, isCurator: boolean
     ];
 
     return entries
-        .filter(({ key, value }) => value && (isCurator || revealed.personal.includes(key)))
-        .map((entry) => {
-            const isShown = revealed.personal.includes(entry.key);
-
-            return {
-                ...entry,
-                isShown,
-                toggleLabel: getToggleLabel(isShown)
-            };
-        });
+        .map((entry) => toEntry(entry, revealed))
+        .filter(({ value, isShown }) => value && (isCurator || isShown));
 }

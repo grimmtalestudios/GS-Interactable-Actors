@@ -64,6 +64,16 @@ export function getToggleLabel(isShown: boolean): string {
     return game.i18n.localize(`${MODULE_ID}.inspect.${isShown ? 'hideEntry' : 'revealEntry'}`);
 }
 
+export function toEntry<T extends { key: string }>(entry: T, revealed: Revealed) {
+    const isShown = revealed.personal.includes(entry.key);
+
+    return {
+        ...entry,
+        isShown,
+        toggleLabel: getToggleLabel(isShown)
+    };
+}
+
 // Owners see the facts on their sheet
 export function canCurate(actor: Actor | null): boolean {
     return game.user.isGM || getRevealStore(actor)?.isOwner === true;

@@ -1,6 +1,6 @@
 import { MODULE_ID } from './constants.js';
 import { enrich } from './enrich.js';
-import { getToggleLabel } from './reveal.js';
+import { getToggleLabel, toEntry } from './reveal.js';
 const FACTS = ['alignment', 'eyes', 'height', 'faith', 'hair', 'weight', 'gender', 'skin', 'age'];
 const PASSAGES = [
     ['ideals', 'ideal'],
@@ -12,14 +12,6 @@ const PASSAGES = [
 const localize = Grimmtale.createLocalizer(`${MODULE_ID}.personal`);
 function toSlug(name) {
     return name.trim().toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-+|-+$/g, '');
-}
-function toEntry(entry, revealed) {
-    const isShown = revealed.personal.includes(entry.key);
-    return {
-        ...entry,
-        isShown,
-        toggleLabel: getToggleLabel(isShown)
-    };
 }
 function getClassRows(actor, revealed, isCurator) {
     return ['class', 'subclass'].flatMap((group) => {
