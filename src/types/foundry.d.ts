@@ -284,8 +284,11 @@ interface TokenHud {
 declare function fromUuidSync(uuid: string): Actor | null;
 
 declare const canvas: {
-    app: { view: HTMLCanvasElement };
-    tokens: { placeables: Token[] };
+    templates: { preview: { children: unknown[] } | null };
+    tokens: {
+        placeables: Token[];
+        preview: { children: unknown[] } | null
+    };
     canvasCoordinatesFromClient(point: Point): Point;
 };
 

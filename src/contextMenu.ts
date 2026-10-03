@@ -54,9 +54,9 @@ function wasDragged(event: MouseEvent): boolean {
     return moved > DRAG_TOLERANCE;
 }
 
-// dnd5e sets oncontextmenu on the board while placing a template or summon
+// dnd5e adds the template or summon being placed to the layer preview
 function isPlacementActive(): boolean {
-    return canvas.app.view.oncontextmenu !== null;
+    return Boolean(canvas.templates.preview?.children.length || canvas.tokens.preview?.children.length);
 }
 
 function getItems(): HTMLButtonElement[] {
