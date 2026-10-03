@@ -119,6 +119,8 @@ interface AttackTarget {
 }
 
 interface ChatMessage {
+    blind: boolean;
+    whisper: string[];
     rolls: unknown[];
     flags: {
         dnd5e?: {

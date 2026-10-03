@@ -110,7 +110,10 @@ async function onCreateChatMessage(message: ChatMessage): Promise<void> {
     // dnd5e stores each target's AC on the card, except under total cover
     const { roll, targets } = message.flags.dnd5e ?? {};
 
-    if (!isWriter() || roll?.type !== 'attack' || !Array.isArray(targets)) {
+    // Players don't see blind or whispered rolls
+    const isPrivate = message.blind || message.whisper.length > 0;
+
+    if (!isWriter() || roll?.type !== 'attack' || !Array.isArray(targets) || isPrivate) {
         return;
     }
 
