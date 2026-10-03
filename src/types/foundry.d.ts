@@ -197,7 +197,6 @@ interface Actor {
     flags: Record<string, Record<string, unknown> | undefined>;
     setFlag(scope: string, key: string, value: unknown): Promise<unknown>;
     unsetFlag(scope: string, key: string): Promise<unknown>;
-    getActiveTokens(linked: true, document: true): TokenDocument[];
 }
 
 interface TokenDocument {

@@ -81,10 +81,7 @@ function nextTally(tally, before, after, max, actor) {
     return tally.full ? addDamage(tally, before - after, after, max, actor) : tally;
 }
 function getTallyHolder(actor) {
-    if (actor.isToken) {
-        return actor.token;
-    }
-    return actor.getActiveTokens(true, true)[0] ?? actor;
+    return actor.isToken ? actor.token : actor; // one tally per linked creature across scenes
 }
 async function recordSample(actor, key, tally) {
     const store = getRevealStore(actor);

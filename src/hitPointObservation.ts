@@ -110,11 +110,7 @@ function nextTally(tally: Tally, before: number, after: number, max: number, act
 }
 
 function getTallyHolder(actor: Actor): TokenDocument | Actor | null {
-    if (actor.isToken) {
-        return actor.token;
-    }
-
-    return actor.getActiveTokens(true, true)[0] ?? actor;
+    return actor.isToken ? actor.token : actor; // one tally per linked creature across scenes
 }
 
 async function recordSample(actor: Actor, key: string, tally: Tally): Promise<void> {
