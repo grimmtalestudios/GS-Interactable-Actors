@@ -65,8 +65,9 @@ function getBandUpdate(tokenDoc, img, base) {
             subject: tokenDoc.ring.subject.texture || null
         };
     }
+    const isImage = foundry.helpers.media.ImageHelper.hasImageExtension(img); // ring.subject.texture takes images only
     // If the subject texture is empty, the ring shows texture.src
-    if (tokenDoc.ring.enabled && tokenDoc.ring.subject.texture) {
+    if (tokenDoc.ring.enabled && tokenDoc.ring.subject.texture && isImage) {
         update['ring.subject.texture'] = img;
     }
     return update;

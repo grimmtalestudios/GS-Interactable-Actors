@@ -5,6 +5,12 @@ declare namespace foundry {
         function parseHTML(html: string): HTMLElement;
     }
 
+    namespace helpers {
+        namespace media {
+            const ImageHelper: { hasImageExtension(src: string): boolean };
+        }
+    }
+
     namespace documents {
         const TokenDocument: {
             prototype: TokenDocument & {
