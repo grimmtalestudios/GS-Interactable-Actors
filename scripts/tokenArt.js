@@ -110,7 +110,7 @@ export async function applyArtForActor(actor) {
         return;
     }
     for (const [scene, tokens] of getTokensByScene(actor)) {
-        // Each unlinked token has its own HP
+        // Each unlinked token has its own actor
         const updates = tokens
             .map((tokenDoc) => getArtUpdate(tokenDoc, resolveArt(tokenDoc.actor)))
             .filter((update) => update !== null);
