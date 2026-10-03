@@ -1,5 +1,5 @@
 import { MODULE_ID } from './constants.js';
-import { getObserved, isWriter, queueWrite, writeObserved } from './observe.js';
+import { getObserved, isWriter, writeObserved } from './observe.js';
 import { getRevealStore } from './reveal.js';
 import { isAnnouncingReveals } from './settings.js';
 import { whisperToGM } from './whisper.js';
@@ -85,7 +85,7 @@ async function onCreateChatMessage(message) {
         return each instanceof CONFIG.Dice.D20Roll && typeof each.total === 'number' && !isNatural(each);
     });
     for (const { store, actor, swings } of getSwingsByStore(targets, rolls)) {
-        await queueWrite(store, () => observeSwings(store, actor, swings));
+        await Grimmtale.queueWrite(store.uuid, () => observeSwings(store, actor, swings));
     }
 }
 export function registerArmourObservation() {

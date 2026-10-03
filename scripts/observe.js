@@ -1,7 +1,6 @@
 import { FLAGS, MODULE_ID } from './constants.js';
 import { getRevealStore } from './reveal.js';
 import { isObservingCombat } from './settings.js';
-const lastWrites = new Map();
 export function toNumber(value) {
     return typeof value === 'number' && Number.isFinite(value) ? value : null;
 }
@@ -34,12 +33,6 @@ export function getObserved(actor) {
 export async function writeObserved(store, observed) {
     await store.update({ [`flags.${MODULE_ID}.${FLAGS.observed}`]: observed });
 }
-// dnd5e applies damage to every controlled token at once
-export function queueWrite(store, write) {
-    const queued = (lastWrites.get(store.uuid) ?? Promise.resolve()).then(write);
-    lastWrites.set(store.uuid, queued.catch(() => undefined)); // a failed write doesn't block the next
-    return queued;
-}
 async function clearObserved(store, stat) {
     const observed = getObserved(store);
     if (stat === 'ac') {
@@ -60,7 +53,7 @@ export async function forgetObserved(actor, stat) {
     if (!store || (stat !== 'ac' && stat !== 'hp')) {
         return;
     }
-    await queueWrite(store, () => clearObserved(store, stat));
+    await Grimmtale.queueWrite(store.uuid, () => clearObserved(store, stat));
 }
 // One client writes so a card isn't counted twice
 export function isWriter() {

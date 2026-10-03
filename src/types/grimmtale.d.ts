@@ -25,6 +25,7 @@ declare const Grimmtale: {
     injectOnce(container: HTMLElement, markerClass: string, build: () => HTMLElement): HTMLElement;
     isPrimaryGM(): boolean;
     markSaving(control: HTMLElement): void;
+    queueWrite<T>(key: string, write: () => Promise<T>): Promise<T>;
     gmIds(): string[];
     registerSettings(moduleId: string, l10nPrefix: string, definitions: Record<string, object>): void;
     publishApi(moduleId: string, api: object, options: { gameAlias: string }): unknown;

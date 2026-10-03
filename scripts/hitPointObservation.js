@@ -1,5 +1,5 @@
 import { FLAGS, MODULE_ID } from './constants.js';
-import { getObserved, isWriter, queueWrite, toNumber, writeObserved } from './observe.js';
+import { getObserved, isWriter, toNumber, writeObserved } from './observe.js';
 import { getRevealStore } from './reveal.js';
 const SAMPLE_LIMIT = 20; // enough for an average
 function getBloodiedThreshold() {
@@ -122,7 +122,8 @@ function onUpdateActor(actor, _changes, options) {
     const next = actor.system.attributes?.hp; // read before a later update replaces it
     const store = getRevealStore(actor);
     if (isWriter() && previous && store && actor.type === 'npc') {
-        void queueWrite(store, () => noteHitPoints(actor, previous, next));
+        // dnd5e applies damage to every controlled token at once
+        void Grimmtale.queueWrite(store.uuid, () => noteHitPoints(actor, previous, next));
     }
 }
 export function registerHitPointObservation() {

@@ -20,8 +20,6 @@ interface Observed {
     hp: { samples: Sample[] };
 }
 
-const lastWrites = new Map<string, Promise<void>>();
-
 export function toNumber(value: unknown): number | null {
     return typeof value === 'number' && Number.isFinite(value) ? value : null;
 }
@@ -64,15 +62,6 @@ export async function writeObserved(store: Actor, observed: Observed): Promise<v
     await store.update({ [`flags.${MODULE_ID}.${FLAGS.observed}`]: observed });
 }
 
-// dnd5e applies damage to every controlled token at once
-export function queueWrite(store: Actor, write: () => Promise<void>): Promise<void> {
-    const queued = (lastWrites.get(store.uuid) ?? Promise.resolve()).then(write);
-
-    lastWrites.set(store.uuid, queued.catch(() => undefined)); // a failed write doesn't block the next
-
-    return queued;
-}
-
 async function clearObserved(store: Actor, stat: 'ac' | 'hp'): Promise<void> {
     const observed = getObserved(store);
 
@@ -97,7 +86,7 @@ export async function forgetObserved(actor: Actor, stat: string): Promise<void> 
         return;
     }
 
-    await queueWrite(store, () => clearObserved(store, stat));
+    await Grimmtale.queueWrite(store.uuid, () => clearObserved(store, stat));
 }
 
 // One client writes so a card isn't counted twice

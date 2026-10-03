@@ -1,5 +1,5 @@
 import { FLAGS, MODULE_ID } from './constants.js';
-import { getObserved, isWriter, queueWrite, toNumber, writeObserved } from './observe.js';
+import { getObserved, isWriter, toNumber, writeObserved } from './observe.js';
 import { getRevealStore } from './reveal.js';
 
 interface Tally {
@@ -162,7 +162,9 @@ function onUpdateActor(actor: Actor, _changes: object, options: { dnd5e?: { hp?:
     const store = getRevealStore(actor);
 
     if (isWriter() && previous && store && actor.type === 'npc') {
-        void queueWrite(store, () => noteHitPoints(actor, previous, next));
+
+        // dnd5e applies damage to every controlled token at once
+        void Grimmtale.queueWrite(store.uuid, () => noteHitPoints(actor, previous, next));
     }
 }
 
