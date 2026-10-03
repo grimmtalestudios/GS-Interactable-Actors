@@ -58,7 +58,7 @@ async function getPassages(actor, revealed, isCurator) {
         .filter((passage) => passage.text && (passage.isShown || isCurator));
     return Promise.all(passages.map(async (passage) => ({
         ...passage,
-        html: await enrich(passage.text, actor)
+        html: await enrich(passage.text, actor, actor)
     })));
 }
 export async function getPersonal(actor, revealed, isCurator) {
@@ -89,7 +89,7 @@ export async function getBiographies(actor, revealed, isCurator) {
         .filter((biography) => biography.text && (biography.isShown || isCurator));
     return Promise.all(biographies.map(async (biography) => ({
         ...biography,
-        html: await enrich(biography.text, actor)
+        html: await enrich(biography.text, actor, actor)
     })));
 }
 export async function getLore(actor, revealed, isCurator) {
@@ -101,6 +101,6 @@ export async function getLore(actor, revealed, isCurator) {
     }
     return {
         ...lore,
-        html: await enrich(text, actor)
+        html: await enrich(text, actor, actor)
     };
 }

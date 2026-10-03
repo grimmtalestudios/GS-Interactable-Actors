@@ -1,3 +1,4 @@
+import { getKnownName } from './reveal.js';
 import { isUsingChatDescriptions } from './settings.js';
 const ROLL_LINKS = [
     'a.inline-roll',
@@ -34,11 +35,16 @@ function tuckPunctuation(root) {
         before.append(punctuation);
     }
 }
-export async function enrich(text, relativeTo) {
+export async function enrich(text, relativeTo, actor) {
     const template = document.createElement('template');
     template.innerHTML = await foundry.applications.ux.TextEditor.implementation.enrichHTML(text, {
         secrets: false,
-        relativeTo
+        relativeTo,
+        rollData: {
+            ...relativeTo.getRollData(),
+            // dnd5e prints this for [[lookup @name]]
+            name: getKnownName(actor)
+        }
     });
     flattenRolls(template.content);
     tuckPunctuation(template.content);

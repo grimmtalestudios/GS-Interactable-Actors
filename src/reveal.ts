@@ -79,10 +79,14 @@ export function canCurate(actor: Actor | null): boolean {
     return game.user.isGM || getRevealStore(actor)?.isOwner === true;
 }
 
+export function isNameKnown(actor: Actor | null): boolean {
+    return !actor || canCurate(actor) || getRevealed(actor).personal.includes(NAME_KEY);
+}
+
 export function getKnownName(actor: Actor | null, tokenDoc: TokenDocument | null = null): string {
     const trueName = tokenDoc?.name ?? actor?.name ?? '';
 
-    if (!actor || canCurate(actor) || getRevealed(actor).personal.includes(NAME_KEY)) {
+    if (isNameKnown(actor)) {
         return trueName;
     }
 

@@ -1,6 +1,6 @@
 import { MODULE_ID } from './constants.js';
 import { enrich, getDescription } from './enrich.js';
-import { getToggleLabel } from './reveal.js';
+import { getToggleLabel, isNameKnown } from './reveal.js';
 
 interface ItemRowOrder {
     isShown: boolean;
@@ -12,7 +12,13 @@ export function getCollapseLabel(isCollapsed: boolean): string {
 }
 
 // dnd5e swaps its item card into a tooltip holding this
-function getCardTooltip({ uuid }: Item): string {
+function getCardTooltip({ uuid, parent }: Item): string {
+
+    // dnd5e resolves [[lookup @name]] on the card to the real name
+    if (!isNameKnown(parent)) {
+        return '';
+    }
+
     const spinner = '<i class="fa-solid fa-spinner fa-spin-pulse" inert></i>';
 
     return `<section class="loading" data-uuid="${uuid}">${spinner}</section>`;
@@ -22,7 +28,7 @@ export async function getItemRow(item: Item, isShown: boolean, expanded: Set<str
 
     // If hidden, show the name but not the description
     const description = isShown ? getDescription(item) : '';
-    const descriptionHTML = description ? await enrich(description, item) : '';
+    const descriptionHTML = description ? await enrich(description, item, item.parent) : '';
     const isCollapsible = descriptionHTML !== '';
     const isCollapsed = isCollapsible && !expanded.has(item.id);
 

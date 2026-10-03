@@ -51,9 +51,12 @@ export function toEntry(entry, revealed) {
 export function canCurate(actor) {
     return game.user.isGM || getRevealStore(actor)?.isOwner === true;
 }
+export function isNameKnown(actor) {
+    return !actor || canCurate(actor) || getRevealed(actor).personal.includes(NAME_KEY);
+}
 export function getKnownName(actor, tokenDoc = null) {
     const trueName = tokenDoc?.name ?? actor?.name ?? '';
-    if (!actor || canCurate(actor) || getRevealed(actor).personal.includes(NAME_KEY)) {
+    if (isNameKnown(actor)) {
         return trueName;
     }
     return game.i18n.localize(`${MODULE_ID}.inspect.unknownName`);

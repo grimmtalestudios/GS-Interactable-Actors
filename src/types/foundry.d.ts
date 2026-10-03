@@ -191,6 +191,7 @@ interface Actor {
         }
     };
     getFlag(scope: string, key: string): unknown;
+    getRollData(): Record<string, unknown>;
     update(data: object, options?: object): Promise<unknown>;
     canUserModify(user: User, action: string): boolean;
     flags: Record<string, Record<string, unknown> | undefined>;
@@ -231,6 +232,7 @@ interface Item {
     img: string;
     type: string;
     parent: Actor | null;
+    getRollData(): Record<string, unknown>;
     system: {
         level?: number;
         description?: {

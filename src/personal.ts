@@ -71,7 +71,7 @@ async function getPassages(actor: Actor, revealed: Revealed, isCurator: boolean)
 
     return Promise.all(passages.map(async (passage) => ({
         ...passage,
-        html: await enrich(passage.text, actor)
+        html: await enrich(passage.text, actor, actor)
     })));
 }
 
@@ -110,7 +110,7 @@ export async function getBiographies(actor: Actor, revealed: Revealed, isCurator
 
     return Promise.all(biographies.map(async (biography) => ({
         ...biography,
-        html: await enrich(biography.text, actor)
+        html: await enrich(biography.text, actor, actor)
     })));
 }
 
@@ -125,6 +125,6 @@ export async function getLore(actor: Actor, revealed: Revealed, isCurator: boole
 
     return {
         ...lore,
-        html: await enrich(text, actor)
+        html: await enrich(text, actor, actor)
     };
 }
