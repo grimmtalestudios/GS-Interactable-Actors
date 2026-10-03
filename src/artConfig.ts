@@ -259,7 +259,13 @@ export async function openArtConfig(actor: Actor | null): Promise<ArtConfigWindo
     return artConfig.render({ force: true });
 }
 
-function addDirectoryEntry(_directory: unknown, entries: ContextMenuEntry[]): void {
+function addDirectoryEntry(directory: unknown, entries: ContextMenuEntry[]): void {
+
+    // Actor compendiums fire this hook too
+    if (directory instanceof foundry.applications.sidebar.apps.Compendium) {
+        return;
+    }
+
     entries.push({
         name: `${MODULE_ID}.artConfig.title`,
         icon: `<i class="${ART_ICON}"></i>`,

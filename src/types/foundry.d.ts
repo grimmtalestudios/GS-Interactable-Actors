@@ -35,6 +35,12 @@ declare namespace foundry {
             };
         }
 
+        namespace sidebar {
+            namespace apps {
+                const Compendium: new (...args: any[]) => object;
+            }
+        }
+
         namespace ux {
             const FormDataExtended: new (form: HTMLFormElement) => { object: Record<string, unknown> };
             const TextEditor: {

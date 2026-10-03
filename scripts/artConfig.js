@@ -192,7 +192,11 @@ export async function openArtConfig(actor) {
     windows.set(actor.uuid, artConfig);
     return artConfig.render({ force: true });
 }
-function addDirectoryEntry(_directory, entries) {
+function addDirectoryEntry(directory, entries) {
+    // Actor compendiums fire this hook too
+    if (directory instanceof foundry.applications.sidebar.apps.Compendium) {
+        return;
+    }
     entries.push({
         name: `${MODULE_ID}.artConfig.title`,
         icon: `<i class="${ART_ICON}"></i>`,
