@@ -51,7 +51,7 @@
         "reason": "Shared Grimmtale Studios library: the logger, localiser and window helpers every studio module uses.",
         "manifest": "https://raw.githubusercontent.com/grimmtalestudios/GS-Library/release/module.json",
         "compatibility": {
-          "minimum": "0.1.0"
+          "minimum": "1.2.0"
         }
       }
     ],
