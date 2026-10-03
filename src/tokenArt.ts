@@ -155,7 +155,7 @@ function getTokensByScene(actor: Actor): Map<Scene, TokenDocument[]> {
     }
 
     for (const scene of game.scenes) {
-        const tokens = scene.tokens.filter((tokenDoc) => tokenDoc.actorLink && tokenDoc.actorId === actor.id);
+        const tokens = scene.tokens.filter((tokenDoc) => tokenDoc.actorId === actor.id);
 
         if (tokens.length) {
             byScene.set(scene, tokens);
@@ -166,14 +166,16 @@ function getTokensByScene(actor: Actor): Map<Scene, TokenDocument[]> {
 }
 
 export async function applyArtForActor(actor: Actor | null): Promise<void> {
-    const img = resolveArt(actor);
-
     if (!actor || !Grimmtale.isPrimaryGM()) {
         return;
     }
 
     for (const [scene, tokens] of getTokensByScene(actor)) {
-        const updates = tokens.map((tokenDoc) => getArtUpdate(tokenDoc, img)).filter((update) => update !== null);
+
+        // Each unlinked token has its own HP
+        const updates = tokens
+            .map((tokenDoc) => getArtUpdate(tokenDoc, resolveArt(tokenDoc.actor)))
+            .filter((update) => update !== null);
 
         if (updates.length) {
 
