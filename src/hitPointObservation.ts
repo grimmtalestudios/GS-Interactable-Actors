@@ -18,9 +18,11 @@ function getBloodiedThreshold(): number {
     return threshold > 0 && threshold < 1 ? threshold : 0.5;
 }
 
-// Players don't see bloodied when dnd5e's setting is none
-function isBloodiedShown(): boolean {
-    return game.settings.get('dnd5e', 'bloodied') !== 'none';
+// dnd5e's isConcealed hides bloodied from players unless the token is friendly
+function isBloodiedShown(actor: Actor): boolean {
+    const mode = game.settings.get('dnd5e', 'bloodied');
+
+    return mode === 'all' || (mode === 'player' && actor.token?.disposition === CONST.TOKEN_DISPOSITIONS.FRIENDLY);
 }
 
 function createTally(isFull: boolean): Tally {
@@ -49,8 +51,8 @@ function toTally(stored: unknown): Tally | null {
     };
 }
 
-function addBloodiedBound(tally: Tally, remaining: number, max: number): Tally {
-    if (!isBloodiedShown()) {
+function addBloodiedBound(tally: Tally, remaining: number, max: number, actor: Actor): Tally {
+    if (!isBloodiedShown(actor)) {
         return tally;
     }
 
@@ -71,7 +73,7 @@ function addBloodiedBound(tally: Tally, remaining: number, max: number): Tally {
 }
 
 // Each state bounds max HP: alive, unbloodied, bloodied, dead
-function addDamage(tally: Tally, damage: number, remaining: number, max: number): Tally {
+function addDamage(tally: Tally, damage: number, remaining: number, max: number, actor: Actor): Tally {
     const dealt = tally.dealt + damage;
 
     if (remaining <= 0) {
@@ -87,10 +89,10 @@ function addDamage(tally: Tally, damage: number, remaining: number, max: number)
         ...tally,
         dealt,
         low: Math.max(tally.low, dealt + 1)
-    }, remaining, max);
+    }, remaining, max, actor);
 }
 
-function nextTally(tally: Tally, before: number, after: number, max: number): Tally | null {
+function nextTally(tally: Tally, before: number, after: number, max: number, actor: Actor): Tally | null {
     if (after > before) {
 
         // Healing to full HP starts a new tally
@@ -104,7 +106,7 @@ function nextTally(tally: Tally, before: number, after: number, max: number): Ta
         return null;
     }
 
-    return tally.full ? addDamage(tally, before - after, after, max) : tally;
+    return tally.full ? addDamage(tally, before - after, after, max, actor) : tally;
 }
 
 function getTallyHolder(actor: Actor): TokenDocument | Actor | null {
@@ -146,7 +148,7 @@ async function noteHitPoints(actor: Actor, previous: HitPoints, next: HitPoints 
         return;
     }
 
-    const counted = nextTally(tally, before, after, maxNow);
+    const counted = nextTally(tally, before, after, maxNow, actor);
 
     if (!counted) {
         return;
