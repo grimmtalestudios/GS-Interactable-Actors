@@ -34,6 +34,10 @@ function wasDragged(event) {
     const moved = rightDownAt ? Math.hypot(event.clientX - rightDownAt.x, event.clientY - rightDownAt.y) : 0;
     return moved > DRAG_TOLERANCE;
 }
+// dnd5e sets oncontextmenu on the board while placing a template or summon
+function isPlacementActive() {
+    return canvas.app.view.oncontextmenu !== null;
+}
 function getItems() {
     return menu ? [...menu.querySelectorAll('.gs-interactable-actors-menu-item')] : [];
 }
@@ -181,7 +185,7 @@ function onBoardPointerDown(event) {
     }
 }
 function onBoardContextMenu(event) {
-    const isOurs = isContextMenuEnabled() && !isTokenMenuActive() && !wasDragged(event);
+    const isOurs = isContextMenuEnabled() && !isTokenMenuActive() && !wasDragged(event) && !isPlacementActive();
     const token = isOurs ? getTokenAt(event) : null;
     rightDownAt = null;
     closeMenu();

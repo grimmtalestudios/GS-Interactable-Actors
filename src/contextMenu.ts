@@ -54,6 +54,11 @@ function wasDragged(event: MouseEvent): boolean {
     return moved > DRAG_TOLERANCE;
 }
 
+// dnd5e sets oncontextmenu on the board while placing a template or summon
+function isPlacementActive(): boolean {
+    return canvas.app.view.oncontextmenu !== null;
+}
+
 function getItems(): HTMLButtonElement[] {
     return menu ? [...menu.querySelectorAll<HTMLButtonElement>('.gs-interactable-actors-menu-item')] : [];
 }
@@ -226,7 +231,7 @@ function onBoardPointerDown(event: PointerEvent): void {
 }
 
 function onBoardContextMenu(event: MouseEvent): void {
-    const isOurs = isContextMenuEnabled() && !isTokenMenuActive() && !wasDragged(event);
+    const isOurs = isContextMenuEnabled() && !isTokenMenuActive() && !wasDragged(event) && !isPlacementActive();
     const token = isOurs ? getTokenAt(event) : null;
 
     rightDownAt = null;
