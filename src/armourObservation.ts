@@ -1,5 +1,5 @@
 import { MODULE_ID } from './constants.js';
-import { type ArmourRange, getObserved, isWriter, writeObserved } from './observe.js';
+import { type ArmourRange, getObserved, isWriter, queueWrite, writeObserved } from './observe.js';
 import { getRevealStore } from './reveal.js';
 import { isAnnouncingReveals } from './settings.js';
 import { whisperToGM } from './whisper.js';
@@ -122,7 +122,7 @@ async function onCreateChatMessage(message: ChatMessage): Promise<void> {
     });
 
     for (const { store, actor, swings } of getSwingsByStore(targets, rolls)) {
-        await observeSwings(store, actor, swings);
+        await queueWrite(store, () => observeSwings(store, actor, swings));
     }
 }
 

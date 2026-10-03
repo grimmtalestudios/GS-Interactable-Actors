@@ -1,5 +1,5 @@
 import { FLAGS, MODULE_ID } from './constants.js';
-import { getObserved, isWriter, toNumber, writeObserved } from './observe.js';
+import { getObserved, isWriter, queueWrite, toNumber, writeObserved } from './observe.js';
 import { getRevealStore } from './reveal.js';
 
 interface Tally {
@@ -134,8 +134,7 @@ async function recordSample(actor: Actor, key: string, tally: Tally): Promise<vo
     await writeObserved(store, observed);
 }
 
-async function noteHitPoints(actor: Actor, previous: HitPoints): Promise<void> {
-    const next = actor.system.attributes?.hp;
+async function noteHitPoints(actor: Actor, previous: HitPoints, next: HitPoints | undefined): Promise<void> {
     const holder = getTallyHolder(actor);
     const maxNow = Number(next?.effectiveMax ?? next?.max) || 0;
     const maxThen = Number(previous.effectiveMax ?? previous.max) || maxNow;
@@ -161,9 +160,11 @@ function onUpdateActor(actor: Actor, _changes: object, options: { dnd5e?: { hp?:
 
     // dnd5e passes the pre-update HP in options.dnd5e.hp
     const previous = options.dnd5e?.hp;
+    const next = actor.system.attributes?.hp; // read before a later update replaces it
+    const store = getRevealStore(actor);
 
-    if (isWriter() && previous && actor.type === 'npc') {
-        void noteHitPoints(actor, previous);
+    if (isWriter() && previous && store && actor.type === 'npc') {
+        void queueWrite(store, () => noteHitPoints(actor, previous, next));
     }
 }
 

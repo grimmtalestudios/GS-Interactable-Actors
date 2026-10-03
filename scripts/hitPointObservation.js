@@ -1,5 +1,5 @@
 import { FLAGS, MODULE_ID } from './constants.js';
-import { getObserved, isWriter, toNumber, writeObserved } from './observe.js';
+import { getObserved, isWriter, queueWrite, toNumber, writeObserved } from './observe.js';
 import { getRevealStore } from './reveal.js';
 const SAMPLE_LIMIT = 20; // enough for an average
 function getBloodiedThreshold() {
@@ -101,8 +101,7 @@ async function recordSample(actor, key, tally) {
         }].slice(-SAMPLE_LIMIT);
     await writeObserved(store, observed);
 }
-async function noteHitPoints(actor, previous) {
-    const next = actor.system.attributes?.hp;
+async function noteHitPoints(actor, previous, next) {
     const holder = getTallyHolder(actor);
     const maxNow = Number(next?.effectiveMax ?? next?.max) || 0;
     const maxThen = Number(previous.effectiveMax ?? previous.max) || maxNow;
@@ -122,8 +121,10 @@ async function noteHitPoints(actor, previous) {
 function onUpdateActor(actor, _changes, options) {
     // dnd5e passes the pre-update HP in options.dnd5e.hp
     const previous = options.dnd5e?.hp;
-    if (isWriter() && previous && actor.type === 'npc') {
-        void noteHitPoints(actor, previous);
+    const next = actor.system.attributes?.hp; // read before a later update replaces it
+    const store = getRevealStore(actor);
+    if (isWriter() && previous && store && actor.type === 'npc') {
+        void queueWrite(store, () => noteHitPoints(actor, previous, next));
     }
 }
 export function registerHitPointObservation() {
