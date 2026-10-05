@@ -2,7 +2,7 @@
   "id": "GS-Interactable-Actors",
   "title": "GS: Interactable Actors",
   "description": "Players interact with any token they can see: right-click to inspect a portrait and public lore or to target without hotkeys, while resistances, immunities and vulnerabilities reveal themselves as damage proves them. Threshold-based token art swaps a creature's image as its resources fall.",
-  "version": "1.1.0",
+  "version": "1.0.0",
   "compatibility": {
     "minimum": "13",
     "verified": "14"
@@ -16,7 +16,7 @@
   ],
   "url": "https://grimmtalestudios.com",
   "manifest": "https://raw.githubusercontent.com/grimmtalestudios/GS-Interactable-Actors/release/module.json",
-  "download": "https://github.com/grimmtalestudios/GS-Interactable-Actors/archive/refs/tags/v1.1.0.zip",
+  "download": "https://github.com/grimmtalestudios/GS-Interactable-Actors/archive/refs/tags/v1.0.0.zip",
   "bugs": "https://github.com/grimmtalestudios/GS-Interactable-Actors/issues",
   "license": "https://github.com/grimmtalestudios/GS-Interactable-Actors/blob/release/LICENSE",
   "esmodules": [
@@ -51,7 +51,7 @@
         "reason": "Shared Grimmtale Studios library: the logger, localiser and window helpers every studio module uses.",
         "manifest": "https://raw.githubusercontent.com/grimmtalestudios/GS-Library/release/module.json",
         "compatibility": {
-          "minimum": "1.2.0"
+          "minimum": "1.0.0"
         }
       }
     ],
