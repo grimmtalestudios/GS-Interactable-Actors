@@ -1,4 +1,3 @@
-import { isShowingRelationships } from './settings.js';
 const TRACKER_ID = 'GS-Relationship-Tracker';
 // Older tracker versions expose the later names in this list
 const METHODS = ['describe', 'relationshipFor', 'relationFor', 'getRelationship'];
@@ -30,7 +29,7 @@ export function getRelationships(actor, user) {
 }
 export function getFriendlyRelationships(actor, tokenDoc) {
     const disposition = tokenDoc?.disposition ?? actor.prototypeToken?.disposition;
-    if (!isShowingRelationships() || actor.type !== 'npc' || disposition !== CONST.TOKEN_DISPOSITIONS.FRIENDLY) {
+    if (actor.type !== 'npc' || disposition !== CONST.TOKEN_DISPOSITIONS.FRIENDLY) {
         return null;
     }
     return getRelationships(actor, game.user);

@@ -1,5 +1,3 @@
-import { isShowingRelationships } from './settings.js';
-
 interface Relationship {
     label: string;
     value: number | null;
@@ -49,7 +47,7 @@ export function getRelationships(actor: Actor | null, user: User | null): Relati
 export function getFriendlyRelationships(actor: Actor, tokenDoc: TokenDocument | null): Relationship[] | null {
     const disposition = tokenDoc?.disposition ?? actor.prototypeToken?.disposition;
 
-    if (!isShowingRelationships() || actor.type !== 'npc' || disposition !== CONST.TOKEN_DISPOSITIONS.FRIENDLY) {
+    if (actor.type !== 'npc' || disposition !== CONST.TOKEN_DISPOSITIONS.FRIENDLY) {
         return null;
     }
 

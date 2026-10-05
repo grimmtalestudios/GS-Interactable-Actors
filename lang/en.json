@@ -147,10 +147,6 @@
         "name": "Whisper reveals to the GM",
         "hint": "A whispered chat line whenever a defence reveals itself, so you know the players' knowledge moved without keeping the Inspect window open."
       },
-      "showRelationships": {
-        "name": "Show relationships on friendly NPCs",
-        "hint": "When Relationship Tracker is active, inspecting a friendly NPC also shows how that NPC feels about the person looking."
-      },
       "chatDescriptions": {
         "name": "Use chat descriptions",
         "hint": "Anything without a chat description falls back to its full text."
