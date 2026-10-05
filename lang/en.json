@@ -132,24 +132,24 @@
     },
     "settings": {
       "contextMenu": {
-        "name": "Right-click menu for players",
-        "hint": "Players right-click any token they can see but do not own to Inspect or Target it; owners keep the token HUD, which gains an Inspect button of its own."
+        "name": "Player Right-Click Menu",
+        "hint": "Enables / Disables the right-click menu players use to inspect tokens. While GS: Quality of Life is enabled this setting does nothing and is instead handled in GS: Quality of Life."
       },
       "revealOnDamage": {
-        "name": "Defences reveal themselves",
-        "hint": "When applied damage is changed by a creature's resistance, immunity or vulnerability, that defence appears on its Inspect sheet automatically."
+        "name": "Defence Auto-Reveal",
+        "hint": "Enables / Disables automatically revealing to players each resistance, immunity or vulnerability that changes the damage applied to a creature."
       },
       "observeCombat": {
-        "name": "Armour and health are learned in combat",
-        "hint": "Every attack that hits or misses a creature narrows its armour class on Inspect, and every creature bloodied or felled bounds its hit points. Off, Inspect shows neither line."
+        "name": "Armour and Health Estimates",
+        "hint": "Enables / Disables the Inspect window estimating an NPC's Armour Class and Hit Points from attacks against it and the damage it takes. Attacks count only when rolled publicly with the NPC targeted."
       },
       "announceReveals": {
-        "name": "Whisper reveals to the GM",
-        "hint": "A whispered chat line whenever a defence reveals itself, so you know the players' knowledge moved without keeping the Inspect window open."
+        "name": "GM Reveal Whispers",
+        "hint": "Enables / Disables a whisper to the GM when damage reveals a defence or when attacks pin down an NPC's Armour Class."
       },
       "chatDescriptions": {
-        "name": "Use chat descriptions",
-        "hint": "Anything without a chat description falls back to its full text."
+        "name": "Chat Descriptions",
+        "hint": "Enables / Disables the Inspect window showing an ability's or spell's chat description, if it has one, instead of its full description. Hovering its name can still show the full description."
       }
     }
   }
